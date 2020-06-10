@@ -57,6 +57,7 @@ storeWorker.postMessage(null)
 
 var githubCommitWorker = new Worker('js/index/workers/githubcommit-worker.js')
 githubCommitWorker.onmessage = function (e) {
+  githubCommitWorker.terminate()
   if (e.data !== null) {
     var githubCommitLabel = document.getElementById('webstore-github-commit-label')
     githubCommitLabel.innerText = e.data
