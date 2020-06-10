@@ -1,7 +1,7 @@
 class BulmaModal {
   constructor(selector) {
     this.elem = document.querySelector(selector)
-    this.elem.children[0].style.animationDuration = '250ms'
+    this.elem.children[0].style.animationDuration = '200ms'
     this.elem.children[1].style.animationDuration = '200ms'
     this.close_data()
   }
