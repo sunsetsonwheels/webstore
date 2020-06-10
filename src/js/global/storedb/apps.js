@@ -269,7 +269,7 @@ appsListElement.onclick = function (e) {
         bulmaToast.toast({
           message: 'App does not exist in category "' + appMainCategory + '"!',
           type: "is-danger",
-          position: "top-right",
+          position: "top-center",
           closeOnClick: true,
           pauseOnHover: true,
           animate: toastAnimateOptions
@@ -279,7 +279,7 @@ appsListElement.onclick = function (e) {
       bulmaToast.toast({
         message: 'Given category "' + appMainCategory + '" does not exist!',
         type: "is-danger",
-        position: "top-right",
+        position: "top-center",
         closeOnClick: true,
         pauseOnHover: true,
         animate: toastAnimateOptions

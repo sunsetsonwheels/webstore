@@ -11,10 +11,10 @@ function loadCategoriesList () {
   console.log('Unselected categories: ' + unselectedCategories)
   categoriesListElement.innerHTML = ''
   for (const selectedCategory of selectedCategories) {
-    categoriesListElement.innerHTML += '<div class="control" data-category-id="' + selectedCategory + '"><div class="tags has-addons"><span class="tag is-success is-unselectable is-rounded"><i class="'+ allCategories[selectedCategory].icon +'"></i>' + allCategories[selectedCategory].name + '</span><a class="tag is-rounded is-delete delete-category" data-category-id="' + selectedCategory + '"></a></div></div>'
+    categoriesListElement.innerHTML += '<div class="control" data-category-id="' + selectedCategory + '"><div class="tags has-addons"><span class="tag is-success is-unselectable is-rounded"><i class="'+ allCategories[selectedCategory].icon +'"></i><span class="category-name-left">' + allCategories[selectedCategory].name + '</span></span><a class="tag is-rounded is-delete delete-category" data-category-id="' + selectedCategory + '"></a></div></div>'
   }
   for (const unselectedCategory of unselectedCategories) {
-    categoriesListElement.innerHTML += '<div class="control" data-category-id="' + unselectedCategory + '"><div class="tags has-addons"><span class="tag is-danger is-unselectable is-rounded"><i class="'+ allCategories[unselectedCategory].icon +'"></i>' + allCategories[unselectedCategory].name + '</span><a class="tag is-rounded is-delete add-category" data-category-id="' + unselectedCategory + '"></a></div></div>'
+    categoriesListElement.innerHTML += '<div class="control" data-category-id="' + unselectedCategory + '"><div class="tags has-addons"><span class="tag is-danger is-unselectable is-rounded"><i class="'+ allCategories[unselectedCategory].icon +'"></i><span class="category-name-left">' + allCategories[unselectedCategory].name + '</span></span><a class="tag is-rounded is-delete add-category" data-category-id="' + unselectedCategory + '"></a></div></div>'
   }
   loadAppsFromCategories()
 }

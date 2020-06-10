@@ -55,6 +55,9 @@ This project wouldn't have been possible without the following resources and pro
 
 - Bulma by [@jgthms](https://github.com/jgthms): https://bulma.io/
 - QRCodeJS by [@davidshimjs](https://github.com/davidshimjs): https://github.com/davidshimjs/qrcodejs
+- GitHub fork ribbon CSS by [@simonwhitaker](https://github.com/simonwhitaker): https://github.com/simonwhitaker/github-fork-ribbon-css
+- Bulma Floating Buttons by [@alakise](https://github.com/alakise): https://github.com/alakise/bulma-floating-button,
+- Bulma Toast by [@rfoel](https://github.com/rfoel): https://github.com/rfoel/bulma-toast
 - Font Awesome 5: https://fontawesome.com/
 - Animate.CSS: https://github.com/animate-css/animate.css
 

@@ -1,6 +1,6 @@
 'use strict'
 
-const toastAnimateOptions = { in: "bounceInRight", out: "bounceOutRight" }
+const toastAnimateOptions = { in: "bounceInDown", out: "bounceOutUp" }
 
 document.getElementById('scrolltop-button').onclick = () => {
   window.scrollTo({
@@ -47,7 +47,7 @@ storeWorker.onmessage = function (e) {
   bulmaToast.toast({
     message: 'Data loaded successfully!',
     type: "is-success",
-    position: "top-right",
+    position: "top-center",
     closeOnClick: true,
     pauseOnHover: true,
     animate: toastAnimateOptions
