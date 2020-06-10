@@ -1,35 +1,44 @@
 class BulmaModal {
   constructor(selector) {
     this.elem = document.querySelector(selector)
+    this.elem.children[0].style.animationDuration = '250ms'
     this.elem.children[1].style.animationDuration = '250ms'
     this.close_data()
   }
 
-  animateCSS (animationName, callback) {
+  animateCSS (animationNameBackground, animationNameCard, callback) {
+    var modalBackground = this.elem.children[0]
     var modalCard = this.elem.children[1]
 
-    modalCard.classList.add('animate__' + animationName)
+    modalBackground.classList.add('animate__' + animationNameBackground)
+    modalCard.classList.add('animate__' + animationNameCard)
 
-    function handleAnimationEnd() {
-      modalCard.classList.remove('animate__' + animationName)
-      modalCard.removeEventListener('animationend', handleAnimationEnd)
+    function handleAnimationEndBackground () {
+      modalBackground.classList.remove('animate__' + animationNameBackground)
+      modalBackground.removeEventListener('animationend', handleAnimationEndBackground)
+    }
+
+    function handleAnimationEndCard () {
+      modalCard.classList.remove('animate__' + animationNameCard)
+      modalCard.removeEventListener('animationend', handleAnimationEndCard)
 
       if (typeof callback === 'function') callback()
     }
 
-    modalCard.addEventListener('animationend', handleAnimationEnd)
+    modalBackground.addEventListener('animationend', handleAnimationEndBackground)
+    modalCard.addEventListener('animationend', handleAnimationEndCard)
   }
   
   show () {
     this.elem.children[1].scrollTop = 0
-    this.animateCSS('zoomIn')
+    this.animateCSS('fadeIn', 'zoomIn')
     this.elem.classList.add('is-active')
     this.on_show()
   }
   
   close () {
     var that = this
-    this.animateCSS('zoomOut', () => {
+    this.animateCSS('fadeOut', 'zoomOut', () => {
       that.elem.classList.remove('is-active')
       that.on_close()
     })
@@ -40,7 +49,7 @@ class BulmaModal {
     var that = this
     modalClose.forEach(function(e) {
       e.addEventListener('click', function() {
-        that.animateCSS('zoomOut', function () {
+        that.animateCSS('fadeOut', 'zoomOut', function () {
           that.elem.classList.remove('is-active')
         })
         that.on_close();

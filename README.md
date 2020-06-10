@@ -32,7 +32,7 @@ npm install
 gulp
 ```
 
-and of course enable GitHub pages and set it to host from `docs/`. You will need to run this step every commit to have the changes from `src/` be reflected on GitHub Pages.
+and of course enable GitHub Pages and set it to host from `docs/`. You will need to run the 'Build the project' step every commit to have the changes from `src/` be reflected on GitHub Pages.
 
 ## Contributing
 

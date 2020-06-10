@@ -6,6 +6,10 @@
   border: none
 }
 
+.app-modal-icon-left {
+  margin-right: 12px;
+}
+
 .is-discord {
   background-color: #7289da !important;
   color: #fff !important;

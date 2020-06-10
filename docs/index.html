@@ -51,7 +51,7 @@
           <div class="control">
             <div class="tags has-addons">
               <span class="tag is-dark is-unselectable">webstore commit</span>
-              <span id="webstore-github-commit-label" class="tag is-danger">unknown</span>
+              <a id="webstore-github-commit-label" class="tag is-danger" target="_blank">unknown</a>
             </div>
           </div>
           <div class="control">
@@ -87,13 +87,14 @@
       </div>
     </section>
     <div id="app-details-modal" class="modal">
-      <div class="modal-background" data-bulma-modal="close"></div>
+      <div class="modal-background animate__animated" data-bulma-modal="close"></div>
       <div class="modal-card animate__animated">
         <header class="modal-card-head">
-          <p id="app-details-modal-app-name" class="modal-card-title">Unknown app name</p>
-          <figure class="image is-48x48">
+          <figure class="image is-48x48 app-modal-icon-left">
             <img id="app-details-modal-app-icon">
           </figure>
+          <p id="app-details-modal-app-name" class="modal-card-title">Unknown app name</p>
+          <button class="delete" data-bulma-modal="close"></button>
         </header>
         <section class="modal-card-body">
           <div id="app-details-modal-app-screenshots-container" class="container">
@@ -124,7 +125,6 @@
         <footer class="modal-card-foot">
           <button id="app-details-modal-download-button" class="button is-primary">Download</button>
           <button id="app-details-modal-donation-button" class="button is-warning">Donate</button>
-          <button class="button" data-bulma-modal="close">Close</button>
         </footer>
       </div>
     </div>
@@ -132,10 +132,11 @@
       <div class="modal-background"></div>
       <div class="modal-card">
         <header class="modal-card-head">
-          <p id="app-download-modal-app-name" class="modal-card-title">Unknown app name</p>
-          <figure class="image is-48x48">
+          <figure class="image is-48x48 app-modal-icon-left">
             <img id="app-download-modal-app-icon">
           </figure>
+          <p id="app-download-modal-app-name" class="modal-card-title">Unknown app name</p>
+          <button class="delete" data-bulma-modal="close"></button>
         </header>
         <section class="modal-card-body">
           <div class="container">
@@ -156,7 +157,6 @@
         </section>
         <footer class="modal-card-foot">
           <button id="app-download-modal-download-button" class="button is-primary">Download manually</button>
-          <button class="button" data-bulma-modal="close">Close</button>
         </footer>
       </div>
     </div>
