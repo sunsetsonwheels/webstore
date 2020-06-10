@@ -9,7 +9,7 @@ document.getElementById('scrolltop-button').onclick = () => {
   })
 }
 
-var storeWorker = new Worker('js/index/workers/store-worker.js')
+var storeWorker = new Worker('js/global/storedb/workers/store-worker.js')
 storeWorker.onmessage = function (e) {
   storeWorker.terminate()
 
@@ -24,7 +24,6 @@ storeWorker.onmessage = function (e) {
   console.log(allCategories)
   for (var category in allCategories) {
     selectedCategories.push(category)
-    categoriesListElement.innerHTML += '<div class="control" data-category-id="' + category + '"><div class="tags has-addons"><span class="tag is-success is-unselectable is-rounded"><i class="'+ allCategories[category].icon +'"></i>' + allCategories[category].name + '</span><a class="tag is-rounded is-delete delete-category" data-category-id="' + category + '"></a></div></div>'
   }
 
   for (var app of e.data.apps) {
@@ -36,7 +35,7 @@ storeWorker.onmessage = function (e) {
     }
   }
 
-  loadAppsFromCategories()
+  loadCategoriesList()
 
   console.log(allApps)
 

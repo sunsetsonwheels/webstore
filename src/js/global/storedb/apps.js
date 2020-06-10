@@ -129,15 +129,19 @@ function addAppCard (appInfo) {
 function loadAppsFromCategories () {
   document.getElementById('loading-progress').removeAttribute('value')
   appsListElement.innerHTML = ''
+  var appsLoaded = []
   for (const category of selectedCategories) {
     for (const app in allApps[category]) {
-      const appDetails = allApps[category][app]
-      addAppCard({
-        icon: appDetails.icon,
-        name: appDetails.name,
-        description: appDetails.description,
-        categories: appDetails.meta.categories
-      })
+      if (!appsLoaded.includes(app)) {
+        const appDetails = allApps[category][app]
+        addAppCard({
+          icon: appDetails.icon,
+          name: appDetails.name,
+          description: appDetails.description,
+          categories: appDetails.meta.categories
+        })
+        appsLoaded.push(appDetails.name)
+      }
     }
   }
   document.getElementById('loading-progress').setAttribute('value', 0)

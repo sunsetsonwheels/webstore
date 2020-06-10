@@ -36,19 +36,18 @@
       <br>
       <hr>
       <div class="container">
+        <div class="content">
+          <ul>
+            <li>
+              <b>Page loaded: </b><p id="page-loaded-time-label"></p>
+            </li>
+            <li>
+              <b>Data generated: </b><p id="data-generated-time-label"></p>
+            </li>
+          </ul>
+        </div>
+
         <div class="field is-grouped is-grouped-multiline">
-          <div class="control">
-            <div class="tags has-addons">
-              <span class="tag is-dark is-unselectable">page loaded</span>
-              <span id="page-loaded-time-label" class="tag is-danger">unknown</span>
-            </div>
-          </div>
-          <div class="control">
-            <div class="tags has-addons">
-              <span class="tag is-dark is-unselectable">data generated</span>
-              <span id="data-generated-time-label" class="tag is-danger">unknown</span>
-            </div>
-          </div>
           <div class="control">
             <div class="tags has-addons">
               <span class="tag is-dark is-unselectable">webstore commit</span>
@@ -147,7 +146,7 @@
                 to download.
               </p>
               <hr>
-              <div class="columns is-centered">
+              <div class="columns is-centered is-mobile">
                 <div id="app-download-modal-app-download-qrcode" class="column is-half"></div>
               </div>
               <hr>
@@ -167,9 +166,9 @@
     <script src="js/global/fontawesome/js/all.js" defer="defer"></script>
     <script src="js/global/bulma/bulma-toast.min.js" defer="defer"></script>
     <script src="js/global/bulma/bulma-modal.js" defer="defer"></script>
-    <script src="js/index/qrcode.js" defer="defer"></script>
-    <script src="js/index/categories.js" defer="defer"></script>
-    <script src="js/index/apps.js" defer="defer"></script>
+    <script src="js/global/storedb/qrcode.js" defer="defer"></script>
+    <script src="js/global/storedb/categories.js" defer="defer"></script>
+    <script src="js/global/storedb/apps.js" defer="defer"></script>
     <script src="js/index.js" defer="defer"></script>
   </body>
 </html>

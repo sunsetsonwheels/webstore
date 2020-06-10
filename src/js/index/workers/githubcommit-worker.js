@@ -5,7 +5,7 @@ onmessage = function () {
   xhr.send()
   if (xhr.status >= 200 && xhr.status < 300) {
     try {
-      var ghDataCommitSha = JSON.parse(xhr.responseText).object.sha
+      var ghDataCommitSha = JSON.parse(xhr.responseText).object.sha.substring(0, 7)
       if (ghDataCommitSha) {
         postMessage(ghDataCommitSha)
       } else {
