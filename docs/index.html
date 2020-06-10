@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>B-Hackers WebStore</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="icons/favicons/favicon-16x16.png">
+    <link rel="manifest" href="bhackers.webmanifest">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="css/global/bulma/bulma.min.css">
+    <link rel="stylesheet" href="css/global/bulma/bulma-floating-button.css">
+    <link rel="stylesheet" href="css/global/animate.css">
+    <link rel="stylesheet" href="css/index.css">
+  </head>
+  <body>
+    <section class="section">
+      <div class="container">
+        <img width="48" height="48" src="logos/bhackers-store.png">
+        <br>
+        <h1 class="title is-unselectable">
+          BananaHackers WebStore
+        </h1>
+        <h3 class="subtitle is-unselectable">
+          A web client for the BananaHackers app store, hosted on
+          <a href="https://gitlab.com/banana-hackers/store-db">GitLab</a> &
+          <a href="https://github.com/bananahackers/bananahackers.github.io">GitHub</a>
+        </h3>
+      </div>
+      <progress id="loading-progress" class="progress is-danger" max="100"></progress>
+      <div class="container">
+        <div id="categories-list" class="field is-grouped is-grouped-multiline"></div>
+      </div>
+      <hr>
+      <div id="apps-list" class="container"></div>
+      <br>
+      <hr>
+      <div class="container">
+        <div class="field is-grouped is-grouped-multiline">
+          <div class="control">
+            <div class="tags has-addons">
+              <span class="tag is-dark is-unselectable">page loaded</span>
+              <span id="page-loaded-time-label" class="tag is-danger">unknown</span>
+            </div>
+          </div>
+          <div class="control">
+            <div class="tags has-addons">
+              <span class="tag is-dark is-unselectable">data generated</span>
+              <span id="data-generated-time-label" class="tag is-danger">unknown</span>
+            </div>
+          </div>
+          <div class="control">
+            <div class="tags has-addons">
+              <span class="tag is-dark is-unselectable">webstore commit</span>
+              <span id="webstore-github-commit-label" class="tag is-danger">unknown</span>
+            </div>
+          </div>
+          <div class="control">
+            <div class="tags has-addons">
+              <span class="tag is-dark is-unselectable">powered by</span>
+              <a class="tag is-warning" href="http://bananahackers.net">BananaHackers community</a>
+            </div>
+          </div>
+          <div class="control">
+            <div class="tags has-addons">
+              <span class="tag is-dark is-unselectable">chat on</span>
+              <a class="tag is-discord" href="https://discord.gg/rQ93zEu">discord/irc</a>
+            </div>
+          </div>
+          <div class="control">
+            <div class="tags has-addons">
+              <span class="tag is-dark is-unselectable">donate to jkelol111 via</span>
+              <a class="tag is-link" href="https://paypal.me/jkelol111">PayPal</a>
+            </div>
+          </div>
+          <div class="control">
+            <div class="tags has-addons">
+              <span class="tag is-dark is-unselectable">donate to jkelol111 via</span>
+              <a class="tag is-link" href="https://paypal.me/jkelol111">Buy Me a Coffee</a>
+            </div>
+          </div>
+          <div class="control">
+            <a href="https://bulma.io">
+              <img src="logos/made-with-bulma.png" alt="Made with Bulma" width="128" height="24">
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div id="app-details-modal" class="modal">
+      <div class="modal-background" data-bulma-modal="close"></div>
+      <div class="modal-card animate__animated">
+        <header class="modal-card-head">
+          <p id="app-details-modal-app-name" class="modal-card-title">Unknown app name</p>
+          <figure class="image is-48x48">
+            <img id="app-details-modal-app-icon">
+          </figure>
+        </header>
+        <section class="modal-card-body">
+          <div id="app-details-modal-app-screenshots-container" class="container">
+            <div class="content">
+              <div id="app-details-modal-app-screenshots" class="columns is-multiline"></div>
+              <hr>
+            </div>
+          </div>
+          <div class="container">
+            <div class="content">
+              <p id="app-details-modal-app-description">No description.</p>
+              <hr>
+              <ul>
+                <li id="app-details-modal-app-categories">Categories: <b>unknown</b></li>
+                <li id="app-details-modal-app-maintainer">Authors/maintainers: <b>unknown</b></li>
+                <li id="app-details-modal-app-version">Version: <b>unknown</b></li>
+                <li id="app-details-modal-app-type">Type: <b>unknown</b></li>
+                <li>Anti-features:</li>
+                <ul>
+                  <li id="app-details-modal-app-has_ads">Ads: <b>unknown</b></li>
+                  <li id="app-details-modal-app-has_tracking">Tracking: <b>unknown</b></li>
+                </ul>
+                <li id="app-details-modal-app-license">License: <b>unknown</b></li>
+              </ul>
+            </div>
+          </div>
+        </section>
+        <footer class="modal-card-foot">
+          <button id="app-details-modal-download-button" class="button is-primary">Download</button>
+          <button id="app-details-modal-donation-button" class="button is-warning">Donate</button>
+          <button class="button" data-bulma-modal="close">Close</button>
+        </footer>
+      </div>
+    </div>
+    <div id="app-download-modal" class="modal">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p id="app-download-modal-app-name" class="modal-card-title">Unknown app name</p>
+          <figure class="image is-48x48">
+            <img id="app-download-modal-app-icon">
+          </figure>
+        </header>
+        <section class="modal-card-body">
+          <div class="container">
+            <div class="content">
+              <p>
+                Scan the QR code below with
+                <a href="https://github.com/strukturart/kaiOs-alt-app-store" target="_blank">perry's KaiOS Alt App Store app</a>
+                to download.
+              </p>
+              <hr>
+              <div class="columns is-centered">
+                <div id="app-download-modal-app-download-qrcode" class="column is-half"></div>
+              </div>
+              <hr>
+              <p>Or download manually below.</p>
+            </div>
+          </div>
+        </section>
+        <footer class="modal-card-foot">
+          <button id="app-download-modal-download-button" class="button is-primary">Download manually</button>
+          <button class="button" data-bulma-modal="close">Close</button>
+        </footer>
+      </div>
+    </div>
+    <button id="scrolltop-button" class="button is-floating is-link is-unselectable">
+      <i class="fas fa-chevron-up is-unselectable"></i>
+    </button>
+    <script src="js/global/fontawesome/js/all.js" defer="defer"></script>
+    <script src="js/global/bulma/bulma-toast.min.js" defer="defer"></script>
+    <script src="js/global/bulma/bulma-modal.js" defer="defer"></script>
+    <script src="js/index/qrcode.js" defer="defer"></script>
+    <script src="js/index/categories.js" defer="defer"></script>
+    <script src="js/index/apps.js" defer="defer"></script>
+    <script src="js/index.js" defer="defer"></script>
+  </body>
+</html>
