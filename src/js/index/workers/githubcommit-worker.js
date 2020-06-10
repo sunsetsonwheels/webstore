@@ -1,5 +1,5 @@
 onmessage = function () {
-  var xhr = new XMLHttpRequest({ mozSystem: true })
+  var xhr = new XMLHttpRequest()
   xhr.open('GET', 'https://api.github.com/repos/jkelol111/webstore/git/refs/heads/master', false)
   xhr.setRequestHeader('Content-Type', 'application/json')
   xhr.send()

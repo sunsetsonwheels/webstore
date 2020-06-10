@@ -16,7 +16,7 @@ onmessage = function () {
   }
 
   for (var store of stores) {
-    var xhr = new XMLHttpRequest({ mozSystem: true })
+    var xhr = new XMLHttpRequest()
     xhr.open('GET', store, false)
     xhr.setRequestHeader('Content-Type', 'application/json')
     xhr.send()
