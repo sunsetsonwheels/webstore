@@ -30,10 +30,20 @@
         </h3>
       </div>
       <progress id="loading-progress" class="progress is-danger" max="100"></progress>
-      <div class="container">
+      <!-- <div class="container">
         <div id="categories-list" class="field is-grouped is-grouped-multiline"></div>
       </div>
-      <hr>
+      <hr> -->
+      <div class="tabs is-centered is-boxed">
+        <ul id="categories-tabs">
+          <li data-category-id="all" class="is-active category-tab">
+            <a data-category-id="all" class="category-link">
+              <span class="icon is-small"><i class="fas fa-store"></i></span>
+              <span>All apps</span>
+            </a>
+          </li>
+        </ul>
+      </div>
       <div id="apps-list" class="container"></div>
       <br>
       <hr>
@@ -162,7 +172,7 @@
         </footer>
       </div>
     </div>
-    <button id="scrolltop-button" class="button is-floating is-link is-unselectable">
+    <button id="scrolltop-fab" class="button is-floating is-small is-link is-unselectable">
       <i class="fas fa-chevron-up is-unselectable"></i>
     </button>
     <script src="js/global/fontawesome/js/all.js" defer="defer"></script>

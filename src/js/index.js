@@ -2,7 +2,7 @@
 
 const toastAnimateOptions = { in: "bounceInDown", out: "bounceOutUp" }
 
-document.getElementById('scrolltop-button').onclick = () => {
+document.getElementById('scrolltop-fab').onclick = () => {
   window.scrollTo({
     top: 0,
     behavior: 'smooth'
@@ -22,22 +22,21 @@ storeWorker.onmessage = function (e) {
 
   allCategories = e.data.categories
   console.log(allCategories)
-  for (var category in allCategories) {
-    selectedCategories.push(category)
-  }
 
-  for (var app of e.data.apps) {
+  allAppsRaw = e.data.apps
+
+  for (var app of allAppsRaw) {
     for (var category of app.meta.categories) {
-      if (!allApps[category]) allApps[category] = {}
-      if (!allApps[category][app.name]) {
-        allApps[category][app.name] = app
+      if (!allAppsSorted[category]) allAppsSorted[category] = {}
+      if (!allAppsSorted[category][app.name]) {
+        allAppsSorted[category][app.name] = app
       }
     }
   }
 
-  loadCategoriesList()
+  loadCategoriesTabs()
 
-  console.log(allApps)
+  console.log(allAppsSorted)
 
   var pageLoadedLabel = document.getElementById('page-loaded-time-label')
   pageLoadedLabel.innerText = (new Date().toString())

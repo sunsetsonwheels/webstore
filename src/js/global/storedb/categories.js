@@ -1,37 +1,40 @@
 var allCategories = {}
-var selectedCategories = []
-var unselectedCategories = []
 
-const categoriesListElement = document.getElementById('categories-list')
+const categoriesTabsElement = document.getElementById('categories-tabs')
 
-function loadCategoriesList () {
-  selectedCategories.sort()
-  unselectedCategories.sort()
-  console.log('Selected categories: ' + selectedCategories)
-  console.log('Unselected categories: ' + unselectedCategories)
-  categoriesListElement.innerHTML = ''
-  for (const selectedCategory of selectedCategories) {
-    categoriesListElement.innerHTML += '<div class="control" data-category-id="' + selectedCategory + '"><div class="tags has-addons"><span class="tag is-success is-unselectable is-rounded"><i class="'+ allCategories[selectedCategory].icon +'"></i><span class="category-name-left">' + allCategories[selectedCategory].name + '</span></span><a class="tag is-rounded is-delete delete-category" data-category-id="' + selectedCategory + '"></a></div></div>'
-  }
-  for (const unselectedCategory of unselectedCategories) {
-    categoriesListElement.innerHTML += '<div class="control" data-category-id="' + unselectedCategory + '"><div class="tags has-addons"><span class="tag is-danger is-unselectable is-rounded"><i class="'+ allCategories[unselectedCategory].icon +'"></i><span class="category-name-left">' + allCategories[unselectedCategory].name + '</span></span><a class="tag is-rounded is-delete add-category" data-category-id="' + unselectedCategory + '"></a></div></div>'
+function loadCategoriesTabs () {
+  for (const category in allCategories) {
+    var newCategoryTab = {
+      tab: document.createElement('li'),
+      link: {
+        container: document.createElement('a'),
+        content: {
+          icon: {
+            container: document.createElement('span'),
+            icon: document.createElement('i')
+          },
+          text: document.createElement('span')
+        }
+      },
+    }
+
+    newCategoryTab.tab.setAttribute('data-category-id', category)
+    newCategoryTab.tab.classList.add('category-tab')
+    categoriesTabsElement.appendChild(newCategoryTab.tab)
+
+    newCategoryTab.link.container.setAttribute('data-category-id', category)
+    newCategoryTab.tab.appendChild(newCategoryTab.link.container)
+
+    newCategoryTab.link.content.icon.container.classList.add('icon', 'is-small')
+    newCategoryTab.link.container.appendChild(newCategoryTab.link.content.icon.container)
+
+    for (var faIconClass of allCategories[category].icon.split(' ')) {
+      newCategoryTab.link.content.icon.icon.classList.add(faIconClass)
+    }
+    newCategoryTab.link.content.icon.container.appendChild(newCategoryTab.link.content.icon.icon)
+
+    newCategoryTab.link.content.text.innerText = allCategories[category].name
+    newCategoryTab.link.container.appendChild(newCategoryTab.link.content.text)
   }
   loadAppsFromCategories()
-}
-
-categoriesListElement.onclick = function (e) {
-  const targetElementClasses = e.target.classList
-  if (targetElementClasses.contains('delete-category')) {
-    const targetCategoryId = e.target.getAttribute('data-category-id')
-    console.log('Delete category: ' + targetCategoryId)
-    selectedCategories.splice(selectedCategories.indexOf(targetCategoryId), 1)
-    unselectedCategories.push(targetCategoryId)
-    loadCategoriesList()
-  } else if (targetElementClasses.contains('add-category')) {
-    const targetCategoryId = e.target.getAttribute('data-category-id')
-    console.log('Add category: ' + targetCategoryId)
-    unselectedCategories.splice(unselectedCategories.indexOf(targetCategoryId), 1)
-    selectedCategories.push(targetCategoryId)
-    loadCategoriesList()
-  }
 }

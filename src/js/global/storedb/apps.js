@@ -1,4 +1,5 @@
-var allApps = {}
+var allAppsRaw = []
+var allAppsSorted = {}
 const appsListElement = document.getElementById('apps-list')
 
 var appDownloadsModal = {
@@ -130,10 +131,10 @@ function loadAppsFromCategories () {
   document.getElementById('loading-progress').removeAttribute('value')
   appsListElement.innerHTML = ''
   var appsLoaded = []
-  for (const category of selectedCategories) {
-    for (const app in allApps[category]) {
+  for (const category in allCategories) {
+    for (const app in allAppsSorted[category]) {
       if (!appsLoaded.includes(app)) {
-        const appDetails = allApps[category][app]
+        const appDetails = allAppsSorted[category][app]
         addAppCard({
           icon: appDetails.icon,
           name: appDetails.name,
@@ -151,8 +152,8 @@ appsListElement.onclick = function (e) {
   var targetElementClasses = e.target.classList
   if (targetElementClasses.contains('app')) {
     const appMainCategory = e.target.getAttribute('data-app-categories').split(',')[0]
-    if (appMainCategory in allApps) {
-      const appDetails = allApps[appMainCategory][e.target.getAttribute('data-app-name')]
+    if (appMainCategory in allAppsSorted) {
+      const appDetails = allAppsSorted[appMainCategory][e.target.getAttribute('data-app-name')]
       if (appDetails) {
         if (appDetails.name) {
           appDetailsModal.content.name.innerText = appDetails.name
