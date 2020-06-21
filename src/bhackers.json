@@ -1,6 +1,8 @@
 {
   "name": "BananaHackers WebStore",
   "short_name": "B-Hackers Store",
+  "description": "Web client for BananaHackers store-db.",
+  "display": "standalone",
   "icons": [
     {
       "src": "/icons/favicons/android-chrome-192x192.png",
@@ -14,6 +16,5 @@
     }
   ],
   "theme_color": "#ffffff",
-  "background_color": "#ffffff",
-  "display": "standalone"
+  "background_color": "#ffffff"
 }

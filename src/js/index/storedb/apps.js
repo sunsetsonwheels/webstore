@@ -128,20 +128,31 @@ function addAppCard (appInfo) {
 }
 
 function loadAppsFromCategories () {
+  var appsLoaded = []
+  function getAppDetails (category, app) {
+    const appDetails = allAppsSorted[category][app]
+    addAppCard({
+      icon: appDetails.icon,
+      name: appDetails.name,
+      description: appDetails.description,
+      categories: appDetails.meta.categories
+    })
+    appsLoaded.push(appDetails.name)
+  }
   document.getElementById('loading-progress').removeAttribute('value')
   appsListElement.innerHTML = ''
-  var appsLoaded = []
-  for (const category in allCategories) {
-    for (const app in allAppsSorted[category]) {
+  if (selectedCategory === 'all') {
+    for (const category in allCategories) {
+      for (const app in allAppsSorted[category]) {
+        if (!appsLoaded.includes(app)) {
+          getAppDetails(category, app)
+        }
+      }
+    }
+  } else if (selectedCategory in allAppsSorted) {
+    for (const app in allAppsSorted[selectedCategory]) {
       if (!appsLoaded.includes(app)) {
-        const appDetails = allAppsSorted[category][app]
-        addAppCard({
-          icon: appDetails.icon,
-          name: appDetails.name,
-          description: appDetails.description,
-          categories: appDetails.meta.categories
-        })
-        appsLoaded.push(appDetails.name)
+        getAppDetails(selectedCategory, app)
       }
     }
   }

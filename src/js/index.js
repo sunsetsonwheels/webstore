@@ -9,7 +9,7 @@ document.getElementById('scrolltop-fab').onclick = () => {
   })
 }
 
-var storeWorker = new Worker('js/global/storedb/workers/store-worker.js')
+var storeWorker = new Worker('js/index/storedb/workers/store-worker.js')
 storeWorker.onmessage = function (e) {
   storeWorker.terminate()
 
@@ -20,7 +20,9 @@ storeWorker.onmessage = function (e) {
     dataGeneratedLabel.classList.add('is-success')
   }
 
-  allCategories = e.data.categories
+  for (const category in e.data.categories) {
+    allCategories[category] = e.data.categories[category]
+  }
   console.log(allCategories)
 
   allAppsRaw = e.data.apps
