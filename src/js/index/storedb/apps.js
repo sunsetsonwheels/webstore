@@ -136,6 +136,13 @@ function addAppCard (appInfo) {
   cardFooter_ViewAppDetails.setAttribute('data-app-name', appInfo.name)
   cardFooter_ViewAppDetails.innerText = 'View app details'
   cardFooter.appendChild(cardFooter_ViewAppDetails)
+
+  var cardFooter_ShareApp = document.createElement('a')
+  cardFooter_ShareApp.classList.add('card-footer-item', 'is-unselectable', 'share')
+  cardFooter_ShareApp.href = '#' + appInfo.slug
+  cardFooter_ShareApp.innerText = 'Copy link to app'
+  cardFooter.appendChild(cardFooter_ShareApp)
+
 }
 
 function loadAppsFromCategories () {
@@ -169,6 +176,7 @@ function loadAppsFromCategories () {
     }
   }
   document.getElementById('loading-progress').setAttribute('value', 0)
+  window.location.hash = window.location.hash
 }
 
 appsListElement.onclick = function (e) {
@@ -292,8 +300,8 @@ appsListElement.onclick = function (e) {
       } else {
         bulmaToast.toast({
           message: 'App does not exist in category "' + appMainCategory + '"!',
-          type: "is-danger",
-          position: "top-center",
+          type: 'is-danger',
+          position: 'top-center',
           closeOnClick: true,
           pauseOnHover: true,
           animate: toastAnimateOptions
@@ -302,12 +310,25 @@ appsListElement.onclick = function (e) {
     } else {
       bulmaToast.toast({
         message: 'Given category "' + appMainCategory + '" does not exist!',
-        type: "is-danger",
-        position: "top-center",
+        type: 'is-danger',
+        position: 'top-center',
         closeOnClick: true,
         pauseOnHover: true,
         animate: toastAnimateOptions
       })
     }
+  } else if (targetElementClasses.contains('share')) {
+    var linkGhost = document.getElementById('link-ghost')
+    linkGhost.innerText = window.location
+    linkGhost.select()
+    document.execCommand('copy')
+    bulmaToast.toast({
+      message: 'Copied sharable link to clipboard!',
+      type: 'is-success',
+      position: 'top-center',
+      closeOnClick: true,
+      closeOnHover: true,
+      animate: toastAnimateOptions
+    })
   }
 }

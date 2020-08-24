@@ -18,3 +18,7 @@
   background-color: #7289da !important;
   color: #fff !important;
 }
+
+#link-ghost {
+  display: none;
+}
