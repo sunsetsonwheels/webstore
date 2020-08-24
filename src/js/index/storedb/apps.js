@@ -63,6 +63,7 @@ function addAppCard (appInfo) {
 
   var card = document.createElement('div')
   card.classList.add('card')
+  card.id = appInfo.slug
   appsListElement.appendChild(card)
 
   var cardContent = document.createElement('div')
@@ -99,12 +100,22 @@ function addAppCard (appInfo) {
   var mediaContentSubtitle = document.createElement('p')
   mediaContentSubtitle.classList.add('subtitle', 'is-6')
   var readableCategories = ''
-  for (const category of appInfo.categories) {
-    const categoryFriendlyName = allCategories[category].name
-    if (categoryFriendlyName) {
-      readableCategories += categoryFriendlyName + ' '
+  const categoriesLength = appInfo.categories.length
+  for (const categoryIndex in appInfo.categories) {
+    const categoryRawName = appInfo.categories[categoryIndex]
+    const categoryFriendlyName = allCategories[categoryRawName].name
+    if (categoryIndex + 1 < categoriesLength) {
+      if (categoryFriendlyName) {
+        readableCategories += categoryFriendlyName + ', '
+      } else {
+        readableCategories += categoryRawName + ', '
+      }
     } else {
-      readableCategories += category
+      if (categoryFriendlyName) {
+        readableCategories += categoryFriendlyName + ' '
+      } else {
+        readableCategories += categoryRawName
+      }
     }
   }
   mediaContentSubtitle.innerText = readableCategories
@@ -135,7 +146,8 @@ function loadAppsFromCategories () {
       icon: appDetails.icon,
       name: appDetails.name,
       description: appDetails.description,
-      categories: appDetails.meta.categories
+      categories: appDetails.meta.categories,
+      slug: appDetails.slug
     })
     appsLoaded.push(appDetails.name)
   }
