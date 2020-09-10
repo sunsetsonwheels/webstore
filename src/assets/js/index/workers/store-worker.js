@@ -3,10 +3,15 @@ const stores = [
   "https://bananahackers.github.io/data.json"
 ]
 
+const stats = [
+  "https://bhackers.uber.space/ssr/v1/"
+]
+
 onmessage = function () {
   var storeData = {
     categories: {},
     apps: [],
+    downloads: {},
     generated_at: undefined
   }
 

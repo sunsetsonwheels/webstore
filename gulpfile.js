@@ -13,26 +13,26 @@ const BUILD_FOLDER = 'docs/'
 
 const FPATHS = {
   js: {
-    src: SOURCE_FOLDER + 'js/**/*.js',
-    src_min: SOURCE_FOLDER + 'js/**/*.min.js',
-    dest: BUILD_FOLDER + 'js/'
+    src: SOURCE_FOLDER + 'assets/js/**/*.js',
+    src_min: SOURCE_FOLDER + 'assets/js/**/*.min.js',
+    dest: BUILD_FOLDER + 'assets/js/'
   },
   css: {
-    src: SOURCE_FOLDER + 'css/**/*.css',
-    src_min: SOURCE_FOLDER + 'css/**/*.min.css',
-    dest: BUILD_FOLDER + 'css/'
+    src: SOURCE_FOLDER + 'assets/css/**/*.css',
+    src_min: SOURCE_FOLDER + 'assets/css/**/*.min.css',
+    dest: BUILD_FOLDER + 'assets/css/'
   },
   html: {
     src: SOURCE_FOLDER + '*.html',
     dest: BUILD_FOLDER
   },
   icons: {
-    src: SOURCE_FOLDER + 'icons/**/*.png',
-    dest: BUILD_FOLDER + 'icons/'
+    src: SOURCE_FOLDER + 'assets/icons/**/*.png',
+    dest: BUILD_FOLDER + 'assets/icons/'
   },
   logos: {
-    src: SOURCE_FOLDER + 'logos/**/*.png',
-    dest: BUILD_FOLDER + 'logos/'
+    src: SOURCE_FOLDER + 'assets/logos/**/*.png',
+    dest: BUILD_FOLDER + 'assets/logos/'
   },
   manifest: {
     src: SOURCE_FOLDER + 'bhackers.json',

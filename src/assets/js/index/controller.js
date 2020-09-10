@@ -9,7 +9,7 @@ document.getElementById('scrolltop-fab').onclick = () => {
   })
 }
 
-var storeWorker = new Worker('js/index/storedb/workers/store-worker.js')
+var storeWorker = new Worker('assets/js/index/workers/store-worker.js')
 storeWorker.onmessage = function (e) {
   storeWorker.terminate()
 
@@ -56,7 +56,7 @@ storeWorker.onmessage = function (e) {
 }
 storeWorker.postMessage(null)
 
-var githubCommitWorker = new Worker('js/index/workers/githubcommit-worker.js')
+var githubCommitWorker = new Worker('assets/js/index/workers/githubcommit-worker.js')
 githubCommitWorker.onmessage = function (e) {
   githubCommitWorker.terminate()
   if (e.data !== null) {

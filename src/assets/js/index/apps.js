@@ -179,6 +179,17 @@ function loadAppsFromCategories () {
   window.location.hash = window.location.hash
 }
 
+function loadAppList (sort) {
+  switch (sort) {
+    case 'alphabetically':
+      break
+    case 'popularity':
+      break
+    default:
+      break
+  }
+}
+
 appsListElement.onclick = function (e) {
   var targetElementClasses = e.target.classList
   if (targetElementClasses.contains('app')) {
@@ -283,7 +294,7 @@ appsListElement.onclick = function (e) {
           appDownloadsModal.buttons.download.style.display = 'initial'
           appDownloadsModal.buttons.download.setAttribute('data-app-download', appDetails.download.url)
           appDownloadsModal.content.qrcode.innerHTML = ''
-          new QRCode(appDownloadsModal.content.qrcode, appDetails.download.url)
+          new QRCode(appDownloadsModal.content.qrcode, "bhackers:" + appDetails.slug)
         } else {
           appDetailsModal.buttons.download.style.display = 'none'
           appDownloadsModal.buttons.download.style.display = 'none'

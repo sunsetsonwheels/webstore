@@ -2,24 +2,25 @@
 <html>
   <head>
     <title>B-Hackers WebStore</title>
-    <link rel="apple-touch-icon" sizes="180x180" href="icons/favicons/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="icons/favicons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="icons/favicons/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicons/favicon-16x16.png">
     <link rel="manifest" href="bhackers.webmanifest">
     <meta name="description" content="A web client for BananaHackers' store-db">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
-    <link rel="stylesheet" href="css/global/bulma/bulma.min.css">
-    <link rel="stylesheet" href="css/global/bulma/bulma-floating-button.css">
-    <link rel="stylesheet" href="css/global/animate.css">
-    <link rel="stylesheet" href="css/global/gh-fork-ribbon.css">
-    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="assets/css/lib/bulma/bulma.min.css">
+    <link rel="stylesheet" href="assets/css/lib/bulma/bulma-floating-button.css">
+    <link rel="stylesheet" href="assets/css/lib/animate.css">
+    <link rel="stylesheet" href="assets/css/lib/gh-fork-ribbon.css">
+    <link rel="stylesheet" href="assets/css/index.css">
+    <script src="assets/js/lib/fontawesome/js/all.js"></script>
   </head>
   <body>
     <input id="link-ghost">
     <a class="github-fork-ribbon" href="http://github.com/jkelol111/webstore" data-ribbon="Fork me on GitHub" title="Fork me on GitHub" target="_blank">Fork me on GitHub</a> 
     <section class="section">
       <div class="container">
-        <img width="48" height="48" src="logos/bhackers-store.png">
+        <img width="48" height="48" src="assets/logos/bhackers-store.png">
         <br>
         <h1 class="title is-unselectable">
           BananaHackers WebStore
@@ -82,7 +83,7 @@
           </div>
           <div class="control">
             <a href="https://bulma.io">
-              <img src="logos/made-with-bulma.png" alt="Made with Bulma" width="128" height="24">
+              <img src="assets/logos/made-with-bulma.png" alt="Made with Bulma" width="128" height="24">
             </a>
           </div>
         </div>
@@ -165,12 +166,11 @@
     <button id="scrolltop-fab" class="button is-floating is-small is-link is-unselectable">
       <i class="fas fa-chevron-up is-unselectable"></i>
     </button>
-    <script src="js/global/fontawesome/js/all.js" defer="defer"></script>
-    <script src="js/global/bulma/bulma-toast.min.js" defer="defer"></script>
-    <script src="js/global/bulma/bulma-modal.js" defer="defer"></script>
-    <script src="js/index/storedb/qrcode.js" defer="defer"></script>
-    <script src="js/index/storedb/categories.js" defer="defer"></script>
-    <script src="js/index/storedb/apps.js" defer="defer"></script>
-    <script src="js/index.js" defer="defer"></script>
+    <script src="assets/js/lib/bulma/bulma-toast.min.js" defer="defer"></script>
+    <script src="assets/js/lib/bulma/bulma-modal.js" defer="defer"></script>
+    <script src="assets/js/lib/qrcode.js" defer="defer"></script>
+    <script src="assets/js/index/categories.js" defer="defer"></script>
+    <script src="assets/js/index/apps.js" defer="defer"></script>
+    <script src="assets/js/index/index-controller.js" defer="defer"></script>
   </body>
 </html>
