@@ -1,0 +1,2 @@
+importScripts('wlog.js')
+

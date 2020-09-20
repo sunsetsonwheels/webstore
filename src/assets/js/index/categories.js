@@ -6,7 +6,7 @@ var allCategories = {
 }
 var selectedCategory = 'all'
 
-const categoriesTabsElement = document.getElementById('categories-tabs')
+
 
 function loadCategoriesTabs () {
   categoriesTabsElement.innerHTML = ''

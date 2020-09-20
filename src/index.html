@@ -35,11 +35,34 @@
       <div class="tabs is-centered is-boxed">
         <ul id="categories-tabs"></ul>
       </div>
+      <div class="field is-grouped is-grouped-centered">
+        <div class="control has-icons-left">    
+          <span id="sort-icon" class="icon is-left is-small">
+            <i class="fas fa-sort-alpha-down"></i>
+          </span>
+          <div id="sort-select" class="select">
+            <select disabled>
+              <option value="alphabetical">Alphabetical</option>
+              <option value="popularity">Popularity</option>
+              <option value="categorical">Categorical</option>
+            </select>
+          </div>
+        </div>
+        <div class="control">
+          <button id="reload-button" class="button is-primary" disabled>
+            <span class="icon is-small">
+              <i class="fas fa-sync-alt"></i>
+            </span>
+            <span>Reload database</span>
+          </button>
+        </div>
+      </div>
+      <hr>
       <div id="apps-list" class="container"></div>
       <br>
       <hr>
       <div class="container">
-        <div class="content">
+        <!-- <div class="content">
           <ul>
             <li>
               <b>Page loaded: </b><p id="page-loaded-time-label"></p>
@@ -48,9 +71,21 @@
               <b>Data generated: </b><p id="data-generated-time-label"></p>
             </li>
           </ul>
-        </div>
+        </div> -->
 
         <div class="field is-grouped is-grouped-multiline">
+          <div class="control">
+            <div class="tags has-addons">
+              <span class="tag is-dark is-unselectable">page loaded</span>
+              <span id="page-loaded-time-label" class="tag">unknown</span>
+            </div>
+          </div>
+          <div class="control">
+            <div class="tags has-addons">
+              <span class="tag is-dark is-unselectable">data generated</span>
+              <span id="data-generated-time-label" class="tag">unknown</span>
+            </div>
+          </div>
           <div class="control">
             <div class="tags has-addons">
               <span class="tag is-dark is-unselectable">webstore commit</span>
@@ -86,6 +121,13 @@
               <img src="assets/logos/made-with-bulma.png" alt="Made with Bulma" width="128" height="24">
             </a>
           </div>
+        </div>
+
+        <div class="content">
+          <p>
+            By using the service, you agree to our 
+            <a href="https://gitlab.com/banana-hackers/store-db/-/blob/master/TERMS.md" target="_blank">Privacy Policy</a>.
+          </p>
         </div>
       </div>
     </section>
@@ -169,8 +211,7 @@
     <script src="assets/js/lib/bulma/bulma-toast.min.js" defer></script>
     <script src="assets/js/lib/bulma/bulma-modal.js" defer></script>
     <script src="assets/js/lib/qrcode.js" defer></script>
-    <script src="assets/js/index/categories.js" defer></script>
-    <script src="assets/js/index/apps.js" defer></script>
+    <script src="assets/js/index/storedb.js" defer></script>
     <script src="assets/js/index/controller.js" defer></script>
   </body>
 </html>
