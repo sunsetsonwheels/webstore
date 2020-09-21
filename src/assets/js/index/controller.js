@@ -61,17 +61,20 @@ var StoreDbAPI = new StoreDatabaseAPI()
 var categoriesTabsElement = document.getElementById('categories-tabs')
 var appsListElement = document.getElementById('apps-list')
 
+var reloadButton = document.getElementById('reload-button')
+
 function listAppsByCategory (category, sort) {
   if (sort in StoreDbAPI.data.apps.sorted && category in StoreDbAPI.data.categories) {
-    StoreDbAPI.sortApps(StoreDbAPI.getAppsByCategory(category), sort).then(function (apps) {
-      console.log(apps)
-    })
+    return StoreDbAPI.sortApps(StoreDbAPI.getAppsByCategory(category), sort)
   } else {
     throw new TypeError('Invalid sort/category! (category: ' + category + ', sort: ' + sort + ')')
   }
 }
 
 function reloadData () {
+  document.getElementById('sort-select').disabled = true
+  reloadButton.disabled = true
+
   StoreDbAPI.loadData().then(function (data) {
     categoriesTabsElement.innerHTML = ''
     appsListElement.innerHTML = ''
@@ -117,8 +120,27 @@ function reloadData () {
     }
     document.querySelector('.category-tab[data-category-id*="all"]').classList.add('is-active')
 
-    listAppsByCategory('all', 'alphabetical')
-    listAppsByCategory('all', 'popularity')
+    listAppsByCategory('all', 'alphabetical').then(function (d) {
+      console.log(d)
+    })
+    listAppsByCategory('all', 'popularity').then(function (d) {
+      console.log(d)
+    })
+
+    var dataGeneratedLabel = document.getElementById('data-generated-time-label')
+    if (data.generatedAt) {
+      dataGeneratedLabel.innerText = (new Date(data.generatedAt))
+      dataGeneratedLabel.classList.remove('is-danger')
+      dataGeneratedLabel.classList.add('is-success')
+    }
+
+    var pageLoadedLabel = document.getElementById('page-loaded-time-label')
+    pageLoadedLabel.innerText = (new Date().toString())
+    pageLoadedLabel.classList.remove('is-danger')
+    pageLoadedLabel.classList.add('is-success')
+
+    document.getElementById('sort-select').disabled = false
+    reloadButton.disabled = false
 
     bulmaToast.toast({
       message: 'Data loaded successfully!',
@@ -130,6 +152,10 @@ function reloadData () {
     })
     console.log(data)
   })
+}
+
+reloadButton.onclick = function () {
+  reloadData()
 }
 
 reloadData()

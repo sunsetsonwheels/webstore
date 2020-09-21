@@ -40,8 +40,8 @@
           <span id="sort-icon" class="icon is-left is-small">
             <i class="fas fa-sort-alpha-down"></i>
           </span>
-          <div id="sort-select" class="select">
-            <select disabled>
+          <div class="select">
+            <select id="sort-select" disabled>
               <option value="alphabetical">Alphabetical</option>
               <option value="popularity">Popularity</option>
               <option value="categorical">Categorical</option>
@@ -77,13 +77,13 @@
           <div class="control">
             <div class="tags has-addons">
               <span class="tag is-dark is-unselectable">page loaded</span>
-              <span id="page-loaded-time-label" class="tag">unknown</span>
+              <span id="page-loaded-time-label" class="tag is-danger">unknown</span>
             </div>
           </div>
           <div class="control">
             <div class="tags has-addons">
               <span class="tag is-dark is-unselectable">data generated</span>
-              <span id="data-generated-time-label" class="tag">unknown</span>
+              <span id="data-generated-time-label" class="tag is-danger">unknown</span>
             </div>
           </div>
           <div class="control">
@@ -113,7 +113,7 @@
           <div class="control">
             <div class="tags has-addons">
               <span class="tag is-dark is-unselectable">donate to jkelol111 via</span>
-              <a class="tag is-link" href="https://paypal.me/jkelol111" target="_blank">Buy Me a Coffee</a>
+              <a class="tag is-link" href="https://buymeacoffee.com/jkelol111" target="_blank">Buy Me a Coffee</a>
             </div>
           </div>
           <div class="control">
@@ -196,12 +196,13 @@
                 <div id="app-download-modal-app-download-qrcode" class="column is-half"></div>
               </div>
               <hr>
-              <p>Or download manually below.</p>
+              <p>Or attempt to install directly/download manually below.</p>
             </div>
           </div>
         </section>
         <footer class="modal-card-foot">
-          <button id="app-download-modal-download-button" class="button is-primary">Download manually</button>
+          <button id="app-download-modal-install-button" class="button is-primary">Install directly</button>
+          <button id="app-download-modal-download-button" class="button">Download manually</button>
         </footer>
       </div>
     </div>
