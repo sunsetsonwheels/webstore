@@ -71,6 +71,93 @@ function listAppsByCategory (category, sort) {
   }
 }
 
+function addAppCard (appInfo) {
+  console.log(appInfo)
+  appsListElement.appendChild(document.createElement('br'))
+
+  var card = document.createElement('div')
+  card.classList.add('card')
+  card.id = appInfo.slug
+  appsListElement.appendChild(card)
+
+  var cardContent = document.createElement('div')
+  cardContent.classList.add('card-content')
+  card.appendChild(cardContent)
+
+  var media = document.createElement('div')
+  media.classList.add('media')
+  cardContent.appendChild(media)
+
+  var mediaLeft = document.createElement('div')
+  mediaLeft.classList.add('media-left')
+  media.appendChild(mediaLeft)
+
+  var figure = document.createElement('figure')
+  figure.classList.add('image', 'is-48x48', 'is-unselectable')
+
+  var img = document.createElement('img')
+  img.src = appInfo.icon
+
+  figure.appendChild(img)
+
+  mediaLeft.appendChild(figure)
+
+  var mediaContent = document.createElement('div')
+  mediaContent.classList.add('media-content')
+  media.appendChild(mediaContent)
+  
+  var mediaContentTitle = document.createElement('p')
+  mediaContentTitle.classList.add('title', 'is-4')
+  mediaContentTitle.innerText = appInfo.name
+  mediaContent.appendChild(mediaContentTitle)
+
+  var mediaContentSubtitle = document.createElement('p')
+  mediaContentSubtitle.classList.add('subtitle', 'is-6')
+  var readableCategories = ''
+  const categoriesLength = appInfo.meta.categories.length
+  for (const categoryIndex in appInfo.meta.categories) {
+    const categoryRawName = appInfo.meta.categories[categoryIndex]
+    const categoryFriendlyName = StoreDbAPI.data.categories[categoryRawName].name
+    if (categoryIndex + 1 < categoriesLength) {
+      if (categoryFriendlyName) {
+        readableCategories += categoryFriendlyName + ', '
+      } else {
+        readableCategories += categoryRawName + ', '
+      }
+    } else {
+      if (categoryFriendlyName) {
+        readableCategories += categoryFriendlyName + ' '
+      } else {
+        readableCategories += categoryRawName
+      }
+    }
+  }
+  mediaContentSubtitle.innerText = readableCategories
+  mediaContent.appendChild(mediaContentSubtitle)
+
+  var content = document.createElement('div')
+  content.classList.add('content')
+  content.innerText = appInfo.description
+  cardContent.appendChild(content)
+
+  var cardFooter = document.createElement('footer')
+  cardFooter.classList.add('card-footer')
+  card.appendChild(cardFooter)
+
+  var cardFooter_ViewAppDetails = document.createElement('a')
+  cardFooter_ViewAppDetails.classList.add('card-footer-item', 'is-unselectable', 'app')
+  cardFooter_ViewAppDetails.setAttribute('data-app-categories', appInfo.meta.categories.toString())
+  cardFooter_ViewAppDetails.setAttribute('data-app-name', appInfo.name)
+  cardFooter_ViewAppDetails.innerText = 'View app details'
+  cardFooter.appendChild(cardFooter_ViewAppDetails)
+
+  var cardFooter_ShareApp = document.createElement('a')
+  cardFooter_ShareApp.classList.add('card-footer-item', 'is-unselectable', 'share')
+  cardFooter_ShareApp.href = '#' + appInfo.slug
+  cardFooter_ShareApp.innerText = 'Copy link to app'
+  cardFooter.appendChild(cardFooter_ShareApp)
+}
+
 function reloadData () {
   document.getElementById('sort-select').disabled = true
   reloadButton.disabled = true
@@ -120,37 +207,39 @@ function reloadData () {
     }
     document.querySelector('.category-tab[data-category-id*="all"]').classList.add('is-active')
 
-    listAppsByCategory('all', 'alphabetical').then(function (d) {
-      console.log(d)
+    listAppsByCategory('all', 'alphabetical').then(function (allApps) {
+      for (const app in allApps) {
+        addAppCard(allApps[app])
+      }
+      var dataGeneratedLabel = document.getElementById('data-generated-time-label')
+      if (data.generatedAt) {
+        dataGeneratedLabel.innerText = (new Date(data.generatedAt))
+        dataGeneratedLabel.classList.remove('is-danger')
+        dataGeneratedLabel.classList.add('is-success')
+      }
+
+      var pageLoadedLabel = document.getElementById('page-loaded-time-label')
+      pageLoadedLabel.innerText = (new Date().toString())
+      pageLoadedLabel.classList.remove('is-danger')
+      pageLoadedLabel.classList.add('is-success')
+
+      document.getElementById('sort-select').disabled = false
+      reloadButton.disabled = false
+
+      bulmaToast.toast({
+        message: 'Data loaded successfully!',
+        type: "is-success",
+        position: "top-center",
+        closeOnClick: true,
+        pauseOnHover: true,
+        animate: toastAnimateOptions
+      })
+      console.log(data)
     })
+
     listAppsByCategory('all', 'popularity').then(function (d) {
       console.log(d)
     })
-
-    var dataGeneratedLabel = document.getElementById('data-generated-time-label')
-    if (data.generatedAt) {
-      dataGeneratedLabel.innerText = (new Date(data.generatedAt))
-      dataGeneratedLabel.classList.remove('is-danger')
-      dataGeneratedLabel.classList.add('is-success')
-    }
-
-    var pageLoadedLabel = document.getElementById('page-loaded-time-label')
-    pageLoadedLabel.innerText = (new Date().toString())
-    pageLoadedLabel.classList.remove('is-danger')
-    pageLoadedLabel.classList.add('is-success')
-
-    document.getElementById('sort-select').disabled = false
-    reloadButton.disabled = false
-
-    bulmaToast.toast({
-      message: 'Data loaded successfully!',
-      type: "is-success",
-      position: "top-center",
-      closeOnClick: true,
-      pauseOnHover: true,
-      animate: toastAnimateOptions
-    })
-    console.log(data)
   })
 }
 
