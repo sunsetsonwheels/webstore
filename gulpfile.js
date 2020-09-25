@@ -109,7 +109,7 @@ function manifestTask () {
 }
 
 function cleanBuildAll () {
-  return rm([BUILD_FOLDER + '*'])
+  return rm([BUILD_FOLDER + '*', '!' + BUILD_FOLDER + "CNAME"])
 }
 
 const DEFAULT_BUILD_TASKS = parallel(jsTask, jsMinTask, cssTask, cssMinTask, htmlTask, iconsTask, logosTask, manifestTask)

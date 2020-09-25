@@ -1,2 +1,0 @@
-importScripts('wlog.js')
-

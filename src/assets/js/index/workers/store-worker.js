@@ -1,3 +1,5 @@
+importScripts('wlog.js')
+
 const stores = [
   "https://banana-hackers.gitlab.io/store-db/data.json",
   "https://bananahackers.github.io/data.json"
@@ -6,8 +8,6 @@ const stores = [
 const downloadCounts = [
   "https://bhackers.uber.space/srs/v1/download_counter"
 ]
-
-importScripts('wlog.js')
 
 onmessage = function (e) {
   wLog('log', 'Store worker started.')
@@ -20,11 +20,7 @@ onmessage = function (e) {
     },
     apps: {
       raw: [],
-      sorted: {
-        alphabetical: [],
-        popularity: [],
-        categorical: {}
-      }
+      categorical: {}
     },
     downloadCount: {},
     generatedAt: null
@@ -32,7 +28,8 @@ onmessage = function (e) {
 
   function resetStoreData () {
     storeData.categories = {}
-    storeData.apps = []
+    storeData.apps.raw = []
+    storeData.apps.categorical = {}
   }
 
   for (const store of stores) {
@@ -59,21 +56,21 @@ onmessage = function (e) {
           storeData.apps.raw = rawStoreData.apps
           for (const app of storeData.apps.raw) {
             for (const category of app.meta.categories) {
-              if (!storeData.apps.sorted.categorical[category]) {
-                storeData.apps.sorted.categorical[category] = {}
+              if (!storeData.apps.categorical[category]) {
+                storeData.apps.categorical[category] = {}
               }
-              if (!storeData.apps.sorted.categorical[category][app.name]) {
-                storeData.apps.sorted.categorical[category][app.name] = app
+              if (!storeData.apps.categorical[category][app.name]) {
+                storeData.apps.categorical[category][app.name] = app
               }
             }
           }
-          if (!storeData.apps.sorted.categorical['all']) {
-            storeData.apps.sorted.categorical['all'] = {}
+          if (!storeData.apps.categorical['all']) {
+            storeData.apps.categorical['all'] = {}
           }
           for (const category in storeData.categories) {
-            for (const app in storeData.apps.sorted.categorical[category]) {
-              if (!storeData.apps.sorted.categorical['all'][app]) {
-                storeData.apps.sorted.categorical['all'][app] = storeData.apps.sorted.categorical[category][app]
+            for (const app in storeData.apps.categorical[category]) {
+              if (!storeData.apps.categorical['all'][app]) {
+                storeData.apps.categorical['all'][app] = storeData.apps.categorical[category][app]
               }
             }
           }
@@ -89,5 +86,6 @@ onmessage = function (e) {
     }
   }
 
+  wLog('log', 'Store worker completed!')
   postMessage(storeData)
 }

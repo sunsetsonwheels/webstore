@@ -60,6 +60,19 @@ onmessage = function (e) {
         }
       }
       break
+    case 'categorical':
+      copyApps.sort(function (a, b) {
+        const A = a[1].meta.categories[0].toUpperCase()
+        const B = b[1].meta.categories[0].toUpperCase()
+        if (A > B) {
+          return 1
+        } else if (A < B) {
+          return -1
+        } else {
+          return 0
+        }
+      })
+      break
     default:
       break
   }
@@ -68,5 +81,6 @@ onmessage = function (e) {
     finalSorted[app[0]] = app[1]
   }
   sortData.apps = finalSorted
+  wLog('log', 'Sort worker completed!')
   postMessage(sortData)
 }

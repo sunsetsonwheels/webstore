@@ -31,15 +31,38 @@
           <a href="https://github.com/bananahackers/bananahackers.github.io" target="_blank">GitHub</a>
         </h3>
       </div>
-      <progress id="loading-progress" class="progress is-danger" max="100"></progress>
+      <hr>
       <div class="tabs is-centered is-boxed">
         <ul id="categories-tabs"></ul>
       </div>
+      <div class="field is-grouped is-grouped-centered">
+        <div class="control has-icons-left">    
+          <span class="icon is-left is-small">
+            <i id="sort-icon" class="fas fa-sort-alpha-down"></i>
+          </span>
+          <div class="select">
+            <select id="sort-select" disabled="disabled">
+              <option value="alphabetical">Alphabetical</option>
+              <option value="popularity">Popularity</option>
+              <option value="categorical">Categorical</option>
+            </select>
+          </div>
+        </div>
+        <div class="control">
+          <button id="reload-button" class="button is-primary" disabled="disabled">
+            <span class="icon is-small">
+              <i class="fas fa-sync-alt"></i>
+            </span>
+            <span>Reload database</span>
+          </button>
+        </div>
+      </div>
+      <hr>
       <div id="apps-list" class="container"></div>
       <br>
       <hr>
       <div class="container">
-        <div class="content">
+        <!-- <div class="content">
           <ul>
             <li>
               <b>Page loaded: </b><p id="page-loaded-time-label"></p>
@@ -48,9 +71,21 @@
               <b>Data generated: </b><p id="data-generated-time-label"></p>
             </li>
           </ul>
-        </div>
+        </div> -->
 
         <div class="field is-grouped is-grouped-multiline">
+          <div class="control">
+            <div class="tags has-addons">
+              <span class="tag is-dark is-unselectable">page loaded</span>
+              <span id="page-loaded-time-label" class="tag is-danger">unknown</span>
+            </div>
+          </div>
+          <div class="control">
+            <div class="tags has-addons">
+              <span class="tag is-dark is-unselectable">data generated</span>
+              <span id="data-generated-time-label" class="tag is-danger">unknown</span>
+            </div>
+          </div>
           <div class="control">
             <div class="tags has-addons">
               <span class="tag is-dark is-unselectable">webstore commit</span>
@@ -78,7 +113,7 @@
           <div class="control">
             <div class="tags has-addons">
               <span class="tag is-dark is-unselectable">donate to jkelol111 via</span>
-              <a class="tag is-link" href="https://paypal.me/jkelol111" target="_blank">Buy Me a Coffee</a>
+              <a class="tag is-link" href="https://buymeacoffee.com/jkelol111" target="_blank">Buy Me a Coffee</a>
             </div>
           </div>
           <div class="control">
@@ -86,6 +121,13 @@
               <img src="assets/logos/made-with-bulma.png" alt="Made with Bulma" width="128" height="24">
             </a>
           </div>
+        </div>
+
+        <div class="content">
+          <p>
+            By using the service, you agree to our 
+            <a href="https://gitlab.com/banana-hackers/store-db/-/blob/master/TERMS.md" target="_blank">Privacy Policy</a>.
+          </p>
         </div>
       </div>
     </section>
@@ -154,12 +196,13 @@
                 <div id="app-download-modal-app-download-qrcode" class="column is-half"></div>
               </div>
               <hr>
-              <p>Or download manually below.</p>
+              <p>Or attempt to install directly/download manually below.</p>
             </div>
           </div>
         </section>
         <footer class="modal-card-foot">
-          <button id="app-download-modal-download-button" class="button is-primary">Download manually</button>
+          <button id="app-download-modal-install-button" class="button is-primary">Install directly</button>
+          <button id="app-download-modal-download-button" class="button">Download manually</button>
         </footer>
       </div>
     </div>
@@ -169,8 +212,7 @@
     <script src="assets/js/lib/bulma/bulma-toast.min.js" defer="defer"></script>
     <script src="assets/js/lib/bulma/bulma-modal.js" defer="defer"></script>
     <script src="assets/js/lib/qrcode.js" defer="defer"></script>
-    <script src="assets/js/index/categories.js" defer="defer"></script>
-    <script src="assets/js/index/apps.js" defer="defer"></script>
-    <script src="assets/js/index/index-controller.js" defer="defer"></script>
+    <script src="assets/js/index/storedb.js" defer="defer"></script>
+    <script src="assets/js/index/controller.js" defer="defer"></script>
   </body>
 </html>

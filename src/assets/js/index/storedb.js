@@ -21,7 +21,7 @@ class StoreDatabaseAPI {
 
   getAppsByCategory(category) {
     if (category in this.data.categories) {
-      return this.data.apps.sorted.categorical[category]
+      return this.data.apps.categorical[category]
     } else {
       throw new TypeError('Category "' + category + '" does not exist!')
     }
@@ -40,6 +40,7 @@ class StoreDatabaseAPI {
       switch (sort) {
         case 'alphabetical':
         case 'popularity':
+        case 'categorical':
           worker.postMessage({
             apps: apps,
             sort: sort
