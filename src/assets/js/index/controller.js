@@ -352,7 +352,7 @@ appsListElement.onclick = function (e) {
         if (StoreDbAPI.db.apps.downloadCounts[appDetails.slug]) {
           appDetailsModal.content.downloadCount.innerHTML = 'Downloads: <b>' + StoreDbAPI.db.apps.downloadCounts[appDetails.slug] + '</b>'
         } else {
-          appDetailsModal.content.license.innerHTML = 'Downloads: <b>unknown</b>'
+          appDetailsModal.content.downloadCount.innerHTML = 'Downloads: <b>unknown</b>'
         }
 
         if (appDetails.download.url) {
