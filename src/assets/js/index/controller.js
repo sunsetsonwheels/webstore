@@ -200,7 +200,8 @@ var appDetailsModal = {
     type: document.getElementById('app-details-modal-app-type'),
     has_ads: document.getElementById('app-details-modal-app-has_ads'),
     has_tracking: document.getElementById('app-details-modal-app-has_tracking'),
-    license: document.getElementById('app-details-modal-app-license')
+    license: document.getElementById('app-details-modal-app-license'),
+    downloadCount: document.getElementById('app-details-modal-app-downloadCount')
   },
   buttons: {
     download: document.getElementById('app-details-modal-download-button'),
@@ -346,6 +347,12 @@ appsListElement.onclick = function (e) {
           appDetailsModal.content.license.innerHTML = 'License: <b>' + appDetails.license + '</b>'
         } else {
           appDetailsModal.content.license.innerHTML = 'License: <b>unknown</b>'
+        }
+
+        if (StoreDbAPI.db.apps.downloadCounts[appDetails.slug]) {
+          appDetailsModal.content.downloadCount.innerHTML = 'Downloads: <b>' + StoreDbAPI.db.apps.downloadCounts[appDetails.slug] + '</b>'
+        } else {
+          appDetailsModal.content.license.innerHTML = 'Downloads: <b>unknown</b>'
         }
 
         if (appDetails.download.url) {

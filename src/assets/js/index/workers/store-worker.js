@@ -5,6 +5,10 @@ const stores = [
   "https://bananahackers.github.io/data.json"
 ]
 
+const downloadCounters = [
+  "https://bhackers.uber.space/srs/v1/download_counter/"
+]
+
 onmessage = function () {
   wLog('log', 'Store worker started.')
   var storeData = {
@@ -16,7 +20,8 @@ onmessage = function () {
     },
     apps: {
       raw: [],
-      categorical: {}
+      categorical: {},
+      downloadCounts: {}
     },
     generatedAt: null
   }
@@ -25,9 +30,11 @@ onmessage = function () {
     storeData.categories = {}
     storeData.apps.raw = []
     storeData.apps.categorical = {}
+    storeData.apps.downloadCounts = {}
   }
 
   for (const store of stores) {
+    wLog('log', 'Making request to store: ' + store)
     var xhr = new XMLHttpRequest()
     xhr.open('GET', store, false)
     xhr.setRequestHeader('Content-Type', 'application/json')
@@ -79,6 +86,26 @@ onmessage = function () {
       wLog('error', 'Error making request to store: ' + xhr.status)
       resetStoreData()
     }
+  }
+
+  if (storeData.apps.raw !== []) {
+    for (const downloadCounter of downloadCounters) {
+      wLog('log', 'Making request to download counter: ' + downloadCounter)
+      var xhr = new XMLHttpRequest()
+      xhr.open('GET', downloadCounter, false)
+      xhr.setRequestHeader('Content-Type', 'application/json')
+      xhr.send()
+      if (xhr.status >= 200 && xhr.status < 300) {
+        try {
+          wLog('log', 'Received successful response from: ' + downloadCounter)
+          storeData.apps.downloadCounts = JSON.parse(xhr.responseText)
+        } catch (err) {
+          wLog('error', 'Error parsing response from download counter: ' + err)
+        }
+      } else {
+        wLog('error', 'Error making request to download counter: ' + xhr.status)
+      }
+    } 
   }
 
   wLog('log', 'Store worker completed!')

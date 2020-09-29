@@ -29,6 +29,7 @@ class StoreDatabaseAPI {
   }
 
   sortApps(apps, sort) {
+    var that = this
     return new Promise(function (resolve, reject) {
       var worker = new Worker('assets/js/index/workers/sort-worker.js')
       worker.onmessage = function (e) {
@@ -41,11 +42,17 @@ class StoreDatabaseAPI {
       }
       switch (sort) {
         case 'alphabetical':
-        case 'popularity':
         case 'categorical':
           worker.postMessage({
             apps: apps,
             sort: sort
+          })
+          break
+        case 'popularity':
+          worker.postMessage({
+            apps: apps,
+            sort: sort,
+            downloadCounts: that.db.apps.downloadCounts
           })
           break
         default:
