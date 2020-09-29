@@ -44,9 +44,9 @@ onmessage = function (e) {
               const A = downloadCount[a[1].slug]
               const B = downloadCount[b[1].slug]
               if (A > B) {
-                return 1 
+                return -1 
               } else if (A < B) {
-                return -1
+                return 1
               } else {
                 return 0
               }
