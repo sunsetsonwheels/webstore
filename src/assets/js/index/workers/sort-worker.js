@@ -56,7 +56,7 @@ onmessage = function (e) {
             wLog('error', 'Error parsing response from download count server: ' + err)
           }
         } else {
-          wLog('error', 'Error making request to download count server: ' + xhr2.status)
+          wLog('error', 'Error making request to download count server: ' + xhr.status)
         }
       }
       break

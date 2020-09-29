@@ -1,6 +1,6 @@
 class StoreDatabaseAPI {
   constructor () {
-    this.data = {}
+    this.db = {}
   }
 
   loadData () {
@@ -9,10 +9,11 @@ class StoreDatabaseAPI {
       var worker = new Worker('assets/js/index/workers/store-worker.js')
       worker.onmessage = function (e) {
         worker.terminate()
-        that.data = e.data
+        that.db = e.data
         resolve(e.data)
       }
       worker.onerror = function (err) {
+        worker.terminate()
         reject(err)
       }
       worker.postMessage(null)
@@ -20,8 +21,8 @@ class StoreDatabaseAPI {
   }
 
   getAppsByCategory(category) {
-    if (category in this.data.categories) {
-      return this.data.apps.categorical[category]
+    if (category in this.db.categories) {
+      return this.db.apps.categorical[category]
     } else {
       throw new TypeError('Category "' + category + '" does not exist!')
     }
@@ -35,6 +36,7 @@ class StoreDatabaseAPI {
         resolve(e.data.apps)
       }
       worker.onerror = function (err) {
+        worker.terminate()
         reject(err)
       }
       switch (sort) {
@@ -51,6 +53,24 @@ class StoreDatabaseAPI {
           resolve(apps)
           break
       }
+    })
+  }
+
+  dlCountApp(appSlug) {
+    return new Promise(function (resolve, reject) {
+      var worker = new Worker('assets/js/index/workers/ratings-worker.js')
+      worker.onmessage = function () {
+        worker.terminate()
+        resolve()
+      }
+      worker.onerror = function () {
+        worker.terminate()
+        reject()
+      }
+      worker.postMessage({
+        cmd: 'count',
+        slug: appSlug
+      })
     })
   }
 }

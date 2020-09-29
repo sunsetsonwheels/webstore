@@ -11,7 +11,7 @@ function generateReadableCategories (categories) {
   const categoriesLength = categories.length
   for (const categoryIndex in categories) {
     const categoryRawName = categories[categoryIndex]
-    const categoryFriendlyName = StoreDbAPI.data.categories[categoryRawName].name
+    const categoryFriendlyName = StoreDbAPI.db.categories[categoryRawName].name
     if (categoryIndex + 1 < categoriesLength) {
       if (categoryFriendlyName) {
         readableCategories += categoryFriendlyName + ', '
@@ -171,7 +171,7 @@ categoriesTabsElement.onclick = function (e) {
   const targetElementClasses = e.target.classList
   if (targetElementClasses.contains('category-link') || targetElementClasses.contains('category-tab'))  {
     currentSelectedCategory = e.target.getAttribute('data-category-id')
-    if (currentSelectedCategory in StoreDbAPI.data.categories) {
+    if (currentSelectedCategory in StoreDbAPI.db.categories) {
       for (const categoryTabElement of document.querySelectorAll('.category-tab')) {
         if (categoryTabElement.getAttribute('data-category-id') === currentSelectedCategory) {
           categoryTabElement.classList.add('is-active')
@@ -237,6 +237,24 @@ var appDownloadsModal = {
 }
 
 appDownloadsModal.buttons.download.onclick = function (e) {
+  e.target.classList.add('is-loading')
+  e.target.disabled = true
+  StoreDbAPI.dlCountApp(e.target.getAttribute('data-app-slug')).then(function () {
+    e.target.disabled = false
+    e.target.classList.remove('is-loading')
+    window.open(e.target.getAttribute('data-app-download'), '_blank')
+  }).catch(function () {
+    e.target.disabled = false
+    e.target.classList.remove('is-loading')
+    bulmaToast.toast({
+      message: 'Failed to record download count! Check the console for more info.',
+      type: 'is-danger',
+      position: 'top-center',
+      closeOnClick: true,
+      closeOnHover: true,
+      animate: toastAnimateOptions
+    })
+  })
   window.open(e.target.getAttribute('data-app-download'), '_blank')
 }
 
@@ -245,8 +263,8 @@ appsListElement.onclick = function (e) {
   var targetElementClasses = e.target.classList
   if (targetElementClasses.contains('app')) {
     const appMainCategory = e.target.getAttribute('data-app-categories').split(',')[0]
-    if (appMainCategory in StoreDbAPI.data.apps.categorical) {
-      const appDetails = StoreDbAPI.data.apps.categorical[appMainCategory][e.target.getAttribute('data-app-name')]
+    if (appMainCategory in StoreDbAPI.db.apps.categorical) {
+      const appDetails = StoreDbAPI.db.apps.categorical[appMainCategory][e.target.getAttribute('data-app-name')]
       if (appDetails) {
         if (appDetails.name) {
           appDetailsModal.content.name.innerText = appDetails.name
@@ -335,6 +353,7 @@ appsListElement.onclick = function (e) {
           appDetailsModal.buttons.download.setAttribute('data-app-download', appDetails.download.url)
           appDownloadsModal.buttons.download.style.display = 'initial'
           appDownloadsModal.buttons.download.setAttribute('data-app-download', appDetails.download.url)
+          appDownloadsModal.buttons.download.setAttribute('data-app-slug', appDetails.slug)
           appDownloadsModal.content.qrcode.innerHTML = ''
           new QRCode(appDownloadsModal.content.qrcode, "bhackers:" + appDetails.slug)
         } else {

@@ -5,11 +5,7 @@ const stores = [
   "https://bananahackers.github.io/data.json"
 ]
 
-const downloadCounts = [
-  "https://bhackers.uber.space/srs/v1/download_counter"
-]
-
-onmessage = function (e) {
+onmessage = function () {
   wLog('log', 'Store worker started.')
   var storeData = {
     categories: {
@@ -22,7 +18,6 @@ onmessage = function (e) {
       raw: [],
       categorical: {}
     },
-    downloadCount: {},
     generatedAt: null
   }
 
