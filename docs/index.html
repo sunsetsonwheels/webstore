@@ -35,12 +35,12 @@
       <div class="tabs is-centered is-boxed">
         <ul id="categories-tabs"></ul>
       </div>
-      <div class="field is-grouped is-grouped-centered">
-        <div class="control has-icons-left">    
+      <div class="field has-addons">
+        <div class="control is-expanded has-icons-left">    
           <span class="icon is-left is-small">
             <i id="sort-icon" class="fas fa-sort-alpha-down"></i>
           </span>
-          <div class="select">
+          <div class="select is-fullwidth">
             <select id="sort-select" disabled="disabled">
               <option value="alphabetical">Alphabetical</option>
               <option value="popularity">Popularity</option>
@@ -53,7 +53,7 @@
             <span class="icon is-small">
               <i class="fas fa-sync-alt"></i>
             </span>
-            <span>Reload data</span>
+            <span>Reload database</span>
           </button>
         </div>
       </div>
@@ -62,17 +62,6 @@
       <br>
       <hr>
       <div class="container">
-        <!-- <div class="content">
-          <ul>
-            <li>
-              <b>Page loaded: </b><p id="page-loaded-time-label"></p>
-            </li>
-            <li>
-              <b>Data generated: </b><p id="data-generated-time-label"></p>
-            </li>
-          </ul>
-        </div> -->
-
         <div class="field is-grouped is-grouped-multiline">
           <div class="control">
             <div class="tags has-addons">
@@ -131,6 +120,41 @@
         </div>
       </div>
     </section>
+    <div id="login-modal" class="modal">
+      <div class="modal-background animate__animated" data-bulma-modal="close"></div>
+      <div class="modal-card animate__animated">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Login to BananaHackers Rating Service</p>
+        </header>
+        <section class="modal-card-body">
+          <div class="container">
+            <div class="field">
+              <label class="label">Username</label>
+              <div class="control has-icons-left">
+                <input class="input" type="text" placeholder="jkelol111">
+                <span class="icon is-small is-left">
+                  <i class="fas fa-user"></i>
+                </span>
+              </div>
+              <p class="help is-danger is-hidden">This username is taken!</p>
+            </div>
+            <div class="field">
+              <label class="label">Password</label>
+              <div class="control has-icons-left">
+                <input class="input" type="password" placeholder="password">
+                <span class="icon is-small is-left">
+                  <i class="fas fa-key"></i>
+                </span>
+              </div>
+              <p class="help is-danger is-hidden">Username exists, but the password is incorrect!</p>
+            </div>      
+          </div>
+        </section>
+        <footer class="modal-card-foot">
+          <button id="login-modal-login-button" class="button is-primary">Login</button>
+        </footer>
+      </div>
+    </div>
     <div id="app-details-modal" class="modal">
       <div class="modal-background animate__animated" data-bulma-modal="close"></div>
       <div class="modal-card animate__animated">

@@ -66,16 +66,20 @@ class StoreDatabaseAPI {
   dlCountApp(appSlug) {
     return new Promise(function (resolve, reject) {
       var worker = new Worker('assets/js/index/workers/ratings-worker.js')
-      worker.onmessage = function () {
+      worker.onmessage = function (e) {
         worker.terminate()
-        resolve()
+        if (e.data.success) {
+          resolve(e.data)
+        } else {
+          reject(e.data)
+        }
       }
       worker.onerror = function () {
         worker.terminate()
         reject()
       }
       worker.postMessage({
-        cmd: 'count',
+        command: 'count',
         slug: appSlug
       })
     })
