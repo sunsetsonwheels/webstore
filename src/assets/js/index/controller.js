@@ -503,6 +503,20 @@ reloadButton.onclick = function () {
 
 reloadData()
 
+var userModal = {
+  controller: new BulmaModal('#user-modal'),
+  content: {
+  },
+  buttons: {
+    login: document.getElementById('user-modal-login-button')
+  }
+}
+
+var userButton = document.getElementById('user-button')
+userButton.onclick = function () {
+  userModal.controller.show()
+}
+
 var githubCommitWorker = new Worker('assets/js/index/workers/githubcommit-worker.js')
 githubCommitWorker.onmessage = function (e) {
   githubCommitWorker.terminate()
