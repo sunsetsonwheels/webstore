@@ -414,9 +414,11 @@ appsListElement.onclick = function (e) {
 
 function reloadData () {
   sortSelect.disabled = true
+  reloadButton.classList.add('is-loading')
   reloadButton.disabled = true
 
   categoriesTabsElement.innerHTML = ''
+  appsListElement.innerHTML = ''
 
   StoreDbAPI.loadData().then(function (data) {
     for (const category in data.categories) {
