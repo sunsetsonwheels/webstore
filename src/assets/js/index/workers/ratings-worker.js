@@ -1,7 +1,11 @@
-importScripts('wlog.js')
+importScripts('wlog.js', 'sync-requests.js')
 
 onmessage = (e) => {
   wLog('log', 'Ratings worker started.')
+
+  const fixedHeaders = {
+    'Content-Type': 'application/json'
+  }
 
   var returnMessage = {
     success: false,
@@ -11,67 +15,102 @@ onmessage = (e) => {
   switch (e.data.command) {
     case 'count':
       wLog('log', 'Selected command "count".')
-      if (e.data.slug) {
+      if (e.data.args.slug) {
         wLog('log', 'Making request to download counts tracker.')
-        var xhr = new XMLHttpRequest()
-        xhr.open('GET', 'https://bhackers.uber.space/srs/v1/download_counter/count/' + e.data.slug, false)
-        xhr.timeout = 2000
-        xhr.send()
-        if (xhr.status >= 200 && xhr.status < 300) {
+        const request = syncJSONRequest({
+          type: 'GET',
+          url: 'https://bhackers.uber.space/srs/v1/download_counter/count/' + e.data.slug,
+          timeout: 2000
+        })
+        if (request.success) {
           returnMessage.success = true
-          wLog('log', 'Download count for slug "' + e.data.slug + '" recorded successfully.')
+          wLog('log', 'Download count for slug "' + e.data.args.slug + '" recorded successfully.')
         } else {
-          wLog('warning', 'Download count for slug "' + e.data.slug + '" failed to record (xhr status: ' + xhr.status + ').')
+          wLog('warning', 'Download count for slug "' + e.data.args.slug + '" failed to record: ' + request.error)
         }
       } else {
         wLog('error', 'Slug not supplied for count command, not performing count!')
+      }
+      break
+    case 'create':
+      wLog('log', 'Selected command "create".')
+      if (e.data.args.username && e.data.args.logintoken) {
+        wLog('log', 'Making request to ratings server.')
+        const request = syncJSONRequest({
+          type: 'POST',
+          url: 'https://bhackers.uber.space/srs/v1/createuser',
+          headers: fixedHeaders,
+          body: JSON.stringify({
+            username: e.data.args.username,
+            logintoken: e.data.args.logintoken
+          })
+        })
+        if (request.success) {
+          returnMessage.success = true
+        } else {
+
+        }
       }
       break
     case 'login':
       wLog('log', 'Selected command "login".')
       if (e.data.args.username && e.data.args.logintoken) {
         wLog('log', 'Making request to ratings server.')
-        var xhr = new XMLHttpRequest()
-        xhr.open('POST', 'https://bhackers.uber.space/srs/v1/createuser', false)
-        xhr.setRequestHeader('Content-Type', 'application/json')
-        xhr.send(JSON.stringify({
-          username: e.data.username,
-          logintoken: e.data.logintoken
-        }))
-        if (xhr.status >= 200 && xhr.status < 300) {
-          try {
-            returnMessage.response = JSON.parse(xhr.responseText)
-            if (returnMessage.response.success) {
-              returnMessage.success = true
-              wLog('log', 'Created user on ratings server successfully!')
-            } else {
-              wLog('error', 'Could not create user on ratings server: ' + returnMessage.response.error)
-            }
-          } catch (err) {
-            wLog('error', 'Error parsing response from ratings server: ' + err)
+        const request = syncJSONRequest({
+          type: 'POST',
+          url: 'https://bhackers.uber.space/srs/v1/checkuser',
+          headers: fixedHeaders,
+          body: JSON.stringify({
+            username: e.data.args.username,
+            logintoken: e.data.args.logintoken
+          })
+        })
+        if (request.success) {
+          returnMessage.response = request
+          if (returnMessage.response.success) {
+            returnMessage.success = true
+            wLog('log', 'Logged in user on ratings server successfully!')
+          } else {
+            wLog('error', 'Could not login user on ratings server: ' + returnMessage.response.error)
           }
         } else {
-          wLog('error', 'Error making request to ratings server: ' + xhr.status)
+          if (request.error === 401) {
+            wLog('error', 'The ratings server rejected the login request.')
+          } else {
+            wLog('error', 'Error making request to ratings server: ' + request.error)
+          }
         }
       } else {
         wLog('error', 'Not enough arguments provided for login command, not doing anything!')
       }
       break
+    
     case 'add':
       wLog('log', 'Selected command "add".')
       if (e.data.args.username && e.data.args.logintoken && e.data.args.appid && e.data.args.points && e.data.args.description) {
         wLog('log', 'Making request to ratings server.')
-        var xhr = new XMLHttpRequest()
-        xhr.open('POST', 'https://bhackers.uber.space/srs/v1/ratings/' + e.data.appid + "/add", false)
-        xhr.setRequestHeader('Content-Type', 'application/json')
-        xhr.open(JSON.stringify({
-          username: e.data.args.username,
-          logintoken: e.data.args.logintoken,
-          appid: e.data.args.appid,
-          points: e.data.args.points,
-          description: e.data.args.description
-        }))
-
+        const request = syncJSONRequest({
+          type: 'POST',
+          url: 'https://bhackers.uber.space/srs/v1/ratings/' + e.data.args.slug + '/add',
+          headers: fixedHeaders,
+          body: JSON.stringify({
+            username: e.data.args.username,
+            logintoken: e.data.args.logintoken,
+            points: e.data.args.points,
+            description: e.data.args.description
+          })
+        })
+        if (request.success) {
+          returnMessage.response = request
+          if (returnMessage.response.success) {
+            returnMessage.success = true
+            wLog('log', 'Recorded rating to ratings server successfully!')
+          } else {
+            wLog('error', 'Could not record ratings to server: ' + returnMessage.response.error)
+          }
+        } else {
+          wLog('error', 'Error making request to ratings server: ' + request.error)
+        }
       }
       break
   }

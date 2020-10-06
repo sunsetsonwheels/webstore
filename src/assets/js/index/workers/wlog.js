@@ -5,7 +5,7 @@ function wLog (type, message) {
       console.log('[Worker] ', message)
       break
     case 'warning':
-      console.warning('[Worker] ', message)
+      console.warn('[Worker] ', message)
       break
     case 'error':
       console.error('[Worker] ', message)

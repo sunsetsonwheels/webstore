@@ -1,4 +1,4 @@
-importScripts('wlog.js')
+importScripts('wlog.js', 'sync-requests.js')
 
 const stores = [
   "https://banana-hackers.gitlab.io/store-db/data.json",
@@ -26,6 +26,10 @@ onmessage = function () {
     generatedAt: null
   }
 
+  const fixedHeaders = {
+    'Content-Type': 'application/json'
+  }
+
   function resetStoreData () {
     storeData.categories = {}
     storeData.apps.raw = []
@@ -35,14 +39,15 @@ onmessage = function () {
 
   for (const store of stores) {
     wLog('log', 'Making request to store: ' + store)
-    var xhr = new XMLHttpRequest()
-    xhr.open('GET', store, false)
-    xhr.setRequestHeader('Content-Type', 'application/json')
-    xhr.send()
-    if (xhr.status >= 200 && xhr.status < 300) {
+    const request = syncJSONRequest({
+      type: 'GET',
+      url: store,
+      headers: fixedHeaders,
+    })
+    if (request.success) {
       wLog('log', 'Received successful response from "' + store + '".')
       try {
-        var rawStoreData = JSON.parse(xhr.responseText)
+        var rawStoreData = request.data
         if (rawStoreData.generated_at) {
           wLog('log', 'Found data "generated_at".')
           storeData.generatedAt = rawStoreData.generated_at
@@ -83,7 +88,7 @@ onmessage = function () {
         resetStoreData()
       }
     } else {
-      wLog('error', 'Error making request to store: ' + xhr.status)
+      wLog('error', 'Error making request to store: ' + request.error)
       resetStoreData()
     }
   }
@@ -91,19 +96,20 @@ onmessage = function () {
   if (storeData.apps.raw !== []) {
     for (const downloadCounter of downloadCounters) {
       wLog('log', 'Making request to download counter: ' + downloadCounter)
-      var xhr = new XMLHttpRequest()
-      xhr.open('GET', downloadCounter, false)
-      xhr.setRequestHeader('Content-Type', 'application/json')
-      xhr.send()
-      if (xhr.status >= 200 && xhr.status < 300) {
+      const request = syncJSONRequest({
+        type: 'GET',
+        url: downloadCounter,
+        headers: fixedHeaders
+      })
+      if (request.success) {
         try {
           wLog('log', 'Received successful response from: ' + downloadCounter)
-          storeData.apps.downloadCounts = JSON.parse(xhr.responseText)
+          storeData.apps.downloadCounts = request.data
         } catch (err) {
           wLog('error', 'Error parsing response from download counter: ' + err)
         }
       } else {
-        wLog('error', 'Error making request to download counter: ' + xhr.status)
+        wLog('error', 'Error making request to download counter: ' + request.error)
       }
     } 
   }

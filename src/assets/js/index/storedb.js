@@ -80,8 +80,84 @@ class StoreDatabaseAPI {
       }
       worker.postMessage({
         command: 'count',
-        slug: appSlug
+        args: {
+          slug: appSlug
+        }
       })
     })
+  }
+
+  getAppRatings (appSlug) {
+    return new Promise(function (resolve, reject) {
+      var worker = new Worker('assets/js/index/workers/ratings-worker.js')
+      worker.onmessage = function (e) {
+        worker.terminate()
+        if (e.data.success) {
+          resolve(e.data)
+        } else {
+          reject(e.data)
+        }
+      }
+      worker.onerror = function () {
+        worker.terminate()
+        reject()
+      }
+      worker.postMessage({
+        commmand: 'get',
+        args: {
+          slug: appSlug
+        }
+      })
+    })
+  }
+
+  loginToRatingsAccount (ausername, alogintoken) {
+    return new Promise(function (resolve, reject) {
+      var worker = new Worker('assets/js/index/workers/ratings-worker.js')
+      worker.onmessage = function (e) {
+        worker.terminate()
+        if (e.data.success) {
+          resolve(e.data)
+        } else {
+          reject(e.data)
+        }
+      }
+      worker.onerror = function (err) {
+        worker.terminate()
+        reject(err)
+      }
+      worker.postMessage({
+        command: 'login',
+        args: {
+          username: ausername,
+          logintoken: alogintoken
+        }
+      })
+    })
+  }
+
+  createRatingsAccount (ausername, alogintoken) {
+    return new Promise(function (resolve, reject) {
+      var worker = new Worker('assets/js/index/workers/ratings-worker.js')
+      worker.onmessage = function (e) {
+        worker.terminate()
+        if (e.data.success) {
+          resolve(e.data)
+        } else {
+          reject(e.data)
+        }
+      }
+      worker.onerror = function (err) {
+        worker.terminate()
+        reject(err)
+      }
+      worker.postMessage({
+        command: 'create',
+        args: {
+          username: ausername,
+          logintoken: alogintoken
+        }
+      })
+    }) 
   }
 }

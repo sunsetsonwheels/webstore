@@ -10,6 +10,7 @@ onmessage = function (e) {
     wLog('error', 'Missing arguments for sort worker. Sending back empty data.')
     postMessage(sortData)
   }
+  wLog('log', 'Sorting using "' + e.data.sort + '" sort.')
   var copyApps = Object.entries(e.data.apps)
   switch (e.data.sort) {
     case 'alphabetical':

@@ -193,6 +193,7 @@ var appDetailsModal = {
       container: document.getElementById('app-details-modal-app-screenshots-container'),
       columns: document.getElementById('app-details-modal-app-screenshots')
     },
+    descriptionSeparator: document.getElementById('app-details-modal-description-separator'),
     description: document.getElementById('app-details-modal-app-description'),
     categories: document.getElementById('app-details-modal-app-categories'),
     maintainer: document.getElementById('app-details-modal-app-maintainer'),
@@ -201,7 +202,13 @@ var appDetailsModal = {
     has_ads: document.getElementById('app-details-modal-app-has_ads'),
     has_tracking: document.getElementById('app-details-modal-app-has_tracking'),
     license: document.getElementById('app-details-modal-app-license'),
-    downloadCount: document.getElementById('app-details-modal-app-downloadCount')
+    downloadCount: document.getElementById('app-details-modal-app-downloadCount'),
+    ratings: {
+      notLoggedIn: document.getElementById('app-details-modal-app-ratings-not-logged-in'),
+      loggedIn: {
+        container: document.getElementById('app-details-modal-app-ratings-logged-in')
+      }
+    }
   },
   buttons: {
     download: document.getElementById('app-details-modal-download-button'),
@@ -223,6 +230,124 @@ appDetailsModal.buttons.download.onclick = function (e) {
 
 appDetailsModal.buttons.donation.onclick = function (e) {
   window.open(e.target.getAttribute('data-app-donate'), '_blank')
+}
+
+var userDetails = {
+  username: localStorage.getItem('webstore-ratings-username'),
+  logintoken: localStorage.getItem('webstore-ratings-logintoken')
+}
+
+var userModal = {
+  controller: new BulmaModal('#user-modal'),
+  content: {
+    usernameInput: document.getElementById('user-modal-username-input'),
+    logintokenInput: document.getElementById('user-modal-logintoken-input'),
+    loginFailedBlurb: document.getElementById('user-modal-login-failed-blurb'),
+    saveLoginCheckbox: document.getElementById('user-modal-save-login-checkbox')
+  },
+  buttons: {
+    login: document.getElementById('user-modal-login-button')
+  }
+}
+
+userModal.controller.addEventListener('modal:close', function () {
+  userModal.content.loginFailedBlurb.classList.add('is-hidden')
+})
+
+var isUserLoggedIn = false
+
+var userButton = {
+  button: document.getElementById('user-button'),
+  icon: document.getElementById('user-icon'),
+  text: document.getElementById('user-button-text')
+}
+
+userButton.button.onclick = function () {
+  if (isUserLoggedIn) {
+    if (!userModal.content.saveLoginCheckbox.checked) {
+      userDetails.username = null,
+      userDetails.logintoken = null
+      userModal.content.usernameInput.value = ''
+      userModal.content.logintokenInput.value = ''
+    } 
+    userButton.button.classList.remove('is-danger')
+    userButton.button.classList.add('is-link')
+    userButton.text.innerText = 'Login'
+    userButton.icon.classList.add('fa-user')
+    userButton.icon.classList.remove('fa-sign-out-alt')
+    isUserLoggedIn = false
+  } else {
+    userModal.controller.show()
+  }
+}
+
+var isLoginDetailsSaved = false
+
+if (userDetails.username !== null) {
+  userModal.content.usernameInput.value = userDetails.username
+  isLoginDetailsSaved = true
+} else {
+  userModal.content.usernameInput.value = ''
+}
+
+if (userDetails.logintoken !== null) {
+  userModal.content.logintokenInput.value = userDetails.logintoken
+  isLoginDetailsSaved = true
+} else {
+  userModal.content.logintokenInput.value = ''
+}
+
+if (isLoginDetailsSaved) {
+  userModal.content.saveLoginCheckbox.checked = true
+}
+
+function loginSuccessCb () {
+  userModal.content.usernameInput.disabled = false
+  userModal.content.logintokenInput.disabled = false
+  userModal.buttons.login.disabled = false
+  userModal.buttons.login.classList.remove('is-loading')
+  userButton.button.classList.remove('is-link')
+  userButton.button.classList.add('is-danger')
+  userButton.text.innerText = 'Log out'
+  userButton.icon.classList.add('fa-sign-out-alt')
+  userButton.icon.classList.remove('fa-user')
+  userModal.controller.close()
+  isUserLoggedIn = true
+}
+
+userModal.buttons.login.onclick = function () {
+  userModal.buttons.login.classList.add('is-loading')
+  userModal.buttons.login.disabled = true
+  userModal.content.loginFailedBlurb.classList.add('is-hidden')
+  userDetails.username = userModal.content.usernameInput.value
+  userDetails.logintoken = userModal.content.logintokenInput.value
+  userModal.content.usernameInput.disabled = true
+  userModal.content.logintokenInput.disabled = true
+  StoreDbAPI.loginToRatingsAccount(userDetails.username, userDetails.logintoken).then(function (e) {
+    loginSuccessCb()
+    console.log(e)
+  }).catch(function (err) {
+    StoreDbAPI.createRatingsAccount(userDetails.username, userDetails.logintoken).then(function (e) {
+      loginSuccessCb()
+    }).catch(function (err2) {
+      userModal.content.usernameInput.disabled = false
+      userModal.content.logintokenInput.disabled = false
+      userModal.buttons.login.disabled = false
+      userModal.buttons.login.classList.remove('is-loading')
+      userModal.content.loginFailedBlurb.classList.remove('is-hidden')
+      console.error(err)
+    })
+  })
+}
+
+userModal.content.saveLoginCheckbox.onchange = function (e) {
+  if (e.target.checked) {
+    localStorage.setItem('webstore-ratings-username', userModal.content.usernameInput.value)
+    localStorage.setItem('webstore-ratings-logintoken', userModal.content.logintokenInput.value)
+  } else {
+    localStorage.removeItem('webstore-ratings-username')
+    localStorage.removeItem('webstore-ratings-logintoken')
+  }
 }
 
 var appDownloadsModal = {
@@ -283,7 +408,7 @@ appsListElement.onclick = function (e) {
           appDownloadsModal.content.icon.src = 'icons/default-icon.png'
         }
         
-        if (appDetails.screenshots) {
+        if (appDetails.screenshots.length > 0) {
           appDetailsModal.content.screenshots.container.style.display = 'initial'
           appDetailsModal.content.screenshots.columns.innerHTML = ''
           for (var screenshot of appDetails.screenshots) {
@@ -294,9 +419,11 @@ appsListElement.onclick = function (e) {
             var screenshotImage = document.createElement('img')
             screenshotImage.src = screenshot
             screenshotContainer.appendChild(screenshotImage)
+            appDetailsModal.content.descriptionSeparator.classList.remove('is-hidden')
           }
         } else {
           appDetailsModal.content.screenshots.container.style.display = 'none'
+          appDetailsModal.content.descriptionSeparator.classList.add('is-hidden')
         }
 
         if (appDetails.description) {
@@ -373,6 +500,14 @@ appsListElement.onclick = function (e) {
           appDetailsModal.buttons.donation.setAttribute('data-app-donate', appDetails.donation)
         } else {
           appDetailsModal.buttons.donation.style.display = 'none'
+        }
+
+        if (isUserLoggedIn) {
+          appDetailsModal.content.ratings.notLoggedIn.classList.add('is-hidden')
+          appDetailsModal.content.ratings.loggedIn.container.classList.remove('is-hidden')
+        } else {
+          appDetailsModal.content.ratings.loggedIn.container.classList.add('is-hidden')
+          appDetailsModal.content.ratings.notLoggedIn.classList.remove('is-hidden')
         }
 
         appDetailsModal.controller.show()
@@ -502,20 +637,6 @@ reloadButton.onclick = function () {
 }
 
 reloadData()
-
-var userModal = {
-  controller: new BulmaModal('#user-modal'),
-  content: {
-  },
-  buttons: {
-    login: document.getElementById('user-modal-login-button')
-  }
-}
-
-var userButton = document.getElementById('user-button')
-userButton.onclick = function () {
-  userModal.controller.show()
-}
 
 var githubCommitWorker = new Worker('assets/js/index/workers/githubcommit-worker.js')
 githubCommitWorker.onmessage = function (e) {
