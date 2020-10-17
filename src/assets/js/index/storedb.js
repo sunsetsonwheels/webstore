@@ -74,9 +74,14 @@ class StoreDatabaseAPI {
           reject(e.data)
         }
       }
-      worker.onerror = function () {
+      worker.onerror = function (err) {
         worker.terminate()
-        reject()
+        reject({
+          success: false,
+          response: {
+            error: err
+          }
+        })
       }
       worker.postMessage({
         command: 'count',
@@ -98,9 +103,14 @@ class StoreDatabaseAPI {
           reject(e.data)
         }
       }
-      worker.onerror = function () {
+      worker.onerror = function (err) {
         worker.terminate()
-        reject()
+        reject({
+          success: false,
+          response: {
+            error: err
+          }
+        })
       }
       worker.postMessage({
         command: 'get',
@@ -124,7 +134,12 @@ class StoreDatabaseAPI {
       }
       worker.onerror = function (err) {
         worker.terminate()
-        reject(err)
+        reject({
+          success: false,
+          response: {
+            error: err
+          }
+        })
       }
       worker.postMessage({
         command: 'login',
@@ -149,7 +164,12 @@ class StoreDatabaseAPI {
       }
       worker.onerror = function (err) {
         worker.terminate()
-        reject(err)
+        reject({
+          success: false,
+          response: {
+            error: err
+          }
+        })
       }
       worker.postMessage({
         command: 'create',
@@ -174,7 +194,12 @@ class StoreDatabaseAPI {
       }
       worker.onerror = function (err) {
         worker.terminate()
-        reject(err)
+        reject({
+          success: false,
+          response: {
+            error: err
+          }
+        })
       }
       worker.postMessage({
         command: 'add',

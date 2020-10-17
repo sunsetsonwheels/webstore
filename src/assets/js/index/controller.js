@@ -212,6 +212,7 @@ var appDetailsModal = {
         container: document.getElementById('app-details-modal-app-ratings-logged-in'),
         points: document.getElementById('app-details-modal-app-ratings-logged-in-points'),
         description: document.getElementById('app-details-modal-app-ratings-logged-in-description'),
+        ratingIncompleteBlurb: document.getElementById('app-details-modal-rating-incomplete-blurb'),
         submitButton: document.getElementById('app-details-modal-app-ratings-logged-in-submit-button')
       },
       allRatings: document.getElementById("app-details-modal-app-ratings-all-ratings")
@@ -361,6 +362,8 @@ function reloadAppRatings (appID) {
   appDetailsModal.content.ratings.loggedIn.description.value = ''
   appDetailsModal.content.ratings.loggedIn.points.disabled = true
   appDetailsModal.content.ratings.loggedIn.description.disabled = true
+  appDetailsModal.content.ratings.loggedIn.ratingIncompleteBlurb.classList.add('is-hidden')
+  appDetailsModal.content.ratings.loggedIn.submitButton.classList.add('is-loading')
   appDetailsModal.content.ratings.loggedIn.submitButton.disabled = true
   appDetailsModal.content.ratings.allRatings.innerHTML = 'Loading ratings... <br>'
   StoreDbAPI.getAppRatings(appID).then(function (returnMessage) {
@@ -416,7 +419,7 @@ function reloadAppRatings (appID) {
       appDetailsModal.content.ratings.loggedIn.description.disabled = false
       appDetailsModal.content.ratings.loggedIn.submitButton.disabled = false
     }
-
+    appDetailsModal.content.ratings.loggedIn.submitButton.classList.remove('is-loading')
     var noMoreRatingsElement = document.createElement('span')
     noMoreRatingsElement.classList.add('title', 'is-6')
     noMoreRatingsElement.innerText = 'No more ratings.'
@@ -436,7 +439,10 @@ function reloadAppRatings (appID) {
 }
 
 appDetailsModal.content.ratings.loggedIn.submitButton.onclick = function (e) {
+  appDetailsModal.content.ratings.loggedIn.ratingIncompleteBlurb.classList.add('is-hidden')
   if (appDetailsModal.content.ratings.loggedIn.description.value.length > 2 && isUserLoggedIn) {
+    e.target.classList.add('is-loading')
+    e.target.disabled = true
     appDetailsModal.content.ratings.loggedIn.points.disabled = true
     appDetailsModal.content.ratings.loggedIn.description.disabled = true
     StoreDbAPI.addNewRating(
@@ -446,10 +452,16 @@ appDetailsModal.content.ratings.loggedIn.submitButton.onclick = function (e) {
       appDetailsModal.content.ratings.loggedIn.points.value,
       appDetailsModal.content.ratings.loggedIn.description.value
     ).then(function () {
-      reloadAppRatings()
+      setTimeout(function () {
+        reloadAppRatings()
+      }, 2000)
     }).catch(function () {
-      reloadAppRatings()
+      setTimeout(function () {
+        reloadAppRatings()
+      }, 2000)
     })
+  } else {
+    appDetailsModal.content.ratings.loggedIn.ratingIncompleteBlurb.classList.remove('is-hidden')
   }
 }
 
