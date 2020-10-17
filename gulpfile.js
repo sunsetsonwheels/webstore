@@ -19,7 +19,12 @@ const FPATHS = {
   },
   css: {
     src: SOURCE_FOLDER + 'assets/css/**/*.css',
-    src_min: SOURCE_FOLDER + 'assets/css/**/*.min.css',
+    src_min: [SOURCE_FOLDER + 'assets/css/**/*.min.css', 
+              SOURCE_FOLDER + 'assets/css/**/*.eot',
+              SOURCE_FOLDER + 'assets/css/**/*.svg',
+              SOURCE_FOLDER + 'assets/css/**/*.ttf',
+              SOURCE_FOLDER + 'assets/css/**/*.woff',
+              SOURCE_FOLDER + 'assets/css/**/*.woff2'],
     dest: BUILD_FOLDER + 'assets/css/'
   },
   html: {
