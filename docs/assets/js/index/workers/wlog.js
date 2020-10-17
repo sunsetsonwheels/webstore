@@ -1,1 +1,0 @@
-function wLog(r,o){switch(r){case"log":default:console.log("[Worker] ",o);break;case"warning":console.warning("[Worker] ",o);break;case"error":console.error("[Worker] ",o)}}

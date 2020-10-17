@@ -12,8 +12,8 @@
     <link rel="stylesheet" href="assets/css/lib/bulma/bulma-floating-button.css">
     <link rel="stylesheet" href="assets/css/lib/animate.css">
     <link rel="stylesheet" href="assets/css/lib/gh-fork-ribbon.css">
+    <link rel="stylesheet" href="assets/css/lib/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="assets/css/index.css">
-    <script src="assets/js/lib/fontawesome/js/all.js"></script>
   </head>
   <body>
     <input id="link-ghost">
@@ -57,11 +57,11 @@
           </button>
         </div>
         <div class="control">
-          <button id="user-button" class="button is-link" disabled="disabled">
-            <span id="user-icon" class="icon is-small">
-              <i class="fas fa-user"></i>
+          <button id="user-button" class="button is-link">
+            <span class="icon is-small">
+              <i id="user-icon" class="fas fa-user"></i>
             </span>
-            <span>Login</span>
+            <span id="user-button-text">Login</span>
           </button>
         </div>
       </div>
@@ -132,7 +132,7 @@
       <div class="modal-background animate__animated" data-bulma-modal="close"></div>
       <div class="modal-card animate__animated">
         <header class="modal-card-head">
-          <p class="modal-card-title">Login to BananaHackers Rating Service</p>
+          <p class="modal-card-title">Login to BananaHackers Ratings</p>
           <button class="delete" data-bulma-modal="close"></button>
         </header>
         <section class="modal-card-body">
@@ -140,23 +140,39 @@
             <div class="field">
               <label class="label">Username</label>
               <div class="control has-icons-left">
-                <input class="input" type="text" placeholder="jkelol111">
+                <input id="user-modal-username-input" class="input" type="text" placeholder="username">
                 <span class="icon is-small is-left">
                   <i class="fas fa-user"></i>
                 </span>
               </div>
-              <p class="help is-danger is-hidden">This username is taken!</p>
             </div>
             <div class="field">
-              <label class="label">Password</label>
+              <label class="label">Login token</label>
               <div class="control has-icons-left">
-                <input class="input" type="password" placeholder="password">
+                <input id="user-modal-logintoken-input" class="input" type="password" placeholder="login token">
                 <span class="icon is-small is-left">
                   <i class="fas fa-key"></i>
                 </span>
               </div>
-              <p class="help is-danger is-hidden">Username exists, but the password is incorrect!</p>
-            </div>      
+              <p id="user-modal-login-failed-blurb" class="help is-danger is-hidden">
+                The login attempt was not successful. Please try again using different credentials or try again later.
+              </p>
+            </div> 
+            <div class="field">
+              <div class="control">
+                <label class="checkbox is-unselectable">
+                  <input id="user-modal-save-login-checkbox" type="checkbox">
+                  Save my login details.
+                </label>
+              </div>
+            </div>
+            <hr>
+            <div class="content">
+              <p>
+                By using the service, you agree to our 
+                <a href="https://gitlab.com/banana-hackers/store-db/-/blob/master/TERMS.md" target="_blank">Privacy Policy</a>.
+              </p>
+            </div>     
           </div>
         </section>
         <footer class="modal-card-foot">
@@ -178,7 +194,7 @@
           <div id="app-details-modal-app-screenshots-container" class="container">
             <div class="content">
               <div id="app-details-modal-app-screenshots" class="columns is-multiline"></div>
-              <hr>
+              <hr id="app-details-modal-description-separator">
             </div>
           </div>
           <div class="container">
@@ -198,6 +214,54 @@
                 <li id="app-details-modal-app-license">License: <b>unknown</b></li>
                 <li id="app-details-modal-app-downloadCount">Downloads: <b>unknown</b></li>
               </ul>
+            </div>
+          </div>
+          <div class="container">
+            <hr>
+            <p id="app-details-modal-app-ratings-not-logged-in" class="is-hidden is-unselectable">
+              To rate, log in using the button.
+            </p>
+            <div id="app-details-modal-app-ratings-logged-in" class="is-hidden">
+              <h2 class="title is-4 is-unselectable">Personal rating</h2>
+              <div class="field">
+                <label class="label is-unselectable">You give this app:</label>
+                <div class="control has-icons-left">
+                  <div class="icon is-small is-left">
+                    <i class="fas fa-star"></i>
+                  </div>
+                  <div class="select">
+                    <select id="app-details-modal-app-ratings-logged-in-points" disabled="disabled">
+                      <option value="1">One point</option>
+                      <option value="2">Two points</option>
+                      <option value="3">Three points</option>
+                      <option value="4">Four points</option>
+                      <option value="5">Five points</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="field">
+                <label class="label is-unselectable">Because of:</label>
+                <div class="control">
+                  <textarea id="app-details-modal-app-ratings-logged-in-description" class="textarea" placeholder="More than 2 characters." disabled="disabled"></textarea>
+                </div>
+                <p id="app-details-modal-rating-incomplete-blurb" class="help is-danger is-hidden">
+                  2 or more characters required for rating!
+                </p>
+              </div>
+              <div class="field is-grouped">
+                <div class="control">
+                  <button id="app-details-modal-app-ratings-logged-in-submit-button" class="button is-link" disabled="disabled">Submit</button>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <div>
+              <h2 class="title is-4 is-unselectable">Other ratings</h2>
+              <div id="app-details-modal-app-ratings-all-ratings">
+                Loading ratings...
+                <br>
+              </div>
             </div>
           </div>
         </section>
@@ -237,6 +301,27 @@
         <footer class="modal-card-foot">
           <button id="app-download-modal-install-button" class="button is-primary" disabled="disabled">Install directly</button>
           <button id="app-download-modal-download-button" class="button">Download manually</button>
+        </footer>
+      </div>
+    </div>
+    <div id="webstore-update-modal" class="modal">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">WebStore update available</p>
+        </header>
+        <section class="modal-card-body">
+          <div class="container">
+            <div class="content">
+              <p>
+                There is an update for WebStore available. Click the update button to reload the new version.
+              </p>
+            </div>
+          </div>
+        </section>
+        <footer class="modal-card-foot">
+          <button id="webstore-update-modal-update-button" class="button is-success">Update</button>
+          <button class="button is-danger" data-bulma-modal="close">Ignore</button>
         </footer>
       </div>
     </div>
