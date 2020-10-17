@@ -6,6 +6,9 @@ var currentSelectedCategory = "all"
 
 var StoreDbAPI = new StoreDatabaseAPI()
 
+var isFirstInitCompleted = false
+var currentWebStoreVersion = ''
+
 function generateReadableCategories (categories) {
   var readableCategories = ''
   const categoriesLength = categories.length
@@ -33,12 +36,12 @@ function listAppsByCategory (category, sort) {
   return StoreDbAPI.sortApps(StoreDbAPI.getAppsByCategory(category), sort)
 }
 
-function addAppCard (appInfo) {
+function addAppCard (appDetails) {
   appsListElement.appendChild(document.createElement('br'))
 
   var card = document.createElement('div')
   card.classList.add('card')
-  card.id = appInfo.slug
+  card.id = appDetails.slug
   appsListElement.appendChild(card)
 
   var cardContent = document.createElement('div')
@@ -57,7 +60,7 @@ function addAppCard (appInfo) {
   figure.classList.add('image', 'is-48x48', 'is-unselectable')
 
   var img = document.createElement('img')
-  img.src = appInfo.icon
+  img.src = appDetails.icon
 
   figure.appendChild(img)
 
@@ -69,17 +72,17 @@ function addAppCard (appInfo) {
   
   var mediaContentTitle = document.createElement('p')
   mediaContentTitle.classList.add('title', 'is-4')
-  mediaContentTitle.innerText = appInfo.name
+  mediaContentTitle.innerText = appDetails.name
   mediaContent.appendChild(mediaContentTitle)
 
   var mediaContentSubtitle = document.createElement('p')
   mediaContentSubtitle.classList.add('subtitle', 'is-6')
-  mediaContentSubtitle.innerText = generateReadableCategories(appInfo.meta.categories)
+  mediaContentSubtitle.innerText = generateReadableCategories(appDetails.meta.categories)
   mediaContent.appendChild(mediaContentSubtitle)
 
   var content = document.createElement('div')
   content.classList.add('content')
-  content.innerText = appInfo.description
+  content.innerText = appDetails.description
   cardContent.appendChild(content)
 
   var cardFooter = document.createElement('footer')
@@ -88,14 +91,14 @@ function addAppCard (appInfo) {
 
   var cardFooter_ViewAppDetails = document.createElement('a')
   cardFooter_ViewAppDetails.classList.add('card-footer-item', 'is-unselectable', 'app')
-  cardFooter_ViewAppDetails.setAttribute('data-app-categories', appInfo.meta.categories.toString())
-  cardFooter_ViewAppDetails.setAttribute('data-app-name', appInfo.name)
+  cardFooter_ViewAppDetails.setAttribute('data-app-categories', appDetails.meta.categories.toString())
+  cardFooter_ViewAppDetails.setAttribute('data-app-name', appDetails.name)
   cardFooter_ViewAppDetails.innerText = 'View app details'
   cardFooter.appendChild(cardFooter_ViewAppDetails)
 
   var cardFooter_ShareApp = document.createElement('a')
   cardFooter_ShareApp.classList.add('card-footer-item', 'is-unselectable', 'share')
-  cardFooter_ShareApp.href = '#' + appInfo.slug
+  cardFooter_ShareApp.href = '#' + appDetails.slug
   cardFooter_ShareApp.innerText = 'Copy link to app'
   cardFooter.appendChild(cardFooter_ShareApp)
 }
@@ -206,8 +209,12 @@ var appDetailsModal = {
     ratings: {
       notLoggedIn: document.getElementById('app-details-modal-app-ratings-not-logged-in'),
       loggedIn: {
-        container: document.getElementById('app-details-modal-app-ratings-logged-in')
-      }
+        container: document.getElementById('app-details-modal-app-ratings-logged-in'),
+        points: document.getElementById('app-details-modal-app-ratings-logged-in-points'),
+        description: document.getElementById('app-details-modal-app-ratings-logged-in-description'),
+        submitButton: document.getElementById('app-details-modal-app-ratings-logged-in-submit-button')
+      },
+      allRatings: document.getElementById("app-details-modal-app-ratings-all-ratings")
     }
   },
   buttons: {
@@ -224,17 +231,17 @@ appDetailsModal.controller.addEventListener('modal:close', function () {
   document.getElementsByTagName( 'html' )[0].classList.remove('is-clipped')
 })
 
-appDetailsModal.buttons.download.onclick = function (e) {
+appDetailsModal.buttons.download.onclick = function () {
   appDownloadsModal.controller.show()
 }
 
-appDetailsModal.buttons.donation.onclick = function (e) {
+appDetailsModal.buttons.donation.onclick = function () {
   window.open(e.target.getAttribute('data-app-donate'), '_blank')
 }
 
 var userDetails = {
-  username: localStorage.getItem('webstore-ratings-username'),
-  logintoken: localStorage.getItem('webstore-ratings-logintoken')
+  username: null,
+  logintoken: null
 }
 
 var userModal = {
@@ -250,6 +257,30 @@ var userModal = {
   }
 }
 
+userModal.controller.addEventListener('modal:show', function () {
+  var isLoginDetailsSaved = false
+
+  const username = localStorage.getItem('webstore-ratings-username')
+  if (username !== null) {
+    userModal.content.usernameInput.value = username
+    isLoginDetailsSaved = true
+  } else {
+    userModal.content.usernameInput.value = ''
+  }
+
+  const logintoken = localStorage.getItem('webstore-ratings-logintoken')
+  if (logintoken !== null) {
+    userModal.content.logintokenInput.value = logintoken
+    isLoginDetailsSaved = true
+  } else {
+    userModal.content.logintokenInput.value = ''
+  }
+
+  if (isLoginDetailsSaved) {
+    userModal.content.saveLoginCheckbox.checked = true
+  }
+})
+
 userModal.controller.addEventListener('modal:close', function () {
   userModal.content.loginFailedBlurb.classList.add('is-hidden')
 })
@@ -264,12 +295,8 @@ var userButton = {
 
 userButton.button.onclick = function () {
   if (isUserLoggedIn) {
-    if (!userModal.content.saveLoginCheckbox.checked) {
-      userDetails.username = null,
-      userDetails.logintoken = null
-      userModal.content.usernameInput.value = ''
-      userModal.content.logintokenInput.value = ''
-    } 
+    userDetails.username = null,
+    userDetails.logintoken = null
     userButton.button.classList.remove('is-danger')
     userButton.button.classList.add('is-link')
     userButton.text.innerText = 'Login'
@@ -279,26 +306,6 @@ userButton.button.onclick = function () {
   } else {
     userModal.controller.show()
   }
-}
-
-var isLoginDetailsSaved = false
-
-if (userDetails.username !== null) {
-  userModal.content.usernameInput.value = userDetails.username
-  isLoginDetailsSaved = true
-} else {
-  userModal.content.usernameInput.value = ''
-}
-
-if (userDetails.logintoken !== null) {
-  userModal.content.logintokenInput.value = userDetails.logintoken
-  isLoginDetailsSaved = true
-} else {
-  userModal.content.logintokenInput.value = ''
-}
-
-if (isLoginDetailsSaved) {
-  userModal.content.saveLoginCheckbox.checked = true
 }
 
 function loginSuccessCb () {
@@ -325,7 +332,6 @@ userModal.buttons.login.onclick = function () {
   userModal.content.logintokenInput.disabled = true
   StoreDbAPI.loginToRatingsAccount(userDetails.username, userDetails.logintoken).then(function (e) {
     loginSuccessCb()
-    console.log(e)
   }).catch(function (err) {
     StoreDbAPI.createRatingsAccount(userDetails.username, userDetails.logintoken).then(function (e) {
       loginSuccessCb()
@@ -350,6 +356,103 @@ userModal.content.saveLoginCheckbox.onchange = function (e) {
   }
 }
 
+function reloadAppRatings (appID) {
+  appDetailsModal.content.ratings.loggedIn.points.value = 1
+  appDetailsModal.content.ratings.loggedIn.description.value = ''
+  appDetailsModal.content.ratings.loggedIn.points.disabled = true
+  appDetailsModal.content.ratings.loggedIn.description.disabled = true
+  appDetailsModal.content.ratings.loggedIn.submitButton.disabled = true
+  appDetailsModal.content.ratings.allRatings.innerHTML = 'Loading ratings... <br>'
+  StoreDbAPI.getAppRatings(appID).then(function (returnMessage) {
+    appDetailsModal.content.ratings.allRatings.innerHTML = ''
+
+    var isPersonalReviewExists = false
+
+    if (returnMessage.response.data.average) {
+      var averageRatingElement = document.createElement('h3')
+      averageRatingElement.classList.add('title', 'is-6', 'is-unselectable')
+      averageRatingElement.innerText = `Average points rating: ${returnMessage.response.data.average} points`
+      appDetailsModal.content.ratings.allRatings.appendChild(averageRatingElement)
+      averageRatingElement.appendChild(document.createElement('hr'))
+    }
+    for (const review of returnMessage.response.data.ratings) {
+      if (review.username == userDetails.username) {
+        appDetailsModal.content.ratings.loggedIn.points.disabled = false
+        appDetailsModal.content.ratings.loggedIn.description.disabled = false
+        appDetailsModal.content.ratings.loggedIn.points.value = review.points
+        appDetailsModal.content.ratings.loggedIn.description.value = review.description
+        appDetailsModal.content.ratings.loggedIn.points.disabled = true
+        appDetailsModal.content.ratings.loggedIn.description.disabled = true
+        isPersonalReviewExists = true
+      } else {
+        var ratingCardElement = document.createElement('div')
+        ratingCardElement.classList.add('card')
+        appDetailsModal.content.ratings.allRatings.appendChild(ratingCardElement)
+        appDetailsModal.content.ratings.allRatings.appendChild(document.createElement('br'))
+
+        var ratingCardContentElement = document.createElement('div')
+        ratingCardContentElement.classList.add('card-content')
+        ratingCardElement.appendChild(ratingCardContentElement)
+
+        var ratingDescriptionElement = document.createElement('p')
+        ratingDescriptionElement.classList.add('title', 'is-5')
+        ratingDescriptionElement.innerText = review.description
+        ratingCardContentElement.appendChild(ratingDescriptionElement)
+
+        var ratingInfoElement = document.createElement('p')
+        ratingInfoElement.classList.add('subtitle', 'is-6')
+        ratingInfoElement.innerText = `${review.username} • ${review.points} points • ${new Date(review.creationtime)}`
+        ratingCardContentElement.appendChild(ratingInfoElement)
+      }
+    }
+
+    appDetailsModal.content.ratings.loggedIn.submitButton.setAttribute('data-app-appid', appID)
+    if (isPersonalReviewExists) {
+      appDetailsModal.content.ratings.loggedIn.points.disabled = true
+      appDetailsModal.content.ratings.loggedIn.description.disabled = true
+      appDetailsModal.content.ratings.loggedIn.submitButton.disabled = true
+    } else {
+      appDetailsModal.content.ratings.loggedIn.points.disabled = false
+      appDetailsModal.content.ratings.loggedIn.description.disabled = false
+      appDetailsModal.content.ratings.loggedIn.submitButton.disabled = false
+    }
+
+    var noMoreRatingsElement = document.createElement('span')
+    noMoreRatingsElement.classList.add('title', 'is-6')
+    noMoreRatingsElement.innerText = 'No more ratings.'
+    appDetailsModal.content.ratings.allRatings.appendChild(noMoreRatingsElement)
+    appDetailsModal.content.ratings.allRatings.appendChild(document.createElement('hr'))
+  }).catch(function (err) {
+    bulmaToast.toast({
+      message: 'Ratings could not be loaded! Check the console for more info.',
+      type: "is-danger",
+      position: "top-center",
+      closeOnClick: true,
+      pauseOnHover: true,
+      animate: toastAnimateOptions
+    })
+    console.error(err)
+  })
+}
+
+appDetailsModal.content.ratings.loggedIn.submitButton.onclick = function (e) {
+  if (appDetailsModal.content.ratings.loggedIn.description.value.length > 2 && isUserLoggedIn) {
+    appDetailsModal.content.ratings.loggedIn.points.disabled = true
+    appDetailsModal.content.ratings.loggedIn.description.disabled = true
+    StoreDbAPI.addNewRating(
+      userDetails.username, 
+      userDetails.logintoken, 
+      e.target.getAttribute('data-app-appid'), 
+      appDetailsModal.content.ratings.loggedIn.points.value,
+      appDetailsModal.content.ratings.loggedIn.description.value
+    ).then(function () {
+      reloadAppRatings()
+    }).catch(function () {
+      reloadAppRatings()
+    })
+  }
+}
+
 var appDownloadsModal = {
   controller: new BulmaModal('#app-download-modal'),
   content: {
@@ -365,7 +468,7 @@ var appDownloadsModal = {
 appDownloadsModal.buttons.download.onclick = function (e) {
   e.target.classList.add('is-loading')
   e.target.disabled = true
-  StoreDbAPI.dlCountApp(e.target.getAttribute('data-app-slug')).then(function () {
+  StoreDbAPI.dlCountApp(e.target.getAttribute('data-app-appid')).then(function () {
     e.target.disabled = false
     e.target.classList.remove('is-loading')
     window.open(e.target.getAttribute('data-app-download'), '_blank')
@@ -482,12 +585,14 @@ appsListElement.onclick = function (e) {
           appDetailsModal.content.downloadCount.innerHTML = 'Downloads: <b>unknown</b>'
         }
 
+        reloadAppRatings(appDetails.slug)
+
         if (appDetails.download.url) {
           appDetailsModal.buttons.download.style.display = 'initial'
           appDetailsModal.buttons.download.setAttribute('data-app-download', appDetails.download.url)
           appDownloadsModal.buttons.download.style.display = 'initial'
           appDownloadsModal.buttons.download.setAttribute('data-app-download', appDetails.download.url)
-          appDownloadsModal.buttons.download.setAttribute('data-app-slug', appDetails.slug)
+          appDownloadsModal.buttons.download.setAttribute('data-app-appid', appDetails.slug)
           appDownloadsModal.content.qrcode.innerHTML = ''
           new QRCode(appDownloadsModal.content.qrcode, "bhackers:" + appDetails.slug)
         } else {
@@ -547,10 +652,24 @@ appsListElement.onclick = function (e) {
   }
 }
 
+var updateModal = {
+  controller: new BulmaModal('#webstore-update-modal'),
+  buttons: {
+    update: document.getElementById('webstore-update-modal-update-button'),
+  }
+}
+
+updateModal.buttons.update.onclick = function () {
+  location.reload()
+}
+
 function reloadData () {
   sortSelect.disabled = true
   reloadButton.classList.add('is-loading')
   reloadButton.disabled = true
+
+  var githubCommitLabel = document.getElementById('webstore-github-commit-label')
+  githubCommitLabel.classList.remove('is-danger')
 
   categoriesTabsElement.innerHTML = ''
   appsListElement.innerHTML = ''
@@ -611,6 +730,27 @@ function reloadData () {
     pageLoadedLabel.classList.remove('is-danger')
     pageLoadedLabel.classList.add('is-success')
 
+    var githubCommitWorker = new Worker('assets/js/index/workers/githubcommit-worker.js')
+    githubCommitWorker.onmessage = function (e) {
+      githubCommitWorker.terminate()
+      if (e.data !== null) {
+        githubCommitLabel.innerText = e.data.substring(0, 7)
+        githubCommitLabel.setAttribute('href', 'https://github.com/jkelol111/webstore/blob/' + e.data + '/src/')
+        githubCommitLabel.classList.remove('is-danger')
+        githubCommitLabel.classList.add('is-success')
+
+        if (!isFirstInitCompleted) {
+          currentWebStoreVersion = e.data
+          isFirstInitCompleted = true
+        }
+
+        if (e.data !== currentWebStoreVersion) {
+          updateModal.controller.show()
+        }
+      }
+    }
+    githubCommitWorker.postMessage(null)
+
     bulmaToast.toast({
       message: 'Data loaded successfully!',
       type: "is-success",
@@ -637,16 +777,3 @@ reloadButton.onclick = function () {
 }
 
 reloadData()
-
-var githubCommitWorker = new Worker('assets/js/index/workers/githubcommit-worker.js')
-githubCommitWorker.onmessage = function (e) {
-  githubCommitWorker.terminate()
-  if (e.data !== null) {
-    var githubCommitLabel = document.getElementById('webstore-github-commit-label')
-    githubCommitLabel.innerText = e.data.substring(0, 7)
-    githubCommitLabel.setAttribute('href', 'https://github.com/jkelol111/webstore/blob/' + e.data + '/src/')
-    githubCommitLabel.classList.remove('is-danger')
-    githubCommitLabel.classList.add('is-success')
-  }
-}
-githubCommitWorker.postMessage(null)

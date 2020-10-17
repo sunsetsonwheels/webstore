@@ -1,11 +1,9 @@
-importScripts('wlog.js', 'sync-requests.js')
+const WORKER_NAME = "Ratings"
+
+importScripts('common.js')
 
 onmessage = (e) => {
   wLog('log', 'Ratings worker started.')
-
-  const fixedHeaders = {
-    'Content-Type': 'application/json'
-  }
 
   var returnMessage = {
     success: false,
@@ -17,7 +15,7 @@ onmessage = (e) => {
       wLog('log', 'Selected command "count".')
       if (e.data.args.slug) {
         wLog('log', 'Making request to download counts tracker.')
-        const request = syncJSONRequest({
+        const request = syncRequest({
           type: 'GET',
           url: 'https://bhackers.uber.space/srs/v1/download_counter/count/' + e.data.slug,
           timeout: 2000
@@ -48,7 +46,11 @@ onmessage = (e) => {
         if (request.success) {
           returnMessage.success = true
         } else {
-
+          if (request.error === 409) {
+            wLog('error', 'The ratings server rejected the creation request.')
+          } else {
+            wLog('error', 'Error making request to ratings server: ' + request.error)
+          }
         }
       }
       break
@@ -91,7 +93,7 @@ onmessage = (e) => {
         wLog('log', 'Making request to ratings server.')
         const request = syncJSONRequest({
           type: 'POST',
-          url: 'https://bhackers.uber.space/srs/v1/ratings/' + e.data.args.slug + '/add',
+          url: 'https://bhackers.uber.space/srs/v1/ratings/' + e.data.args.appid + '/add',
           headers: fixedHeaders,
           body: JSON.stringify({
             username: e.data.args.username,
@@ -107,6 +109,28 @@ onmessage = (e) => {
             wLog('log', 'Recorded rating to ratings server successfully!')
           } else {
             wLog('error', 'Could not record ratings to server: ' + returnMessage.response.error)
+          }
+        } else {
+          wLog('error', 'Error making request to ratings server: ' + request.error)
+        }
+      }
+      break
+    case 'get':
+      wLog('log', 'Selected command "get".')
+      if (e.data.args.appid) {
+        wLog('log', 'Making request to ratings server.')
+        const request = syncJSONRequest({
+          type: 'GET',
+          url: 'https://bhackers.uber.space/srs/v1/ratings/' + e.data.args.appid,
+          headers: fixedHeaders
+        })
+        if (request.success) {
+          returnMessage.response = request
+          if (returnMessage.response.success) {
+            returnMessage.success = true
+            wLog('log', `Got ratings for app '${e.data.args.appid}' successfully!`)
+          } else {
+            wLog('error', `Could not get ratings for app "${e.data.args.appid}!"`)
           }
         } else {
           wLog('error', 'Error making request to ratings server: ' + request.error)

@@ -218,19 +218,19 @@
           </div>
           <div class="container">
             <hr>
-            <p id="app-details-modal-app-ratings-not-logged-in" class="is-hidden">
+            <p id="app-details-modal-app-ratings-not-logged-in" class="is-hidden is-unselectable">
               To rate, log in using the button.
             </p>
             <div id="app-details-modal-app-ratings-logged-in" class="is-hidden">
-              <h2 class="title is-4">Personal rating</h2>
+              <h2 class="title is-4 is-unselectable">Personal rating</h2>
               <div class="field">
-                <label class="label">You give this app:</label>
+                <label class="label is-unselectable">You give this app:</label>
                 <div class="control has-icons-left">
                   <div class="icon is-small is-left">
                     <i class="fas fa-star"></i>
                   </div>
                   <div class="select">
-                    <select disabled>
+                    <select id="app-details-modal-app-ratings-logged-in-points" disabled>
                       <option value="1">One point</option>
                       <option value="2">Two points</option>
                       <option value="3">Three points</option>
@@ -241,20 +241,20 @@
                 </div>
               </div>
               <div class="field">
-                <label class="label">Because of:</label>
+                <label class="label is-unselectable">Because of:</label>
                 <div class="control">
-                  <textarea class="textarea" placeholder="More than 2 characters." disabled></textarea>
+                  <textarea id="app-details-modal-app-ratings-logged-in-description" class="textarea" placeholder="More than 2 characters." disabled></textarea>
                 </div>
               </div>
               <div class="field is-grouped">
                 <div class="control">
-                  <button class="button is-link" disabled>Submit</button>
+                  <button id="app-details-modal-app-ratings-logged-in-submit-button" class="button is-link" disabled>Submit</button>
                 </div>
               </div>
             </div>
             <hr>
             <div>
-              <h2 class="title is-4">All other ratings</h2>
+              <h2 class="title is-4 is-unselectable">Other ratings</h2>
               <div id="app-details-modal-app-ratings-all-ratings">
                 Loading ratings...
                 <br>
@@ -298,6 +298,27 @@
         <footer class="modal-card-foot">
           <button id="app-download-modal-install-button" class="button is-primary" disabled>Install directly</button>
           <button id="app-download-modal-download-button" class="button">Download manually</button>
+        </footer>
+      </div>
+    </div>
+    <div id="webstore-update-modal" class="modal">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">WebStore update available</p>
+        </header>
+        <section class="modal-card-body">
+          <div class="container">
+            <div class="content">
+              <p>
+                There is an update for WebStore available. Click the update button to reload the new version.
+              </p>
+            </div>
+          </div>
+        </section>
+        <footer class="modal-card-foot">
+          <button id="webstore-update-modal-update-button" class="button is-success">Update</button>
+          <button class="button is-danger" data-bulma-modal="close">Ignore</button>
         </footer>
       </div>
     </div>

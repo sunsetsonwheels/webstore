@@ -87,7 +87,7 @@ class StoreDatabaseAPI {
     })
   }
 
-  getAppRatings (appSlug) {
+  getAppRatings (appID) {
     return new Promise(function (resolve, reject) {
       var worker = new Worker('assets/js/index/workers/ratings-worker.js')
       worker.onmessage = function (e) {
@@ -103,9 +103,9 @@ class StoreDatabaseAPI {
         reject()
       }
       worker.postMessage({
-        commmand: 'get',
+        command: 'get',
         args: {
-          slug: appSlug
+          appid: appID
         }
       })
     })
@@ -159,5 +159,33 @@ class StoreDatabaseAPI {
         }
       })
     }) 
+  }
+
+  addNewRating (ausername, alogintoken, rappid, rpoints, rdescription) {
+    return new Promise(function (resolve, reject) {
+      var worker = new Worker('assets/js/index/workers/ratings-worker.js')
+      worker.onmessage = function (e) {
+        worker.terminate()
+        if (e.data.success) {
+          resolve(e.data)
+        } else {
+          reject(e.data)
+        }
+      }
+      worker.onerror = function (err) {
+        worker.terminate()
+        reject(err)
+      }
+      worker.postMessage({
+        command: 'add',
+        args: {
+          username: ausername,
+          logintoken: alogintoken,
+          appid: rappid,
+          points: rpoints,
+          description: rdescription
+        }
+      })
+    })
   }
 }

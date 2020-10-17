@@ -1,4 +1,6 @@
-importScripts('wlog.js')
+const WORKER_NAME = "Sort"
+
+importScripts('common.js')
 
 onmessage = function (e) {
   wLog('log', 'Sort worker started.')

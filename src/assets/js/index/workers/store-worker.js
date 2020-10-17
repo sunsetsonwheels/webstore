@@ -1,4 +1,8 @@
-importScripts('wlog.js', 'sync-requests.js')
+'use strict'
+
+const WORKER_NAME = "Store"
+
+importScripts('common.js')
 
 const stores = [
   "https://banana-hackers.gitlab.io/store-db/data.json",
@@ -24,10 +28,6 @@ onmessage = function () {
       downloadCounts: {}
     },
     generatedAt: null
-  }
-
-  const fixedHeaders = {
-    'Content-Type': 'application/json'
   }
 
   function resetStoreData () {
