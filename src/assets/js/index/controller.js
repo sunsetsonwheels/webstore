@@ -453,11 +453,11 @@ appDetailsModal.content.ratings.loggedIn.submitButton.onclick = function (e) {
       appDetailsModal.content.ratings.loggedIn.description.value
     ).then(function () {
       setTimeout(function () {
-        reloadAppRatings()
+        reloadAppRatings(e.target.getAttribute('data-app-appid'))
       }, 2000)
     }).catch(function () {
       setTimeout(function () {
-        reloadAppRatings()
+        reloadAppRatings(e.target.getAttribute('data-app-appid'))
       }, 2000)
     })
   } else {
