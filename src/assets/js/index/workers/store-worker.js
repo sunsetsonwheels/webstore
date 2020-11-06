@@ -6,7 +6,7 @@ importScripts('common.js')
 
 const stores = [
   "https://banana-hackers.gitlab.io/store-db/data.json",
-  "https://bananahackers.github.io/data.json"
+  "https://bananahackers.github.io/store-db/data.json"
 ]
 
 const downloadCounters = [
