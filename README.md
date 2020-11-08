@@ -61,4 +61,4 @@ This project wouldn't have been possible without the following resources and pro
 - Font Awesome 5: https://fontawesome.com/
 - Animate.CSS: https://github.com/animate-css/animate.css
 
-and all the people at BananaHackers, 40min, perry and shangul for maintaining the BananaHackers Store on GitLab and GitHub, and of course, all the Mozilla Developer Network documentation ;)
+and all the people at BananaHackers, 4Omin, perry and Farooq Karimi Zadeh for maintaining the BananaHackers Store on GitLab and GitHub, and of course, all the Mozilla Developer Network documentation ;)

@@ -42,6 +42,7 @@ onmessage = function () {
     const request = syncJSONRequest({
       type: 'GET',
       url: store,
+      timeout: 10000,
       headers: fixedHeaders,
     })
     if (request.success) {
@@ -99,6 +100,7 @@ onmessage = function () {
       const request = syncJSONRequest({
         type: 'GET',
         url: downloadCounter,
+        timeout: 10000,
         headers: fixedHeaders
       })
       if (request.success) {
