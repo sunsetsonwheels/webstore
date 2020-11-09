@@ -143,6 +143,12 @@ sortSelect.onchange = function (e) {
     sortSelect.disabled = false
     reloadButton.disabled = false
 
+    try {
+      window.location.hash = window.location.hash.split("#")[1]
+    } catch (err) {
+      window.location.hash = ""
+    }
+
     bulmaToast.toast({
       message: 'Apps sorted successfully!',
       type: "is-success",
