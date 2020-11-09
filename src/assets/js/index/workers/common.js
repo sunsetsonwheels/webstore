@@ -1,7 +1,7 @@
 'use strict'
 
 const fixedHeaders = {
-  'Content-Type': 'application/json'
+  'Content-Type': 'text/plain'
 }
 
 function wLog (type, message) {
