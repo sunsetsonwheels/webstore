@@ -24,7 +24,7 @@ The WebStore can be run directly from `src/index.html` in this Git repository. F
 
 - Install build dependencies:
 ```bash
-sudo npm install -g gulp-cli
+npm install -g gulp-cli
 npm install
 ```
 - Build the project:
