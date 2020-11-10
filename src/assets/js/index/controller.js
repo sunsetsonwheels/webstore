@@ -242,7 +242,7 @@ appDetailsModal.buttons.download.onclick = function () {
   appDownloadsModal.controller.show()
 }
 
-appDetailsModal.buttons.donation.onclick = function () {
+appDetailsModal.buttons.donation.onclick = function (e) {
   window.open(e.target.getAttribute('data-app-donate'), '_blank')
 }
 
