@@ -9,27 +9,31 @@ var StoreDbAPI = new StoreDatabaseAPI()
 var isFirstInitCompleted = false
 var currentWebStoreVersion = ''
 
-function generateReadableCategories (categories) {
-  var readableCategories = ''
-  const categoriesLength = categories.length
-  for (const categoryIndex in categories) {
-    const categoryRawName = categories[categoryIndex]
-    const categoryFriendlyName = StoreDbAPI.db.categories[categoryRawName].name
-    if (categoryIndex + 1 < categoriesLength) {
-      if (categoryFriendlyName) {
-        readableCategories += categoryFriendlyName + ', '
-      } else {
-        readableCategories += categoryRawName + ', '
-      }
+function separateArrayCommas (array) {
+  var separated = ''
+  const arrayLength = array.length
+  for (const index in array) {
+    if (index + 1 < arrayLength) {
+      separated += array[index] + ', '
     } else {
-      if (categoryFriendlyName) {
-        readableCategories += categoryFriendlyName + ' '
-      } else {
-        readableCategories += categoryRawName
-      }
+      separated += array[index] + ' '
     }
   }
-  return readableCategories
+  return separated
+}
+
+function generateReadableCategories (categories) {
+  var rawCategories = []
+  for (const index in categories) {
+    const categoryRawName = categories[index]
+    const categoryFriendlyName = StoreDbAPI.db.categories[categoryRawName].name
+    if (categoryFriendlyName) {
+      rawCategories.push(categoryFriendlyName)
+    } else {
+      rawCategories.push(categoryRawName)
+    }
+  }
+  return separateArrayCommas(rawCategories)
 }
 
 function listAppsByCategory (category, sort) {
@@ -560,9 +564,17 @@ appsListElement.onclick = function (e) {
         }
 
         if (appDetails.author) {
-          appDetailsModal.content.maintainer.innerHTML = 'Author(s): <b>' + appDetails.author + '</b>'
+          if (typeof appDetails.author == "string") {
+            appDetailsModal.content.maintainer.innerHTML = 'Author(s): <b>' + appDetails.author + '</b>'
+          } else if (Array.isArray(appDetails.author)) {
+            appDetailsModal.content.maintainer.innerHTML = 'Author(s): <b>' + separateArrayCommas(appDetails.author) + '</b>'
+          }
         } else if (appDetails.maintainer) {
-          appDetailsModal.content.maintainer.innerHTML = 'Maintainer(s): <b>' + appDetails.maintainer + '</b>'
+          if (typeof appDetails.maintainer == "string") {
+            appDetailsModal.content.maintainer.innerHTML = 'Maintainer(s): <b>' + appDetails.maintainer + '</b>'
+          } else if (Array.isArray(appDetails.maintainer)) {
+            appDetailsModal.content.maintainer.innerHTML = 'Maintainer(s): <b>' + separateArrayCommas(appDetails.maintainer) + '</b>'
+          }
         } else {
           appDetailsModal.content.maintainer.innerHTML = 'Authors/maintainers: <b>unknown</b>'
         }
