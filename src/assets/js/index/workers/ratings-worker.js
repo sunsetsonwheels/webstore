@@ -2,6 +2,10 @@ const WORKER_NAME = "Ratings"
 
 importScripts('common.js')
 
+const jsonHeader = {
+  'Content-Type': 'application/json'
+}
+
 onmessage = (e) => {
   wLog('log', 'Ratings worker started.')
 
@@ -37,7 +41,7 @@ onmessage = (e) => {
         const request = syncJSONRequest({
           type: 'POST',
           url: 'https://bhackers.uber.space/srs/v1/createuser',
-          headers: fixedHeaders,
+          headers: jsonHeader,
           body: JSON.stringify({
             username: e.data.args.username,
             logintoken: e.data.args.logintoken
@@ -61,7 +65,7 @@ onmessage = (e) => {
         const request = syncJSONRequest({
           type: 'POST',
           url: 'https://bhackers.uber.space/srs/v1/checkuser',
-          headers: fixedHeaders,
+          headers: jsonHeader,
           body: JSON.stringify({
             username: e.data.args.username,
             logintoken: e.data.args.logintoken
@@ -94,7 +98,7 @@ onmessage = (e) => {
         const request = syncJSONRequest({
           type: 'POST',
           url: 'https://bhackers.uber.space/srs/v1/ratings/' + e.data.args.appid + '/add',
-          headers: fixedHeaders,
+          headers: jsonHeader,
           body: JSON.stringify({
             username: e.data.args.username,
             logintoken: e.data.args.logintoken,
