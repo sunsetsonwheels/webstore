@@ -40,6 +40,121 @@ function listAppsByCategory (category, sort) {
   return StoreDbAPI.sortApps(StoreDbAPI.getAppsByCategory(category), sort)
 }
 
+function reloadAppRatings (appID) {
+  appDetailsModal.content.ratings.loggedIn.points.value = 1
+  appDetailsModal.content.ratings.loggedIn.description.value = ''
+  appDetailsModal.content.ratings.loggedIn.points.disabled = true
+  appDetailsModal.content.ratings.loggedIn.description.disabled = true
+  appDetailsModal.content.ratings.loggedIn.ratingIncompleteBlurb.classList.add('is-hidden')
+  appDetailsModal.content.ratings.loggedIn.submitButton.classList.add('is-loading')
+  appDetailsModal.content.ratings.loggedIn.submitButton.disabled = true
+  appDetailsModal.content.ratings.allRatings.innerHTML = 'Loading ratings... <br>'
+  StoreDbAPI.getAppRatings(appID).then(function (returnMessage) {
+    appDetailsModal.content.ratings.allRatings.innerHTML = ''
+
+    var isPersonalReviewExists = false
+
+    if (returnMessage.response.data.average) {
+      var averageRatingElement = document.createElement('h3')
+      averageRatingElement.classList.add('title', 'is-6', 'is-unselectable')
+      averageRatingElement.innerText = `Average points rating: ${returnMessage.response.data.average} points`
+      appDetailsModal.content.ratings.allRatings.appendChild(averageRatingElement)
+      averageRatingElement.appendChild(document.createElement('hr'))
+    }
+    for (const review of returnMessage.response.data.ratings) {
+      if (review.username == userDetails.username) {
+        appDetailsModal.content.ratings.loggedIn.points.disabled = false
+        appDetailsModal.content.ratings.loggedIn.description.disabled = false
+        appDetailsModal.content.ratings.loggedIn.points.value = review.points
+        appDetailsModal.content.ratings.loggedIn.description.value = review.description
+        appDetailsModal.content.ratings.loggedIn.points.disabled = true
+        appDetailsModal.content.ratings.loggedIn.description.disabled = true
+        isPersonalReviewExists = true
+      } else {
+        var ratingCardElement = document.createElement('div')
+        ratingCardElement.classList.add('card')
+        appDetailsModal.content.ratings.allRatings.appendChild(ratingCardElement)
+        appDetailsModal.content.ratings.allRatings.appendChild(document.createElement('br'))
+
+        var ratingCardContentElement = document.createElement('div')
+        ratingCardContentElement.classList.add('card-content')
+        ratingCardElement.appendChild(ratingCardContentElement)
+
+        var ratingDescriptionElement = document.createElement('p')
+        ratingDescriptionElement.classList.add('title', 'is-5')
+        ratingDescriptionElement.innerText = review.description
+        ratingCardContentElement.appendChild(ratingDescriptionElement)
+
+        var ratingInfoElement = document.createElement('p')
+        ratingInfoElement.classList.add('subtitle', 'is-6')
+        ratingInfoElement.innerText = `${review.username} • ${review.points} points • ${new Date(review.creationtime)}`
+        ratingCardContentElement.appendChild(ratingInfoElement)
+      }
+    }
+
+    appDetailsModal.content.ratings.loggedIn.submitButton.setAttribute('data-app-appid', appID)
+    if (isPersonalReviewExists) {
+      appDetailsModal.content.ratings.loggedIn.points.disabled = true
+      appDetailsModal.content.ratings.loggedIn.description.disabled = true
+      appDetailsModal.content.ratings.loggedIn.submitButton.disabled = true
+    } else {
+      appDetailsModal.content.ratings.loggedIn.points.disabled = false
+      appDetailsModal.content.ratings.loggedIn.description.disabled = false
+      appDetailsModal.content.ratings.loggedIn.submitButton.disabled = false
+    }
+    appDetailsModal.content.ratings.loggedIn.submitButton.classList.remove('is-loading')
+    var noMoreRatingsElement = document.createElement('span')
+    noMoreRatingsElement.classList.add('title', 'is-6')
+    noMoreRatingsElement.innerText = 'No more ratings.'
+    appDetailsModal.content.ratings.allRatings.appendChild(noMoreRatingsElement)
+    appDetailsModal.content.ratings.allRatings.appendChild(document.createElement('hr'))
+  }).catch(function (err) {
+    bulmaToast.toast({
+      message: 'Ratings could not be loaded! Check the console for more info.',
+      type: "is-danger",
+      position: "top-center",
+      closeOnClick: true,
+      pauseOnHover: true,
+      animate: toastAnimateOptions
+    })
+    console.error(err)
+  })
+}
+
+var appDownloadsModal = {
+  controller: new BulmaModal('#app-download-modal'),
+  content: {
+    name: document.getElementById('app-download-modal-app-name'),
+    icon: document.getElementById('app-download-modal-app-icon'),
+    qrcode: document.getElementById('app-download-modal-app-download-qrcode')
+  },
+  buttons: {
+    download: document.getElementById('app-download-modal-download-button')
+  }
+}
+
+appDownloadsModal.buttons.download.onclick = function (e) {
+  e.target.classList.add('is-loading')
+  e.target.disabled = true
+  StoreDbAPI.dlCountApp(e.target.getAttribute('data-app-appid')).then(function () {
+    e.target.disabled = false
+    e.target.classList.remove('is-loading')
+    window.open(e.target.getAttribute('data-app-download'), '_blank')
+  }).catch(function () {
+    e.target.disabled = false
+    e.target.classList.remove('is-loading')
+    bulmaToast.toast({
+      message: 'Failed to record download count! Check the console for more info.',
+      type: 'is-danger',
+      position: 'top-center',
+      closeOnClick: true,
+      closeOnHover: true,
+      animate: toastAnimateOptions
+    })
+  })
+  window.open(e.target.getAttribute('data-app-download'), '_blank')
+}
+
 var appDetailsModal = {
   controller: new BulmaModal('#app-details-modal'),
   content: {
@@ -91,6 +206,33 @@ appDetailsModal.buttons.download.onclick = function () {
 
 appDetailsModal.buttons.donation.onclick = function (e) {
   window.open(e.target.getAttribute('data-app-donate'), '_blank')
+}
+
+appDetailsModal.content.ratings.loggedIn.submitButton.onclick = function (e) {
+  appDetailsModal.content.ratings.loggedIn.ratingIncompleteBlurb.classList.add('is-hidden')
+  if (appDetailsModal.content.ratings.loggedIn.description.value.length > 2 && isUserLoggedIn) {
+    e.target.classList.add('is-loading')
+    e.target.disabled = true
+    appDetailsModal.content.ratings.loggedIn.points.disabled = true
+    appDetailsModal.content.ratings.loggedIn.description.disabled = true
+    StoreDbAPI.addNewRating(
+      userDetails.username, 
+      userDetails.logintoken, 
+      e.target.getAttribute('data-app-appid'), 
+      appDetailsModal.content.ratings.loggedIn.points.value,
+      appDetailsModal.content.ratings.loggedIn.description.value
+    ).then(function () {
+      setTimeout(function () {
+        reloadAppRatings(e.target.getAttribute('data-app-appid'))
+      }, 2000)
+    }).catch(function () {
+      setTimeout(function () {
+        reloadAppRatings(e.target.getAttribute('data-app-appid'))
+      }, 2000)
+    })
+  } else {
+    appDetailsModal.content.ratings.loggedIn.ratingIncompleteBlurb.classList.remove('is-hidden')
+  }
 }
 
 var appCardColumn = 0
@@ -382,6 +524,8 @@ sortSelect.onchange = function (e) {
     appCardColumnElement.innerHTML = ''
   }
 
+  appCardColumn = 0
+
   listAppsByCategory(currentSelectedCategory, e.target.value).then(function (appDetails) {
     for (const app in appDetails) {
       addAppCard(appDetails[app])
@@ -560,148 +704,6 @@ userModal.content.saveLoginCheckbox.onchange = function (e) {
     localStorage.removeItem('webstore-ratings-username')
     localStorage.removeItem('webstore-ratings-logintoken')
   }
-}
-
-function reloadAppRatings (appID) {
-  appDetailsModal.content.ratings.loggedIn.points.value = 1
-  appDetailsModal.content.ratings.loggedIn.description.value = ''
-  appDetailsModal.content.ratings.loggedIn.points.disabled = true
-  appDetailsModal.content.ratings.loggedIn.description.disabled = true
-  appDetailsModal.content.ratings.loggedIn.ratingIncompleteBlurb.classList.add('is-hidden')
-  appDetailsModal.content.ratings.loggedIn.submitButton.classList.add('is-loading')
-  appDetailsModal.content.ratings.loggedIn.submitButton.disabled = true
-  appDetailsModal.content.ratings.allRatings.innerHTML = 'Loading ratings... <br>'
-  StoreDbAPI.getAppRatings(appID).then(function (returnMessage) {
-    appDetailsModal.content.ratings.allRatings.innerHTML = ''
-
-    var isPersonalReviewExists = false
-
-    if (returnMessage.response.data.average) {
-      var averageRatingElement = document.createElement('h3')
-      averageRatingElement.classList.add('title', 'is-6', 'is-unselectable')
-      averageRatingElement.innerText = `Average points rating: ${returnMessage.response.data.average} points`
-      appDetailsModal.content.ratings.allRatings.appendChild(averageRatingElement)
-      averageRatingElement.appendChild(document.createElement('hr'))
-    }
-    for (const review of returnMessage.response.data.ratings) {
-      if (review.username == userDetails.username) {
-        appDetailsModal.content.ratings.loggedIn.points.disabled = false
-        appDetailsModal.content.ratings.loggedIn.description.disabled = false
-        appDetailsModal.content.ratings.loggedIn.points.value = review.points
-        appDetailsModal.content.ratings.loggedIn.description.value = review.description
-        appDetailsModal.content.ratings.loggedIn.points.disabled = true
-        appDetailsModal.content.ratings.loggedIn.description.disabled = true
-        isPersonalReviewExists = true
-      } else {
-        var ratingCardElement = document.createElement('div')
-        ratingCardElement.classList.add('card')
-        appDetailsModal.content.ratings.allRatings.appendChild(ratingCardElement)
-        appDetailsModal.content.ratings.allRatings.appendChild(document.createElement('br'))
-
-        var ratingCardContentElement = document.createElement('div')
-        ratingCardContentElement.classList.add('card-content')
-        ratingCardElement.appendChild(ratingCardContentElement)
-
-        var ratingDescriptionElement = document.createElement('p')
-        ratingDescriptionElement.classList.add('title', 'is-5')
-        ratingDescriptionElement.innerText = review.description
-        ratingCardContentElement.appendChild(ratingDescriptionElement)
-
-        var ratingInfoElement = document.createElement('p')
-        ratingInfoElement.classList.add('subtitle', 'is-6')
-        ratingInfoElement.innerText = `${review.username} • ${review.points} points • ${new Date(review.creationtime)}`
-        ratingCardContentElement.appendChild(ratingInfoElement)
-      }
-    }
-
-    appDetailsModal.content.ratings.loggedIn.submitButton.setAttribute('data-app-appid', appID)
-    if (isPersonalReviewExists) {
-      appDetailsModal.content.ratings.loggedIn.points.disabled = true
-      appDetailsModal.content.ratings.loggedIn.description.disabled = true
-      appDetailsModal.content.ratings.loggedIn.submitButton.disabled = true
-    } else {
-      appDetailsModal.content.ratings.loggedIn.points.disabled = false
-      appDetailsModal.content.ratings.loggedIn.description.disabled = false
-      appDetailsModal.content.ratings.loggedIn.submitButton.disabled = false
-    }
-    appDetailsModal.content.ratings.loggedIn.submitButton.classList.remove('is-loading')
-    var noMoreRatingsElement = document.createElement('span')
-    noMoreRatingsElement.classList.add('title', 'is-6')
-    noMoreRatingsElement.innerText = 'No more ratings.'
-    appDetailsModal.content.ratings.allRatings.appendChild(noMoreRatingsElement)
-    appDetailsModal.content.ratings.allRatings.appendChild(document.createElement('hr'))
-  }).catch(function (err) {
-    bulmaToast.toast({
-      message: 'Ratings could not be loaded! Check the console for more info.',
-      type: "is-danger",
-      position: "top-center",
-      closeOnClick: true,
-      pauseOnHover: true,
-      animate: toastAnimateOptions
-    })
-    console.error(err)
-  })
-}
-
-appDetailsModal.content.ratings.loggedIn.submitButton.onclick = function (e) {
-  appDetailsModal.content.ratings.loggedIn.ratingIncompleteBlurb.classList.add('is-hidden')
-  if (appDetailsModal.content.ratings.loggedIn.description.value.length > 2 && isUserLoggedIn) {
-    e.target.classList.add('is-loading')
-    e.target.disabled = true
-    appDetailsModal.content.ratings.loggedIn.points.disabled = true
-    appDetailsModal.content.ratings.loggedIn.description.disabled = true
-    StoreDbAPI.addNewRating(
-      userDetails.username, 
-      userDetails.logintoken, 
-      e.target.getAttribute('data-app-appid'), 
-      appDetailsModal.content.ratings.loggedIn.points.value,
-      appDetailsModal.content.ratings.loggedIn.description.value
-    ).then(function () {
-      setTimeout(function () {
-        reloadAppRatings(e.target.getAttribute('data-app-appid'))
-      }, 2000)
-    }).catch(function () {
-      setTimeout(function () {
-        reloadAppRatings(e.target.getAttribute('data-app-appid'))
-      }, 2000)
-    })
-  } else {
-    appDetailsModal.content.ratings.loggedIn.ratingIncompleteBlurb.classList.remove('is-hidden')
-  }
-}
-
-var appDownloadsModal = {
-  controller: new BulmaModal('#app-download-modal'),
-  content: {
-    name: document.getElementById('app-download-modal-app-name'),
-    icon: document.getElementById('app-download-modal-app-icon'),
-    qrcode: document.getElementById('app-download-modal-app-download-qrcode')
-  },
-  buttons: {
-    download: document.getElementById('app-download-modal-download-button')
-  }
-}
-
-appDownloadsModal.buttons.download.onclick = function (e) {
-  e.target.classList.add('is-loading')
-  e.target.disabled = true
-  StoreDbAPI.dlCountApp(e.target.getAttribute('data-app-appid')).then(function () {
-    e.target.disabled = false
-    e.target.classList.remove('is-loading')
-    window.open(e.target.getAttribute('data-app-download'), '_blank')
-  }).catch(function () {
-    e.target.disabled = false
-    e.target.classList.remove('is-loading')
-    bulmaToast.toast({
-      message: 'Failed to record download count! Check the console for more info.',
-      type: 'is-danger',
-      position: 'top-center',
-      closeOnClick: true,
-      closeOnHover: true,
-      animate: toastAnimateOptions
-    })
-  })
-  window.open(e.target.getAttribute('data-app-download'), '_blank')
 }
 
 var updateModal = {
