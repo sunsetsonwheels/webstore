@@ -391,9 +391,14 @@ sortSelect.onchange = function (e) {
     reloadButton.disabled = false
 
     try {
-      window.location.hash = window.location.hash.split("#")[1]
+      const appSlug = window.location.hash.split("#")[1]
+      if (typeof appSlug !== 'undefined') {
+        window.location.hash = appSlug
+      } else {
+        window.location.hash = ''
+      }
     } catch (err) {
-      window.location.hash = ""
+      window.location.hash = ''
     }
 
     bulmaToast.toast({
@@ -719,7 +724,7 @@ function reloadData () {
   githubCommitLabel.classList.remove('is-danger')
 
   categoriesTabsElement.innerHTML = ''
-  
+
   for (var appCardColumnElement of appCardsColumnElements) {
     appCardColumnElement.innerHTML = ''
   }
