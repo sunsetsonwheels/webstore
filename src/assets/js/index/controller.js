@@ -787,6 +787,11 @@ function reloadData () {
     pageLoadedLabel.classList.remove('is-danger')
     pageLoadedLabel.classList.add('is-success')
 
+    var totalAppsLabel = document.getElementById('data-total-apps-label')
+    totalAppsLabel.innerText = data.apps.raw.length
+    totalAppsLabel.classList.remove('is-danger')
+    totalAppsLabel.classList.add('is-success')
+
     var githubCommitWorker = new Worker('assets/js/index/workers/githubcommit-worker.js')
     githubCommitWorker.onmessage = function (e) {
       githubCommitWorker.terminate()
