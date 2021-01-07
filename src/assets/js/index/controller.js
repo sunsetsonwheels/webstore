@@ -139,7 +139,6 @@ appDownloadsModal.buttons.download.onclick = function (e) {
   StoreDbAPI.dlCountApp(e.target.getAttribute('data-app-appid')).then(function () {
     e.target.disabled = false
     e.target.classList.remove('is-loading')
-    window.open(e.target.getAttribute('data-app-download'), '_blank')
   }).catch(function () {
     e.target.disabled = false
     e.target.classList.remove('is-loading')
