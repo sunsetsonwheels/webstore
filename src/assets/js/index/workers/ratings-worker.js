@@ -21,7 +21,7 @@ onmessage = (e) => {
         wLog('log', 'Making request to download counts tracker.')
         const request = syncRequest({
           type: 'GET',
-          url: 'https://bhackers.uber.space/srs/v1/download_counter/count/' + e.data.slug,
+          url: 'https://bhackers.uber.space/srs/v1/download_counter/count/' + e.data.args.slug,
           timeout: 2000
         })
         if (request.success) {
@@ -142,6 +142,6 @@ onmessage = (e) => {
       }
       break
   }
-  wLog('log', 'Ratings worker completed')
+  wLog('log', 'Ratings worker completed!')
   postMessage(returnMessage)
 }

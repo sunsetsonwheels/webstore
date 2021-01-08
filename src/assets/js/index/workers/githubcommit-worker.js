@@ -12,21 +12,22 @@ onmessage = function () {
       'Content-Type': 'application/json'
     }
   })
+  var ghDataCommitSha = null
   if (request.success) {
     try {
-      var ghDataCommitSha = request.data.object.sha
+      ghDataCommitSha = request.data.object.sha
       wLog('log', 'Received successful response from GitHub.')
       if (ghDataCommitSha) {
         postMessage(ghDataCommitSha)
       } else {
-        postMessage(null)
+        wLog('warning', 'No GitHub commit hash found.')
       }
     } catch (err) {
       wLog('error', 'Error parsing response from GitHub')
-      postMessage(null)
     }
   } else {
     wLog('error', 'Error making request to GitHub.')
-    postMessage(null)
   }
+  wLog('log', 'GitHub commit worker completed!')
+  postMessage(ghDataCommitSha)
 }
