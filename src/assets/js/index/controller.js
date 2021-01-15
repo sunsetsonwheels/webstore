@@ -111,11 +111,7 @@ function reloadAppRatings (appID) {
   }).catch(function (err) {
     bulmaToast.toast({
       message: 'Ratings could not be loaded! Check the console for more info.',
-      type: "is-danger",
-      position: "top-center",
-      closeOnClick: true,
-      pauseOnHover: true,
-      animate: toastAnimateOptions
+      type: "is-danger"
     })
     console.error(err)
   })
@@ -144,11 +140,7 @@ appDownloadsModal.buttons.download.onclick = function (e) {
     e.target.classList.remove('is-loading')
     bulmaToast.toast({
       message: 'Failed to record download count! Check the console for more info.',
-      type: 'is-danger',
-      position: 'top-center',
-      closeOnClick: true,
-      closeOnHover: true,
-      animate: toastAnimateOptions
+      type: 'is-danger'
     })
   })
   window.open(e.target.getAttribute('data-app-download'), '_blank')
@@ -380,21 +372,13 @@ appCardsContainerElement.onclick = function (e) {
       } else {
         bulmaToast.toast({
           message: 'App does not exist in category "' + appMainCategory + '"!',
-          type: 'is-danger',
-          position: 'top-center',
-          closeOnClick: true,
-          pauseOnHover: true,
-          animate: toastAnimateOptions
+          type: 'is-danger'
         })
       }
     } else {
       bulmaToast.toast({
         message: 'Given category "' + appMainCategory + '" does not exist!',
-        type: 'is-danger',
-        position: 'top-center',
-        closeOnClick: true,
-        pauseOnHover: true,
-        animate: toastAnimateOptions
+        type: 'is-danger'
       })
     }
   } else if (targetElementClasses.contains('share')) {
@@ -404,11 +388,7 @@ appCardsContainerElement.onclick = function (e) {
     document.execCommand('copy')
     bulmaToast.toast({
       message: 'Copied sharable link to clipboard!',
-      type: 'is-success',
-      position: 'top-center',
-      closeOnClick: true,
-      closeOnHover: true,
-      animate: toastAnimateOptions
+      type: 'is-success'
     })
   }
 }
@@ -546,11 +526,7 @@ sortSelect.onchange = function (e) {
 
     bulmaToast.toast({
       message: 'Apps sorted successfully!',
-      type: "is-success",
-      position: "top-center",
-      closeOnClick: true,
-      pauseOnHover: true,
-      animate: toastAnimateOptions
+      type: "is-success"
     })
   }).catch(function (err) {
     reloadButton.classList.remove('is-loading')
@@ -559,11 +535,7 @@ sortSelect.onchange = function (e) {
 
     bulmaToast.toast({
       message: 'Apps could not be sorted! Check the console for more info.',
-      type: "is-danger",
-      position: "top-center",
-      closeOnClick: true,
-      pauseOnHover: true,
-      animate: toastAnimateOptions
+      type: "is-danger"
     })
 
     console.log(err)
@@ -814,20 +786,12 @@ function reloadData () {
 
     bulmaToast.toast({
       message: 'Data loaded successfully!',
-      type: "is-success",
-      position: "top-center",
-      closeOnClick: true,
-      pauseOnHover: true,
-      animate: toastAnimateOptions
+      type: "is-success"
     })
   }).catch(function (err) {
     bulmaToast.toast({
       message: 'Data could not be loaded! Check the console for more info.',
-      type: "is-danger",
-      position: "top-center",
-      closeOnClick: true,
-      pauseOnHover: true,
-      animate: toastAnimateOptions
+      type: "is-danger"
     })
     console.error(err)
   })
