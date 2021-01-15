@@ -1,7 +1,5 @@
 'use strict'
 
-const toastAnimateOptions = { in: "bounceInDown", out: "bounceOutUp" }
-
 var currentSelectedCategory = "all"
 
 var StoreDbAPI = new StoreDatabaseAPI()

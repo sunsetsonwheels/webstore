@@ -1,6 +1,6 @@
 const darkMode = new DarkMode({
-  light: "assets/css/lib/bulmaswatch/flatly.min.css",
-  dark: "assets/css/lib/bulmaswatch/darkly.min.css",
+  light: "assets/css/lib/bulmaswatch/default.min.css",
+  dark: "assets/css/lib/bulmaswatch/cyborg.min.css",
   checkSystemScheme: true
 })
 
