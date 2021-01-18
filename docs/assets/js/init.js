@@ -1,0 +1,1 @@
+bulmaToast.setDefaults({position:"top-center",closeOnClick:!0,pauseOnHover:!0,animate:{in:"bounceInDown",out:"bounceOutUp"}});

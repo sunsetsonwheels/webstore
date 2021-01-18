@@ -1,1 +1,0 @@
-const darkMode=new DarkMode({light:"assets/css/lib/bulmaswatch/default.min.css",dark:"assets/css/lib/bulmaswatch/cyborg.min.css",checkSystemScheme:!0});bulmaToast.setDefaults({position:"top-center",closeOnClick:!0,pauseOnHover:!0,animate:{in:"bounceInDown",out:"bounceOutUp"}});

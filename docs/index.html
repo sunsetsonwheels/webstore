@@ -9,9 +9,7 @@
     <meta name="description" content="A web client for BananaHackers' store-db">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
     <meta charset="UTF-8">
-    <script src="assets/js/lib/darkmode.min.js"></script>
-    <script src="assets/js/lib/bulma/bulma-toast.min.js"></script>
-    <script src="assets/js/index/init.js"></script>
+    <link rel="stylesheet" href="assets/css/lib/bulma/bulma.min.css">
     <link rel="stylesheet" href="assets/css/lib/bulma/bulma-floating-button.css">
     <link rel="stylesheet" href="assets/css/lib/animate.css">
     <link rel="stylesheet" href="assets/css/lib/gh-fork-ribbon.css">
@@ -207,7 +205,7 @@
         <section class="modal-card-body">
           <div id="app-details-modal-app-screenshots-container" class="container">
             <div class="content">
-              <div id="app-details-modal-app-screenshots" class="columns is-multiline"></div>
+              <div id="app-details-modal-app-screenshots" class="app-modal-screenshots"></div>
               <hr id="app-details-modal-description-separator">
             </div>
           </div>
@@ -342,6 +340,8 @@
     <button id="scrolltop-fab" class="button is-floating is-small is-link is-unselectable">
       <i class="fas fa-chevron-up is-unselectable"></i>
     </button>
+    <script src="assets/js/lib/bulma/bulma-toast.min.js" defer="defer"></script>
+    <script src="assets/js/init.js" defer="defer"></script>
     <script src="assets/js/lib/bulma/bulma-modal.js" defer="defer"></script>
     <script src="assets/js/lib/qrcode.js" defer="defer"></script>
     <script src="assets/js/index/storedb.js" defer="defer"></script>

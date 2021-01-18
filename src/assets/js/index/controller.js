@@ -151,7 +151,7 @@ var appDetailsModal = {
     icon: document.getElementById('app-details-modal-app-icon'),
     screenshots: {
       container: document.getElementById('app-details-modal-app-screenshots-container'),
-      columns: document.getElementById('app-details-modal-app-screenshots')
+      scroller: document.getElementById('app-details-modal-app-screenshots')
     },
     descriptionSeparator: document.getElementById('app-details-modal-description-separator'),
     description: document.getElementById('app-details-modal-app-description'),
@@ -256,16 +256,13 @@ appCardsContainerElement.onclick = function (e) {
         
         if (appDetails.screenshots.length > 0) {
           appDetailsModal.content.screenshots.container.style.display = 'initial'
-          appDetailsModal.content.screenshots.columns.innerHTML = ''
+          appDetailsModal.content.screenshots.scroller.innerHTML = ''
+          appDetailsModal.content.descriptionSeparator.classList.remove('is-hidden')
           for (var screenshot of appDetails.screenshots) {
-            var screenshotContainer = document.createElement('div')
-            screenshotContainer.classList.add('column', 'is-half')
-            appDetailsModal.content.screenshots.columns.appendChild(screenshotContainer)
-
             var screenshotImage = document.createElement('img')
+            screenshotImage.style.padding = "4px"
             screenshotImage.src = screenshot
-            screenshotContainer.appendChild(screenshotImage)
-            appDetailsModal.content.descriptionSeparator.classList.remove('is-hidden')
+            appDetailsModal.content.screenshots.scroller.appendChild(screenshotImage)
           }
         } else {
           appDetailsModal.content.screenshots.container.style.display = 'none'
