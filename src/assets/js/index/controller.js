@@ -740,8 +740,7 @@ function reloadData () {
       newCategoryTab.link.content.text.classList.add('category-link')
       newCategoryTab.link.container.appendChild(newCategoryTab.link.content.text)
     }
-    document.querySelector('.category-tab[data-category-id*="all"]').classList.add('is-active')
-
+    document.querySelector(`.category-tab[data-category-id*="${currentSelectedCategory}"]`).classList.add('is-active')
     sortSelect.dispatchEvent(new Event('change'))
 
     var dataGeneratedLabel = document.getElementById('data-generated-time-label')
