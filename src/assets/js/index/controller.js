@@ -362,7 +362,7 @@ appCardsContainerElement.onclick = function (e) {
           appDetailsModal.content.ratings.loggedIn.container.classList.add('is-hidden')
           appDetailsModal.content.ratings.notLoggedIn.classList.remove('is-hidden')
         }
-
+        
         appDetailsModal.controller.show()
       } else {
         bulmaToast.toast({
