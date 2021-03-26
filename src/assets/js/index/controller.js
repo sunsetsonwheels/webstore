@@ -376,15 +376,6 @@ appCardsContainerElement.onclick = function (e) {
         type: 'is-danger'
       })
     }
-  } else if (targetElementClasses.contains('share')) {
-    var linkGhost = document.getElementById('link-ghost')
-    linkGhost.innerText = window.location
-    linkGhost.select()
-    document.execCommand('copy')
-    bulmaToast.toast({
-      message: 'Copied sharable link to clipboard!',
-      type: 'is-success'
-    })
   }
 }
 
@@ -448,11 +439,23 @@ function addAppCard (appDetails) {
   cardFooter_ViewAppDetails.innerText = 'View app details'
   cardFooter.appendChild(cardFooter_ViewAppDetails)
 
-  var cardFooter_ShareApp = document.createElement('a')
-  cardFooter_ShareApp.classList.add('card-footer-item', 'is-unselectable', 'share')
-  cardFooter_ShareApp.href = '#' + appDetails.slug
-  cardFooter_ShareApp.innerText = 'Copy link to app'
-  cardFooter.appendChild(cardFooter_ShareApp)
+  if (navigator.share) {
+    var cardFooter_ShareApp = document.createElement('a')
+    cardFooter_ShareApp.classList.add('card-footer-item', 'is-unselectable')
+    cardFooter_ShareApp.innerText = 'Share link to app'
+    cardFooter_ShareApp.onclick = function () {
+      navigator.share({
+        title: appDetails.name,
+        text: appDetails.description,
+        url: 'https://store.bananahackers.net/#' + appDetails.slug
+      }).then(function () {
+        console.log(`[Index Controller] Shared app '${appDetails.slug}' successfully.`)
+      }).catch(function (err) {
+        console.error(`[Index Controller] Could not share app '${appDetails.slug}': ` + err)
+      })
+    }
+    cardFooter.appendChild(cardFooter_ShareApp)
+  }
 
   switch (appCardColumn) {
     case 0:
