@@ -227,7 +227,8 @@ appDetailsModal.content.ratings.loggedIn.submitButton.onclick = function (e) {
 var appCardColumn = 0
 var appCardsColumnElements = [
   document.getElementById('app-cards-column-0'),
-  document.getElementById('app-cards-column-1')
+  document.getElementById('app-cards-column-1'),
+  document.getElementById('app-cards-column-2')
 ]
 
 var appCardsContainerElement = document.getElementById('app-cards-container')
@@ -455,6 +456,18 @@ function addAppCard (appDetails) {
       })
     }
     cardFooter.appendChild(cardFooter_ShareApp)
+  } else if (navigator.clipboard) {
+    var cardFooter_ShareApp = document.createElement('a')
+    cardFooter_ShareApp.classList.add('card-footer-item', 'is-unselectable')
+    cardFooter_ShareApp.innerText = 'Copy link to app'
+    cardFooter_ShareApp.onclick = function () {
+      navigator.clipboard.writeText('https://store.bananahackers.net/#' + appDetails.slug).then(function () {
+        console.log(`[Index Controller] Copied app '${appDetails.slug}' to clipboard successfully.`)
+      }).catch(function (err) {
+        console.error(`[Index Controller] Could not copy app '${appDetails.slug}' to clipboard: ` + err)
+      })
+    }
+    cardFooter.appendChild(cardFooter_ShareApp)
   }
 
   switch (appCardColumn) {
@@ -462,6 +475,9 @@ function addAppCard (appDetails) {
       appCardColumn = 1
       break
     case 1:
+      appCardColumn = 2
+      break
+    case 2:
       appCardColumn = 0
       break
   }
