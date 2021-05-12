@@ -53,7 +53,7 @@ function reloadAppRatings (appID) {
     var isPersonalReviewExists = false
 
     if (returnMessage.response.data.average) {
-      appDetailsModal.content.ratings.averageRating.innerText = `${returnMessage.response.data.average} ★`
+      appDetailsModal.content.ratings.averageRating.innerText = `${returnMessage.response.data.average.toFixed(1)} ★`
     }
     for (const review of returnMessage.response.data.ratings) {
       if (review.username == userDetails.username) {
