@@ -80,7 +80,7 @@ function reloadAppRatings (appID) {
         ratingCardContentElement.appendChild(ratingCardActualContentElement)
 
         var ratingInfoElement = document.createElement('p')
-        ratingInfoElement.innerHTML = `<strong>@${review.username}</strong> • <small>${review.points} ★</small> • <small>${dayjs(review.creationtime).fromNow()}</small>`
+        ratingInfoElement.innerHTML = `<strong>@${review.username}</strong> • <small>${review.points} ★</small> • <small>${dayjs.unix(review.creationtime).fromNow()}</small>`
         ratingCardActualContentElement.appendChild(ratingInfoElement)
 
         var ratingDescriptionElement = document.createElement('p')
