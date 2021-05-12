@@ -91,18 +91,17 @@
       </div>
     </nav>
 
-    <section class="section">
-      <div class="tabs is-centered is-boxed">
-        <ul id="categories-tabs"></ul>
+    <br>
+    <div class="tabs is-centered is-boxed">
+      <ul id="categories-tabs"></ul>
+    </div>
+    <div id="app-cards-container" class="container">
+      <div class="columns">
+        <div id="app-cards-column-0" class="column"></div>
+        <div id="app-cards-column-1" class="column"></div>
+        <div id="app-cards-column-2" class="column"></div>
       </div>
-      <div id="app-cards-container" class="container">
-        <div class="columns">
-          <div id="app-cards-column-0" class="column"></div>
-          <div id="app-cards-column-1" class="column"></div>
-          <div id="app-cards-column-2" class="column"></div>
-        </div>
-      </div>
-    </section>
+    </div>
 
     <section class="hero is-small">
       <hr>
@@ -110,19 +109,19 @@
         <nav class="level">
           <div class="level-item has-text-centered">
             <div>
-              <p class="heading">date generated</p>
+              <p class="heading is-unselectable">date generated</p>
               <p id="data-generated-time-label" class="title">unknown</p>
             </div>
           </div>
           <div class="level-item has-text-centered">
             <div>
-              <p class="heading">total apps</p>
+              <p class="heading is-unselectable">total apps</p>
               <p id="data-total-apps-label" class="title">unknown</p>
             </div>
           </div>
         </nav>
         <div class="content has-text-centered">
-          <p>
+          <p class="is-unselectable">
             By using the service, you agree to our <a href="https://gitlab.com/banana-hackers/store-db/-/blob/master/TERMS.md" target="_blank">Privacy Policy</a>. WebStore commit <a id="webstore-github-commit-label" target="_blank">unknown</a>.
           </p>
         </div>
