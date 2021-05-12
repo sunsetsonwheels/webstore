@@ -229,37 +229,37 @@
             </p>
             <div id="app-details-modal-app-ratings-logged-in" class="is-hidden">
               <h2 class="title is-4 is-unselectable">Personal rating</h2>
-              <div class="field">
-                <label class="label is-unselectable">You give this app:</label>
-                <div class="control has-icons-left">
-                  <div class="icon is-small is-left">
-                    <i class="fas fa-star"></i>
+              <article class="media">
+                <div class="media-content">
+                  <div class="field">
+                    <p class="control">
+                      <textarea id="app-details-modal-app-ratings-logged-in-description"  class="textarea" placeholder="More than 2 characters." disabled></textarea>
+                    </p>
+                    <p id="app-details-modal-rating-incomplete-blurb" class="help is-danger is-hidden">
+                      2 or more characters required for rating!
+                    </p>
                   </div>
-                  <div class="select">
-                    <select id="app-details-modal-app-ratings-logged-in-points" disabled>
-                      <option value="1">One point</option>
-                      <option value="2">Two points</option>
-                      <option value="3">Three points</option>
-                      <option value="4">Four points</option>
-                      <option value="5">Five points</option>
-                    </select>
+                  <div class="field has-addons">
+                    <div class="control is-expanded has-icons-left">
+                      <div class="icon is-small is-left">
+                        <i class="fas fa-star"></i>
+                      </div>
+                      <div class="select is-fullwidth">
+                        <select id="app-details-modal-app-ratings-logged-in-points" disabled>
+                          <option value="1">One point</option>
+                          <option value="2">Two points</option>
+                          <option value="3">Three points</option>
+                          <option value="4">Four points</option>
+                          <option value="5">Five points</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="control">
+                      <button id="app-details-modal-app-ratings-logged-in-submit-button" class="button is-link" disabled>Submit</button>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="field">
-                <label class="label is-unselectable">Because of:</label>
-                <div class="control">
-                  <textarea id="app-details-modal-app-ratings-logged-in-description" class="textarea" placeholder="More than 2 characters." disabled></textarea>
-                </div>
-                <p id="app-details-modal-rating-incomplete-blurb" class="help is-danger is-hidden">
-                  2 or more characters required for rating!
-                </p>
-              </div>
-              <div class="field is-grouped">
-                <div class="control">
-                  <button id="app-details-modal-app-ratings-logged-in-submit-button" class="button is-link" disabled>Submit</button>
-                </div>
-              </div>
+              </article>
             </div>
             <hr>
             <div>
