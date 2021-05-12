@@ -53,11 +53,7 @@ function reloadAppRatings (appID) {
     var isPersonalReviewExists = false
 
     if (returnMessage.response.data.average) {
-      var averageRatingElement = document.createElement('h3')
-      averageRatingElement.classList.add('title', 'is-6', 'is-unselectable')
-      averageRatingElement.innerText = `Average points rating: ${returnMessage.response.data.average} points`
-      appDetailsModal.content.ratings.allRatings.appendChild(averageRatingElement)
-      averageRatingElement.appendChild(document.createElement('hr'))
+      appDetailsModal.content.ratings.averageRating.innerText = `${returnMessage.response.data.average} ★`
     }
     for (const review of returnMessage.response.data.ratings) {
       if (review.username == userDetails.username) {
@@ -69,24 +65,26 @@ function reloadAppRatings (appID) {
         appDetailsModal.content.ratings.loggedIn.description.disabled = true
         isPersonalReviewExists = true
       } else {
-        var ratingCardElement = document.createElement('div')
-        ratingCardElement.classList.add('card')
+        var ratingCardElement = document.createElement('article')
+        ratingCardElement.classList.add('media')
         appDetailsModal.content.ratings.allRatings.appendChild(ratingCardElement)
         appDetailsModal.content.ratings.allRatings.appendChild(document.createElement('br'))
 
         var ratingCardContentElement = document.createElement('div')
-        ratingCardContentElement.classList.add('card-content')
+        ratingCardContentElement.classList.add('media-content')
         ratingCardElement.appendChild(ratingCardContentElement)
 
-        var ratingDescriptionElement = document.createElement('p')
-        ratingDescriptionElement.classList.add('title', 'is-5')
-        ratingDescriptionElement.innerText = review.description
-        ratingCardContentElement.appendChild(ratingDescriptionElement)
+        var ratingCardActualContentElement = document.createElement('div')
+        ratingCardActualContentElement.classList.add('content')
+        ratingCardContentElement.appendChild(ratingCardActualContentElement)
 
         var ratingInfoElement = document.createElement('p')
-        ratingInfoElement.classList.add('subtitle', 'is-6')
-        ratingInfoElement.innerText = `${review.username} • ${review.points} points • ${new Date(review.creationtime)}`
-        ratingCardContentElement.appendChild(ratingInfoElement)
+        ratingInfoElement.innerHTML = `<strong>@${review.username}</strong> • <small>${review.points} ★</small> • <small>${dayjs(review.creationtime).fromNow()}</small>`
+        ratingCardActualContentElement.appendChild(ratingInfoElement)
+
+        var ratingDescriptionElement = document.createElement('p')
+        ratingDescriptionElement.innerText = review.description
+        ratingCardActualContentElement.appendChild(ratingDescriptionElement)
       }
     }
 
@@ -101,11 +99,6 @@ function reloadAppRatings (appID) {
       appDetailsModal.content.ratings.loggedIn.submitButton.disabled = false
     }
     appDetailsModal.content.ratings.loggedIn.submitButton.classList.remove('is-loading')
-    var noMoreRatingsElement = document.createElement('span')
-    noMoreRatingsElement.classList.add('title', 'is-6')
-    noMoreRatingsElement.innerText = 'No more ratings.'
-    appDetailsModal.content.ratings.allRatings.appendChild(noMoreRatingsElement)
-    appDetailsModal.content.ratings.allRatings.appendChild(document.createElement('hr'))
   }).catch(function (err) {
     bulmaToast.toast({
       message: 'Ratings could not be loaded! Check the console for more info.',
@@ -172,6 +165,7 @@ var appDetailsModal = {
         ratingIncompleteBlurb: document.getElementById('app-details-modal-rating-incomplete-blurb'),
         submitButton: document.getElementById('app-details-modal-app-ratings-logged-in-submit-button')
       },
+      averageRating: document.getElementById('app-details-modal-app-ratings-average-rating'),
       allRatings: document.getElementById("app-details-modal-app-ratings-all-ratings")
     }
   },
