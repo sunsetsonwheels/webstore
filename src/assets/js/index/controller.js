@@ -46,6 +46,7 @@ function reloadAppRatings (appID) {
   appDetailsModal.content.ratings.loggedIn.ratingIncompleteBlurb.classList.add('is-hidden')
   appDetailsModal.content.ratings.loggedIn.submitButton.classList.add('is-loading')
   appDetailsModal.content.ratings.loggedIn.submitButton.disabled = true
+  appDetailsModal.content.ratings.averageRating.innerText = 'Unknown ★'
   appDetailsModal.content.ratings.allRatings.innerHTML = 'Loading ratings... <br>'
   StoreDbAPI.getAppRatings(appID).then(function (returnMessage) {
     appDetailsModal.content.ratings.allRatings.innerHTML = ''
