@@ -624,8 +624,7 @@ var isUserLoggedIn = false
 
 var userButton = {
   button: document.getElementById('user-button'),
-  icon: document.getElementById('user-icon'),
-  text: document.getElementById('user-button-text')
+  icon: document.getElementById('user-icon')
 }
 
 userButton.button.onclick = function () {
@@ -634,7 +633,6 @@ userButton.button.onclick = function () {
     userDetails.logintoken = null
     userButton.button.classList.remove('is-danger')
     userButton.button.classList.add('is-link')
-    userButton.text.innerText = 'Login'
     userButton.icon.classList.add('fa-user')
     userButton.icon.classList.remove('fa-sign-out-alt')
     isUserLoggedIn = false
@@ -650,7 +648,6 @@ function loginSuccessCb () {
   userModal.buttons.login.classList.remove('is-loading')
   userButton.button.classList.remove('is-link')
   userButton.button.classList.add('is-danger')
-  userButton.text.innerText = 'Log out'
   userButton.icon.classList.add('fa-sign-out-alt')
   userButton.icon.classList.remove('fa-user')
   userModal.controller.close()
@@ -761,15 +758,10 @@ function reloadData () {
 
     var dataGeneratedLabel = document.getElementById('data-generated-time-label')
     if (data.generatedAt) {
-      dataGeneratedLabel.innerText = (new Date(data.generatedAt))
+      dataGeneratedLabel.innerText = dayjs(data.generatedAt).fromNow()
       dataGeneratedLabel.classList.remove('is-danger')
       dataGeneratedLabel.classList.add('is-success')
     }
-
-    var pageLoadedLabel = document.getElementById('page-loaded-time-label')
-    pageLoadedLabel.innerText = (new Date().toString())
-    pageLoadedLabel.classList.remove('is-danger')
-    pageLoadedLabel.classList.add('is-success')
 
     var totalAppsLabel = document.getElementById('data-total-apps-label')
     totalAppsLabel.innerText = data.apps.raw.length

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>B-Hackers WebStore</title>
+    <title>BananaHackers WebStore</title>
     <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/favicons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicons/favicon-16x16.png">
@@ -12,60 +12,89 @@
     <link rel="stylesheet" href="assets/css/lib/bulma/bulma.min.css">
     <link rel="stylesheet" href="assets/css/lib/bulma/bulma-floating-button.css">
     <link rel="stylesheet" href="assets/css/lib/animate.css">
-    <link rel="stylesheet" href="assets/css/lib/gh-fork-ribbon.css">
     <link rel="stylesheet" href="assets/css/lib/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="assets/css/index.css">
   </head>
   <body>
-    <a class="github-fork-ribbon" href="http://github.com/jkelol111/webstore" data-ribbon="Fork me on GitHub" title="Fork me on GitHub" target="_blank">Fork me on GitHub</a> 
-    <section class="section">
-      <div class="container">
-        <img width="48" height="48" src="assets/logos/bhackers-store.png">
-        <br>
-        <h1 class="title is-unselectable">
-          BananaHackers WebStore
-        </h1>
-        <h3 class="subtitle is-unselectable">
-          A web client for the BananaHackers app store, hosted on
-          <a href="https://gitlab.com/banana-hackers/store-db" target="_blank">GitLab</a> &
-          <a href="https://github.com/bananahackers/bananahackers.github.io" target="_blank">GitHub</a>
-        </h3>
+    <nav class="navbar">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="https://store.bananahackers.net">
+          <img src="assets/logos/bhackers-store.png" width="28" height="28">
+        </a>
+    
+        <a role="button" class="navbar-burger" data-target="webstore-navbar">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
       </div>
-      <hr>
+    
+      <div id="webstore-navbar" class="navbar-menu">
+        <div class="navbar-start">
+          <a class="navbar-item is-unselectable" href="https://groups.google.com/g/bananahackers" target="_blank">
+            Forums
+          </a>
+          <a class="navbar-item is-unselectable" href="https://bananahackers.net" target="_blank">
+            Wiki
+          </a>
+          <a class="navbar-item is-unselectable" href="https://discord.gg/rQ93zEu" target="_blank">
+            Chat
+          </a>
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link is-unselectable">
+              App Databases
+            </a>
+    
+            <div class="navbar-dropdown">
+              <a class="navbar-item is-unselectable" href="https://gitlab.com/banana-hackers/store-db" target="_blank">
+                GitLab
+              </a>
+              <a class="navbar-item is-unselectable" href="https://github.com/bananahackers/store-db" target="_blank">
+                GitHub
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="navbar-end">
+          <div class="navbar-item">
+            <div class="field has-addons">
+              <div class="control is-expanded has-icons-left">    
+                <span class="icon is-left is-small">
+                  <i id="sort-icon" class="fas fa-sort-alpha-down"></i>
+                </span>
+                <div class="select is-fullwidth">
+                  <select id="sort-select" disabled="disabled">
+                    <option value="alphabetical">Alphabetical</option>
+                    <option value="popularity">Popularity</option>
+                    <option value="categorical">Categorical</option>
+                  </select>
+                </div>
+              </div>
+              <div class="control">
+                <button id="reload-button" class="button is-primary is-loading" disabled="disabled">
+                  <span class="icon is-small">
+                    <i class="fas fa-sync-alt"></i>
+                  </span>
+                </button>
+              </div>
+              <div class="control">
+                <button id="user-button" class="button is-link">
+                  <span class="icon is-small">
+                    <i id="user-icon" class="fas fa-user"></i>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <section class="section">
       <div class="tabs is-centered is-boxed">
         <ul id="categories-tabs"></ul>
       </div>
-      <div class="field has-addons">
-        <div class="control is-expanded has-icons-left">    
-          <span class="icon is-left is-small">
-            <i id="sort-icon" class="fas fa-sort-alpha-down"></i>
-          </span>
-          <div class="select is-fullwidth">
-            <select id="sort-select" disabled="disabled">
-              <option value="alphabetical">Alphabetical</option>
-              <option value="popularity">Popularity</option>
-              <option value="categorical">Categorical</option>
-            </select>
-          </div>
-        </div>
-        <div class="control">
-          <button id="reload-button" class="button is-primary is-loading" disabled="disabled">
-            <span class="icon is-small">
-              <i class="fas fa-sync-alt"></i>
-            </span>
-            <span>Reload</span>
-          </button>
-        </div>
-        <div class="control">
-          <button id="user-button" class="button is-link">
-            <span class="icon is-small">
-              <i id="user-icon" class="fas fa-user"></i>
-            </span>
-            <span id="user-button-text">Login</span>
-          </button>
-        </div>
-      </div>
-      <hr>
       <div id="app-cards-container" class="container">
         <div class="columns">
           <div id="app-cards-column-0" class="column"></div>
@@ -73,73 +102,37 @@
           <div id="app-cards-column-2" class="column"></div>
         </div>
       </div>
-      <br>
-      <hr>
-      <div class="container">
-        <div class="field is-grouped is-grouped-multiline">
-          <div class="control">
-            <div class="tags has-addons">
-              <span class="tag is-dark is-unselectable">page loaded</span>
-              <span id="page-loaded-time-label" class="tag is-danger">unknown</span>
-            </div>
-          </div>
-          <div class="control">
-            <div class="tags has-addons">
-              <span class="tag is-dark is-unselectable">data generated</span>
-              <span id="data-generated-time-label" class="tag is-danger">unknown</span>
-            </div>
-          </div>
-          <div class="control">
-            <div class="tags has-addons">
-              <span class="tag is-dark is-unselectable">total apps</span>
-              <span id="data-total-apps-label" class="tag is-danger">unknown</span>
-            </div>
-          </div>
-          <div class="control">
-            <div class="tags has-addons">
-              <span class="tag is-dark is-unselectable">webstore commit</span>
-              <a id="webstore-github-commit-label" class="tag is-danger" target="_blank">unknown</a>
-            </div>
-          </div>
-          <div class="control">
-            <div class="tags has-addons">
-              <span class="tag is-dark is-unselectable">powered by</span>
-              <a class="tag is-warning" href="http://bananahackers.net" target="_blank">BananaHackers community</a>
-            </div>
-          </div>
-          <div class="control">
-            <div class="tags has-addons">
-              <span class="tag is-dark is-unselectable">chat on</span>
-              <a class="tag is-discord" href="https://discord.gg/rQ93zEu" target="_blank">discord/irc</a>
-            </div>
-          </div>
-          <div class="control">
-            <div class="tags has-addons">
-              <span class="tag is-dark is-unselectable">donate to jkelol111 via</span>
-              <a class="tag is-link" href="https://paypal.me/jkelol111" target="_blank">PayPal</a>
-            </div>
-          </div>
-          <div class="control">
-            <div class="tags has-addons">
-              <span class="tag is-dark is-unselectable">donate to jkelol111 via</span>
-              <a class="tag is-link" href="https://buymeacoffee.com/jkelol111" target="_blank">Buy Me a Coffee</a>
-            </div>
-          </div>
-          <div class="control">
-            <a href="https://bulma.io">
-              <img src="assets/logos/made-with-bulma.png" alt="Made with Bulma" width="128" height="24">
-            </a>
-          </div>
-        </div>
+    </section>
 
-        <div class="content">
+    <section class="hero is-small">
+      <hr>
+      <div class="hero-body">
+        <nav class="level">
+          <div class="level-item has-text-centered">
+            <div>
+              <p class="heading">date generated</p>
+              <p id="data-generated-time-label" class="title">unknown</p>
+            </div>
+          </div>
+          <div class="level-item has-text-centered">
+            <div>
+              <p class="heading">total apps</p>
+              <p id="data-total-apps-label" class="title">unknown</p>
+            </div>
+          </div>
+        </nav>
+        <div class="content has-text-centered">
           <p>
-            By using the service, you agree to our 
-            <a href="https://gitlab.com/banana-hackers/store-db/-/blob/master/TERMS.md" target="_blank">Privacy Policy</a>.
+            By using the service, you agree to our <a href="https://gitlab.com/banana-hackers/store-db/-/blob/master/TERMS.md" target="_blank">Privacy Policy</a>. WebStore commit <a id="webstore-github-commit-label" target="_blank">unknown</a>.
           </p>
         </div>
       </div>
     </section>
+
+    <button id="scrolltop-fab" class="button is-floating is-small is-link is-unselectable">
+      <i class="fas fa-chevron-up is-unselectable"></i>
+    </button>
+
     <div id="user-modal" class="modal">
       <div class="modal-background animate__animated" data-bulma-modal="close"></div>
       <div class="modal-card animate__animated">
@@ -192,6 +185,7 @@
         </footer>
       </div>
     </div>
+
     <div id="app-details-modal" class="modal">
       <div class="modal-background animate__animated" data-bulma-modal="close"></div>
       <div class="modal-card animate__animated">
@@ -283,6 +277,7 @@
         </footer>
       </div>
     </div>
+
     <div id="app-download-modal" class="modal">
       <div class="modal-background"></div>
       <div class="modal-card">
@@ -316,6 +311,7 @@
         </footer>
       </div>
     </div>
+
     <div id="webstore-update-modal" class="modal">
       <div class="modal-background"></div>
       <div class="modal-card">
@@ -337,14 +333,14 @@
         </footer>
       </div>
     </div>
-    <button id="scrolltop-fab" class="button is-floating is-small is-link is-unselectable">
-      <i class="fas fa-chevron-up is-unselectable"></i>
-    </button>
+
     <script src="assets/js/lib/bulma/bulma-toast.min.js" defer="defer"></script>
-    <script src="assets/js/init.js" defer="defer"></script>
     <script src="assets/js/lib/bulma/bulma-modal.js" defer="defer"></script>
     <script src="assets/js/lib/qrcode.js" defer="defer"></script>
     <script src="assets/js/index/storedb.js" defer="defer"></script>
+    <script src="assets/js/lib/dayjs/dayjs.min.js" defer="defer"></script>
+    <script src="assets/js/lib/dayjs/plugins/relativeTime.min.js" defer="defer"></script>
+    <script src="assets/js/init.js" defer="defer"></script>
     <script src="assets/js/index/controller.js" defer="defer"></script>
   </body>
 </html>

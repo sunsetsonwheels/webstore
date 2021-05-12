@@ -1,1 +1,1 @@
-bulmaToast.setDefaults({position:"top-center",closeOnClick:!0,pauseOnHover:!0,animate:{in:"bounceInDown",out:"bounceOutUp"}});
+bulmaToast.setDefaults({position:"top-center",closeOnClick:!0,pauseOnHover:!0,animate:{in:"bounceInDown",out:"bounceOutUp"}}),dayjs.extend(window.dayjs_plugin_relativeTime);for(const e of document.getElementsByClassName("navbar-burger"))e.onclick=()=>{e.classList.toggle("is-active"),document.getElementById(e.dataset.target).classList.toggle("is-active")};
