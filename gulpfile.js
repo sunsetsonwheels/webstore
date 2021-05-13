@@ -6,7 +6,7 @@ const rename = require('gulp-rename')
 const minifyJS = require('gulp-terser')
 const minifyJSON = require('gulp-jsonminify')
 const minifyCSS = require('gulp-clean-css')
-const minifyHTML = require('gulp-htmlmin')
+const minifyHTML = require('gulp-html-minifier-terser')
 
 const SOURCE_FOLDER = 'src/'
 const BUILD_FOLDER = 'docs/'

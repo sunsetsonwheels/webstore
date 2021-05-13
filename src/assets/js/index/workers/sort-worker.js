@@ -58,6 +58,8 @@ onmessage = function (e) {
         }
       })
       break
+    case 'ratings':
+      break
     default:
       break
   }

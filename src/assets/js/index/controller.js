@@ -60,7 +60,7 @@ function reloadAppRatings (appID) {
     }
     for (const review of returnMessage.response.data.ratings) {
       if (review.username == userDetails.username) {
-        appDetailsModal.content.ratings.loggedIn.details.innerHTML = `<strong>@${review.username}</strong> • <small>${dayjs.unix(review.creationtime).fromNow()}</small>`
+        appDetailsModal.content.ratings.loggedIn.details.innerHTML = `<strong>@${review.username}</strong> (you) • <small>${dayjs.unix(review.creationtime).fromNow()}</small>`
         appDetailsModal.content.ratings.loggedIn.points.disabled = false
         appDetailsModal.content.ratings.loggedIn.description.disabled = false
         appDetailsModal.content.ratings.loggedIn.points.value = review.points
@@ -101,7 +101,7 @@ function reloadAppRatings (appID) {
       appDetailsModal.content.ratings.loggedIn.description.disabled = true
       appDetailsModal.content.ratings.loggedIn.submitButton.disabled = true
     } else {
-      appDetailsModal.content.ratings.loggedIn.details.innerHTML = `<strong>@${userDetails.username}</strong>`
+      appDetailsModal.content.ratings.loggedIn.details.innerHTML = `<strong>@${userDetails.username}</strong> (you)`
       appDetailsModal.content.ratings.loggedIn.points.disabled = false
       appDetailsModal.content.ratings.loggedIn.description.disabled = false
       appDetailsModal.content.ratings.loggedIn.submitButton.disabled = false
