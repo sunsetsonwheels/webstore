@@ -206,67 +206,57 @@
           <div class="container">
             <div class="content">
               <p id="app-details-modal-app-description">No description.</p>
-              <hr>
-              <ul>
-                <li id="app-details-modal-app-categories">Categories: <b>unknown</b></li>
-                <li id="app-details-modal-app-maintainer">Authors/maintainers: <b>unknown</b></li>
-                <li id="app-details-modal-app-version">Version: <b>unknown</b></li>
-                <li id="app-details-modal-app-type">Type: <b>unknown</b></li>
-                <li>Anti-features:</li>
-                <ul>
-                  <li id="app-details-modal-app-has_ads">Ads: <b>unknown</b></li>
-                  <li id="app-details-modal-app-has_tracking">Tracking: <b>unknown</b></li>
-                </ul>
-                <li id="app-details-modal-app-license">License: <b>unknown</b></li>
-                <li id="app-details-modal-app-downloadCount">Downloads: <b>unknown</b></li>
-              </ul>
             </div>
+            <hr>
+            <table class="table is-striped is-fullwidth">
+              <tbody>
+                <tr>
+                  <th>Categories</th>
+                  <td id="app-details-modal-app-categories">Unknown</td>
+                </tr>
+                <tr>
+                  <th>Author(s)</th>
+                  <td id="app-details-modal-app-authors">Unknown</td>
+                </tr>
+                <tr>
+                  <th>Maintainer(s)</th>
+                  <td id="app-details-modal-app-maintainers">Unknown</td>
+                </tr>
+                <tr>
+                  <th>Version</th>
+                  <td id="app-details-modal-app-version">Unknown</td>
+                </tr>
+                <tr>
+                  <th>Type</th>
+                  <td id="app-details-modal-app-type">Unknown</td>
+                </tr>
+                <tr>
+                  <th>Anti-features</th>
+                  <td>
+                    <ul>
+                      <li id="app-details-modal-app-has_ads">Ads: Unknown</li>
+                      <li id="app-details-modal-app-has_tracking">Tracking: Unknown</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <th>License</th>
+                  <td id="app-details-modal-app-license">Unknown</td>
+                </tr>
+                <tr>
+                  <th>Downloads</th>
+                  <td id="app-details-modal-app-downloadCount">Unknown</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
           <div class="container">
-            <hr>
-            <p id="app-details-modal-app-ratings-not-logged-in" class="is-hidden is-unselectable">
-              To rate, log in using the button.
-            </p>
-            <div id="app-details-modal-app-ratings-logged-in" class="is-hidden">
-              <h2 class="title is-4 is-unselectable">Personal rating</h2>
-              <article class="media">
-                <div class="media-content">
-                  <div class="field">
-                    <p class="control">
-                      <textarea id="app-details-modal-app-ratings-logged-in-description" class="textarea" placeholder="More than 2 characters." disabled="disabled"></textarea>
-                    </p>
-                    <p id="app-details-modal-rating-incomplete-blurb" class="help is-danger is-hidden">
-                      2 or more characters required for rating!
-                    </p>
-                  </div>
-                  <div class="field has-addons">
-                    <div class="control is-expanded has-icons-left">
-                      <div class="icon is-small is-left">
-                        <i class="fas fa-star"></i>
-                      </div>
-                      <div class="select is-fullwidth">
-                        <select id="app-details-modal-app-ratings-logged-in-points" disabled="disabled">
-                          <option value="1">One point</option>
-                          <option value="2">Two points</option>
-                          <option value="3">Three points</option>
-                          <option value="4">Four points</option>
-                          <option value="5">Five points</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="control">
-                      <button id="app-details-modal-app-ratings-logged-in-submit-button" class="button is-link" disabled="disabled">Submit</button>
-                    </div>
-                  </div>
-                </div>
-              </article>
-            </div>
             <hr>
             <div>
               <nav class="level is-mobile">
                 <div class="level-left">
                   <div class="level-item">
-                    <h2 class="title is-4 is-unselectable">Other ratings</h2>
+                    <h2 class="title is-4 is-unselectable">Ratings</h2>
                   </div>
                 </div>
                 <div class="level-left">
@@ -278,8 +268,65 @@
               
               <div id="app-details-modal-app-ratings-all-ratings">
                 Loading ratings...
-                <br>
               </div>
+              <br>
+              <div id="app-details-modal-app-ratings-not-logged-in" class="box is-hidden">
+                <article class="media">
+                  <div class="media-content">
+                    <div class="content">
+                      <p class="is-unselectable">
+                        <strong>Your rating</strong>
+                      </p>
+                      <p class="is-unselectable">
+                        To rate, log in using the button.
+                      </p>
+                    </div>
+                  </div>
+                </article>
+              </div>
+              <div id="app-details-modal-app-ratings-logged-in" class="box is-hidden">
+                <article class="media">
+                  <div class="media-content">
+                    <div class="content">
+                      <p id="app-details-modal-app-ratings-logged-in-details">
+                        <strong>@Unknown</strong>
+                      </p>
+                    </div>
+                    <div class="field">
+                      <p class="control">
+                        <textarea id="app-details-modal-app-ratings-logged-in-description" class="textarea" placeholder="More than 2 characters." disabled="disabled"></textarea>
+                      </p>
+                      <p id="app-details-modal-rating-incomplete-blurb" class="help is-danger is-hidden">
+                        2 or more characters required for rating!
+                      </p>
+                    </div>
+                    <div class="field has-addons">
+                      <div class="control is-expanded has-icons-left">
+                        <div class="icon is-small is-left">
+                          <i class="fas fa-star"></i>
+                        </div>
+                        <div class="select is-fullwidth">
+                          <select id="app-details-modal-app-ratings-logged-in-points" disabled="disabled">
+                            <option value="1">One point</option>
+                            <option value="2">Two points</option>
+                            <option value="3">Three points</option>
+                            <option value="4">Four points</option>
+                            <option value="5">Five points</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="control">
+                        <button id="app-details-modal-app-ratings-logged-in-submit-button" class="button is-link" disabled="disabled">
+                          <span class="icon is-small">
+                            <i class="fas fa-paper-plane"></i>
+                          </span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              </div>
+              <hr>
             </div>
           </div>
         </section>
@@ -305,7 +352,7 @@
             <div class="content">
               <p>
                 Scan the QR code below with
-                <a href="https://github.com/strukturart/kaiOs-alt-app-store" target="_blank">perry's KaiOS Alt App Store app</a>
+                <a href="https://github.com/strukturart/bHacker-store-client" target="_blank">perry's bHacker-store client</a>
                 to install.
               </p>
               <hr>

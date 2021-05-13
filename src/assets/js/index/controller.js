@@ -39,6 +39,7 @@ function listAppsByCategory (category, sort) {
 }
 
 function reloadAppRatings (appID) {
+  appDetailsModal.content.ratings.loggedIn.details.innerHTML = '<strong>@Unknown</strong>'
   appDetailsModal.content.ratings.loggedIn.points.value = 1
   appDetailsModal.content.ratings.loggedIn.description.value = ''
   appDetailsModal.content.ratings.loggedIn.points.disabled = true
@@ -47,7 +48,8 @@ function reloadAppRatings (appID) {
   appDetailsModal.content.ratings.loggedIn.submitButton.classList.add('is-loading')
   appDetailsModal.content.ratings.loggedIn.submitButton.disabled = true
   appDetailsModal.content.ratings.averageRating.innerText = 'Unknown ★'
-  appDetailsModal.content.ratings.allRatings.innerHTML = 'Loading ratings... <br>'
+  appDetailsModal.content.ratings.allRatings.innerHTML = 'Loading ratings...'
+  
   StoreDbAPI.getAppRatings(appID).then(function (returnMessage) {
     appDetailsModal.content.ratings.allRatings.innerHTML = ''
 
@@ -58,6 +60,7 @@ function reloadAppRatings (appID) {
     }
     for (const review of returnMessage.response.data.ratings) {
       if (review.username == userDetails.username) {
+        appDetailsModal.content.ratings.loggedIn.details.innerHTML = `<strong>@${review.username}</strong> • <small>${dayjs.unix(review.creationtime).fromNow()}</small>`
         appDetailsModal.content.ratings.loggedIn.points.disabled = false
         appDetailsModal.content.ratings.loggedIn.description.disabled = false
         appDetailsModal.content.ratings.loggedIn.points.value = review.points
@@ -66,26 +69,29 @@ function reloadAppRatings (appID) {
         appDetailsModal.content.ratings.loggedIn.description.disabled = true
         isPersonalReviewExists = true
       } else {
-        var ratingCardElement = document.createElement('article')
-        ratingCardElement.classList.add('media')
-        appDetailsModal.content.ratings.allRatings.appendChild(ratingCardElement)
-        appDetailsModal.content.ratings.allRatings.appendChild(document.createElement('br'))
+        var ratingBoxElement = document.createElement('div')
+        ratingBoxElement.classList.add('box')
+        appDetailsModal.content.ratings.allRatings.appendChild(ratingBoxElement)
 
-        var ratingCardContentElement = document.createElement('div')
-        ratingCardContentElement.classList.add('media-content')
-        ratingCardElement.appendChild(ratingCardContentElement)
+        var ratingMediaElement = document.createElement('article')
+        ratingMediaElement.classList.add('media')
+        ratingBoxElement.appendChild(ratingMediaElement)
 
-        var ratingCardActualContentElement = document.createElement('div')
-        ratingCardActualContentElement.classList.add('content')
-        ratingCardContentElement.appendChild(ratingCardActualContentElement)
+        var ratingMediaContentElement = document.createElement('div')
+        ratingMediaContentElement.classList.add('media-content')
+        ratingMediaElement.appendChild(ratingMediaContentElement)
+
+        var ratingMediaActualContentElement = document.createElement('div')
+        ratingMediaActualContentElement.classList.add('content')
+        ratingMediaContentElement.appendChild(ratingMediaActualContentElement)
 
         var ratingInfoElement = document.createElement('p')
         ratingInfoElement.innerHTML = `<strong>@${review.username}</strong> • <small>${review.points} ★</small> • <small>${dayjs.unix(review.creationtime).fromNow()}</small>`
-        ratingCardActualContentElement.appendChild(ratingInfoElement)
+        ratingMediaActualContentElement.appendChild(ratingInfoElement)
 
         var ratingDescriptionElement = document.createElement('p')
         ratingDescriptionElement.innerText = review.description
-        ratingCardActualContentElement.appendChild(ratingDescriptionElement)
+        ratingMediaActualContentElement.appendChild(ratingDescriptionElement)
       }
     }
 
@@ -95,6 +101,7 @@ function reloadAppRatings (appID) {
       appDetailsModal.content.ratings.loggedIn.description.disabled = true
       appDetailsModal.content.ratings.loggedIn.submitButton.disabled = true
     } else {
+      appDetailsModal.content.ratings.loggedIn.details.innerHTML = `<strong>@${userDetails.username}</strong>`
       appDetailsModal.content.ratings.loggedIn.points.disabled = false
       appDetailsModal.content.ratings.loggedIn.description.disabled = false
       appDetailsModal.content.ratings.loggedIn.submitButton.disabled = false
@@ -150,7 +157,8 @@ var appDetailsModal = {
     descriptionSeparator: document.getElementById('app-details-modal-description-separator'),
     description: document.getElementById('app-details-modal-app-description'),
     categories: document.getElementById('app-details-modal-app-categories'),
-    maintainer: document.getElementById('app-details-modal-app-maintainer'),
+    authors: document.getElementById('app-details-modal-app-authors'),
+    maintainers: document.getElementById('app-details-modal-app-maintainers'),
     version: document.getElementById('app-details-modal-app-version'),
     type: document.getElementById('app-details-modal-app-type'),
     has_ads: document.getElementById('app-details-modal-app-has_ads'),
@@ -161,6 +169,7 @@ var appDetailsModal = {
       notLoggedIn: document.getElementById('app-details-modal-app-ratings-not-logged-in'),
       loggedIn: {
         container: document.getElementById('app-details-modal-app-ratings-logged-in'),
+        details: document.getElementById('app-details-modal-app-ratings-logged-in-details'),
         points: document.getElementById('app-details-modal-app-ratings-logged-in-points'),
         description: document.getElementById('app-details-modal-app-ratings-logged-in-description'),
         ratingIncompleteBlurb: document.getElementById('app-details-modal-rating-incomplete-blurb'),
@@ -192,26 +201,26 @@ appDetailsModal.buttons.donation.onclick = function (e) {
   window.open(e.target.getAttribute('data-app-donate'), '_blank')
 }
 
-appDetailsModal.content.ratings.loggedIn.submitButton.onclick = function (e) {
+appDetailsModal.content.ratings.loggedIn.submitButton.onclick = function () {
   appDetailsModal.content.ratings.loggedIn.ratingIncompleteBlurb.classList.add('is-hidden')
   if (appDetailsModal.content.ratings.loggedIn.description.value.length > 2 && isUserLoggedIn) {
-    e.target.classList.add('is-loading')
-    e.target.disabled = true
+    appDetailsModal.content.ratings.loggedIn.submitButton.classList.add('is-loading')
+    appDetailsModal.content.ratings.loggedIn.submitButton.disabled = true
     appDetailsModal.content.ratings.loggedIn.points.disabled = true
     appDetailsModal.content.ratings.loggedIn.description.disabled = true
     StoreDbAPI.addNewRating(
       userDetails.username, 
       userDetails.logintoken, 
-      e.target.getAttribute('data-app-appid'), 
+      appDetailsModal.content.ratings.loggedIn.submitButton.getAttribute('data-app-appid'), 
       appDetailsModal.content.ratings.loggedIn.points.value,
       appDetailsModal.content.ratings.loggedIn.description.value
     ).then(function () {
       setTimeout(function () {
-        reloadAppRatings(e.target.getAttribute('data-app-appid'))
+        reloadAppRatings(appDetailsModal.content.ratings.loggedIn.submitButton.getAttribute('data-app-appid'))
       }, 2000)
     }).catch(function () {
       setTimeout(function () {
-        reloadAppRatings(e.target.getAttribute('data-app-appid'))
+        reloadAppRatings(appDetailsModal.content.ratings.loggedIn.submitButton.getAttribute('data-app-appid'))
       }, 2000)
     })
   } else {
@@ -272,61 +281,65 @@ appCardsContainerElement.onclick = function (e) {
         }
 
         if (appDetails.meta.categories) {
-          appDetailsModal.content.categories.innerHTML = 'Categories: <b>' + generateReadableCategories(appDetails.meta.categories) + '</b>'
+          appDetailsModal.content.categories.innerText = generateReadableCategories(appDetails.meta.categories)
         } else {
-          appDetailsModal.content.categories.innerHTML = 'Categories: <b>unknown</b>'
+          appDetailsModal.content.categories.innerText = 'Unknown'
         }
 
         if (appDetails.author) {
           if (typeof appDetails.author == "string") {
-            appDetailsModal.content.maintainer.innerHTML = 'Author(s): <b>' + appDetails.author + '</b>'
+            appDetailsModal.content.authors.innerText = appDetails.author
           } else if (Array.isArray(appDetails.author)) {
-            appDetailsModal.content.maintainer.innerHTML = 'Author(s): <b>' + separateArrayCommas(appDetails.author) + '</b>'
-          }
-        } else if (appDetails.maintainer) {
-          if (typeof appDetails.maintainer == "string") {
-            appDetailsModal.content.maintainer.innerHTML = 'Maintainer(s): <b>' + appDetails.maintainer + '</b>'
-          } else if (Array.isArray(appDetails.maintainer)) {
-            appDetailsModal.content.maintainer.innerHTML = 'Maintainer(s): <b>' + separateArrayCommas(appDetails.maintainer) + '</b>'
+            appDetailsModal.content.authors.innerText = separateArrayCommas(appDetails.author)
           }
         } else {
-          appDetailsModal.content.maintainer.innerHTML = 'Authors/maintainers: <b>unknown</b>'
+          appDetailsModal.content.authors.innerText = 'Unknown'
+        }
+
+        if (appDetails.maintainer) {
+          if (typeof appDetails.maintainer == "string") {
+            appDetailsModal.content.maintainers.innerText = appDetails.maintainer
+          } else if (Array.isArray(appDetails.maintainer)) {
+            appDetailsModal.content.maintainers.innerText = separateArrayCommas(appDetails.maintainer)
+          }
+        } else {
+          appDetailsModal.content.maintainers.innerText = 'Unknown'
         }
 
         if (appDetails.download.version) {
-          appDetailsModal.content.version.innerHTML = 'Version: <b>' + appDetails.download.version + '</b>'
+          appDetailsModal.content.version.innerText = appDetails.download.version
         } else {
-          appDetailsModal.content.version.innerHTML = 'Version: <b>unknown</b>'
+          appDetailsModal.content.version.innerText = 'Unknown'
         }
 
         if (appDetails.type) {
-          appDetailsModal.content.type.innerHTML = 'Type: <b>' + appDetails.type + '</b>'
+          appDetailsModal.content.type.innerText = appDetails.type
         } else {
-          appDetailsModal.content.type.innerHTML = 'Type: <b>unknown</b>'
+          appDetailsModal.content.type.innerText = 'Unknown'
         }
 
         if (typeof(appDetails.has_ads) !== 'undefined') {
-          appDetailsModal.content.has_ads.innerHTML = 'Ads: <b>' + appDetails.has_ads + '</b>'
+          appDetailsModal.content.has_ads.innerText = `Ads: ${appDetails.has_ads}`
         } else {
-          appDetailsModal.content.has_ads.innerHTML = 'Ads: <b>unknown</b>'
+          appDetailsModal.content.has_ads.innerText = 'Ads: Unknown'
         }
 
         if (typeof(appDetails.has_tracking) !== 'undefined') {
-          appDetailsModal.content.has_tracking.innerHTML = 'Tracking: <b>' + appDetails.has_tracking + '</b>'
+          appDetailsModal.content.has_tracking.innerText = `Tracking: ${appDetails.has_tracking}`
         } else {
-          appDetailsModal.content.has_tracking.innerHTML = 'Tracking: <b>unknown</b>'
+          appDetailsModal.content.has_tracking.innerText = 'Tracking: Unknown'
         }
 
         if (appDetails.license) {
-          appDetailsModal.content.license.innerHTML = 'License: <b>' + appDetails.license + '</b>'
+          appDetailsModal.content.license.innerText = appDetails.license
         } else {
-          appDetailsModal.content.license.innerHTML = 'License: <b>unknown</b>'
+          appDetailsModal.content.license.innerText = 'Unknown'
         }
 
         if (StoreDbAPI.db.apps.downloadCounts[appDetails.slug]) {
-          appDetailsModal.content.downloadCount.innerHTML = 'Downloads: <b>' + StoreDbAPI.db.apps.downloadCounts[appDetails.slug] + '</b>'
+          appDetailsModal.content.downloadCount.innerText = StoreDbAPI.db.apps.downloadCounts[appDetails.slug]
         } else {
-          appDetailsModal.content.downloadCount.innerHTML = 'Downloads: <b>unknown</b>'
+          appDetailsModal.content.downloadCount.innerText = 'Unknown'
         }
 
         reloadAppRatings(appDetails.slug)

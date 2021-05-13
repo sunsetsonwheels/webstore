@@ -90,7 +90,6 @@ onmessage = (e) => {
         wLog('error', 'Not enough arguments provided for login command, not doing anything!')
       }
       break
-    
     case 'add':
       wLog('log', 'Selected command "add".')
       if (e.data.args.username && e.data.args.logintoken && e.data.args.appid && e.data.args.points && e.data.args.description) {
