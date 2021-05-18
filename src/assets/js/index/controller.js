@@ -415,6 +415,7 @@ function addAppCard (appDetails) {
   appCardsColumnElements[appCardColumn].appendChild(document.createElement('br'))
 
   var card = document.createElement('div')
+  card.id = appDetails.slug
   card.classList.add('card')
   appCardsColumnElements[appCardColumn].appendChild(card)
 
@@ -467,6 +468,7 @@ function addAppCard (appDetails) {
   cardFooter_ViewAppDetails.classList.add('card-footer-item', 'is-unselectable', 'app')
   cardFooter_ViewAppDetails.setAttribute('data-app-categories', appDetails.meta.categories.toString())
   cardFooter_ViewAppDetails.setAttribute('data-app-name', appDetails.name)
+  cardFooter_ViewAppDetails.setAttribute('data-app-slug', appDetails.slug)
   cardFooter_ViewAppDetails.innerText = 'View app details'
   cardFooter.appendChild(cardFooter_ViewAppDetails)
 
@@ -560,7 +562,7 @@ sortSelect.onchange = function (e) {
     try {
       const appSlug = window.location.hash.split("#")[1]
       if (typeof appSlug !== 'undefined') {
-        document.querySelector(`[data-app-name="${appSlug}"]`).click()
+        document.querySelector(`[data-app-slug="${appSlug}"]`).click()
         window.location.hash = appSlug
       } else {
         window.location.hash = ''
