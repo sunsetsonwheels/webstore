@@ -181,6 +181,8 @@ var appDetailsModal = {
   },
   buttons: {
     download: document.getElementById('app-details-modal-download-button'),
+    website: document.getElementById('app-details-modal-website-button'),
+    repo: document.getElementById('app-details-modal-repo-button'),
     donation: document.getElementById('app-details-modal-donation-button')
   }
 }
@@ -190,11 +192,19 @@ appDetailsModal.controller.addEventListener('modal:show', function () {
 })
 
 appDetailsModal.controller.addEventListener('modal:close', function () {
-  document.getElementsByTagName( 'html' )[0].classList.remove('is-clipped')
+  document.getElementsByTagName('html')[0].classList.remove('is-clipped')
 })
 
 appDetailsModal.buttons.download.onclick = function () {
   appDownloadsModal.controller.show()
+}
+
+appDetailsModal.buttons.website.onclick = function (e) {
+  window.open(e.target.getAttribute('data-app-website'), '_blank')
+}
+
+appDetailsModal.buttons.repo.onclick = function (e) {
+  window.open(e.target.getAttribute('data-app-repo'), '_blank')
 }
 
 appDetailsModal.buttons.donation.onclick = function (e) {
@@ -345,16 +355,29 @@ appCardsContainerElement.onclick = function (e) {
         reloadAppRatings(appDetails.slug)
 
         if (appDetails.download.url) {
-          appDetailsModal.buttons.download.style.display = 'initial'
-          appDetailsModal.buttons.download.setAttribute('data-app-download', appDetails.download.url)
-          appDownloadsModal.buttons.download.style.display = 'initial'
+          appDetailsModal.buttons.download.classList.remove('is-hidden')
+          appDownloadsModal.buttons.download.classList.remove('is-hidden')
           appDownloadsModal.buttons.download.setAttribute('data-app-download', appDetails.download.url)
           appDownloadsModal.buttons.download.setAttribute('data-app-appid', appDetails.slug)
           appDownloadsModal.content.qrcode.innerHTML = ''
           new QRCode(appDownloadsModal.content.qrcode, "bhackers:" + appDetails.slug)
         } else {
-          appDetailsModal.buttons.download.style.display = 'none'
-          appDownloadsModal.buttons.download.style.display = 'none'
+          appDetailsModal.buttons.download.classList.add('is-hidden')
+          appDownloadsModal.buttons.download.classList.add('is-hidden')
+        }
+
+        if (appDetails.website) {
+          appDetailsModal.buttons.website.classList.remove('is-hidden')
+          appDetailsModal.buttons.website.setAttribute('data-app-website', appDetails.website)
+        } else {
+          appDetailsModal.buttons.website.classList.add('is-hidden')
+        }
+
+        if (appDetails.git_repo) {
+          appDetailsModal.buttons.repo.classList.remove('is-hidden')
+          appDetailsModal.buttons.repo.setAttribute('data-app-repo', appDetails.git_repo)
+        } else {
+          appDetailsModal.buttons.repo.classList.add('is-hidden')
         }
 
         if (appDetails.donation) {
@@ -393,7 +416,6 @@ function addAppCard (appDetails) {
 
   var card = document.createElement('div')
   card.classList.add('card')
-  card.id = appDetails.slug
   appCardsColumnElements[appCardColumn].appendChild(card)
 
   var cardContent = document.createElement('div')
@@ -538,12 +560,14 @@ sortSelect.onchange = function (e) {
     try {
       const appSlug = window.location.hash.split("#")[1]
       if (typeof appSlug !== 'undefined') {
+        document.querySelector(`[data-app-name="${appSlug}"]`).click()
         window.location.hash = appSlug
       } else {
         window.location.hash = ''
       }
     } catch (err) {
       window.location.hash = ''
+      console.log(err)
     }
 
     bulmaToast.toast({

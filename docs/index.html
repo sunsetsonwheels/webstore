@@ -34,12 +34,23 @@
           <a class="navbar-item is-unselectable" href="https://groups.google.com/g/bananahackers" target="_blank">
             Forums
           </a>
-          <a class="navbar-item is-unselectable" href="https://bananahackers.net" target="_blank">
-            Wiki
-          </a>
           <a class="navbar-item is-unselectable" href="https://discord.gg/rQ93zEu" target="_blank">
             Chat
           </a>
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link is-unselectable">
+              Wikis
+            </a>
+    
+            <div class="navbar-dropdown">
+              <a class="navbar-item is-unselectable" href="http://bananahackers.net" target="_blank">
+                Current wiki
+              </a>
+              <a class="navbar-item is-unselectable" href="https://wiki.bananahackers.net/" target="_blank">
+                New wiki (beta)
+              </a>
+            </div>
+          </div>
           <div class="navbar-item has-dropdown is-hoverable">
             <a class="navbar-link is-unselectable">
               App Databases
@@ -50,10 +61,17 @@
                 GitLab
               </a>
               <a class="navbar-item is-unselectable" href="https://github.com/bananahackers/store-db" target="_blank">
-                GitHub
+                GitHub (mirror)
+              </a>
+              <hr class="navbar-divider">
+              <a class="navbar-item is-unselectable" href="https://bhackers.fider.io/" target="_blank">
+                Request apps
               </a>
             </div>
           </div>
+          <a class="navbar-item is-unselectable" href="https://github.com/jkelol111/webstore" target="_blank">
+            WebStore on GitHub
+          </a>
         </div>
 
         <div class="navbar-end">
@@ -160,7 +178,7 @@
                 </span>
               </div>
               <p id="user-modal-login-failed-blurb" class="help is-danger is-hidden">
-                The login attempt was not successful. Please try again using different credentials or try again later.
+                The login/sign up attempt was not successful. Please try again using different credentials or try again later.
               </p>
             </div> 
             <div class="field">
@@ -181,7 +199,7 @@
           </div>
         </section>
         <footer class="modal-card-foot">
-          <button id="user-modal-login-button" class="button is-primary">Login</button>
+          <button id="user-modal-login-button" class="button is-primary">Login/Sign up</button>
         </footer>
       </div>
     </div>
@@ -332,6 +350,8 @@
         </section>
         <footer class="modal-card-foot">
           <button id="app-details-modal-download-button" class="button is-primary">Download</button>
+          <button id="app-details-modal-website-button" class="button is-info">Website</button>
+          <button id="app-details-modal-repo-button" class="button is-info">Repository</button>
           <button id="app-details-modal-donation-button" class="button is-warning">Donate</button>
         </footer>
       </div>
