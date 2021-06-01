@@ -1,7 +1,7 @@
 {
-  "name": "b-hackers-webstore",
+  "name": "openkaios-webstore",
   "version": "1.0.0",
-  "description": "B-Hackers WebStore client",
+  "description": "openKaiOS WebStore client",
   "main": "gulpfile.js",
   "scripts": {
     "build": "gulp",
@@ -9,20 +9,21 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jkelol111/webstore.git"
+    "url": "git+https://github.com/openkaios/openkaios-store-web.git"
   },
   "keywords": [
     "kaios",
+    "openkaios",
     "bananahackers",
     "b-hackers",
     "webstore"
   ],
   "author": "jkelol111",
-  "license": "ISC",
+  "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/jkelol111/webstore/issues"
+    "url": "https://github.com/openkaios/openkaios-store-web/issues"
   },
-  "homepage": "https://github.com/jkelol111/webstore#readme",
+  "homepage": "https://github.com/openkaios/openkaios-store-web#readme",
   "devDependencies": {
     "del": "^5.1.0",
     "eslint": "^7.11.0",

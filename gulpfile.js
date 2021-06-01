@@ -40,7 +40,7 @@ const FPATHS = {
     dest: BUILD_FOLDER + 'assets/logos/'
   },
   manifest: {
-    src: SOURCE_FOLDER + 'bhackers.json',
+    src: SOURCE_FOLDER + 'openkaios.json',
     dest: BUILD_FOLDER
   }
 }
@@ -108,7 +108,7 @@ function manifestTask () {
   return src(FPATHS.manifest.src)
     .pipe(plumber({ errorHandler: onErr }))
     .pipe(minifyJSON())
-    .pipe(rename('bhackers.webmanifest'))
+    .pipe(rename('openkaios.webmanifest'))
     .pipe(plumber.stop())
     .pipe(dest(FPATHS.manifest.dest))
 }

@@ -5,8 +5,7 @@ const WORKER_NAME = "Store"
 importScripts('common.js')
 
 const stores = [
-  "https://banana-hackers.gitlab.io/store-db/data.json",
-  "https://bananahackers.github.io/store-db/data.json"
+  "https://openkaios.top/openkaios-store-db/data.json"
 ]
 
 const downloadCounters = [

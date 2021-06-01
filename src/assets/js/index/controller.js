@@ -360,7 +360,7 @@ appCardsContainerElement.onclick = function (e) {
           appDownloadsModal.buttons.download.setAttribute('data-app-download', appDetails.download.url)
           appDownloadsModal.buttons.download.setAttribute('data-app-appid', appDetails.slug)
           appDownloadsModal.content.qrcode.innerHTML = ''
-          new QRCode(appDownloadsModal.content.qrcode, "bhackers:" + appDetails.slug)
+          new QRCode(appDownloadsModal.content.qrcode, "openkaios:" + appDetails.slug)
         } else {
           appDetailsModal.buttons.download.classList.add('is-hidden')
           appDownloadsModal.buttons.download.classList.add('is-hidden')
@@ -480,7 +480,7 @@ function addAppCard (appDetails) {
       navigator.share({
         title: appDetails.name,
         text: appDetails.description,
-        url: 'https://store.bananahackers.net/#' + appDetails.slug
+        url: 'https://store.openkaios.top/#' + appDetails.slug
       }).then(function () {
         console.log(`[Index Controller] Shared app '${appDetails.slug}' successfully.`)
       }).catch(function (err) {
@@ -493,7 +493,7 @@ function addAppCard (appDetails) {
     cardFooter_ShareApp.classList.add('card-footer-item', 'is-unselectable')
     cardFooter_ShareApp.innerText = 'Copy link to app'
     cardFooter_ShareApp.onclick = function () {
-      navigator.clipboard.writeText('https://store.bananahackers.net/#' + appDetails.slug).then(function () {
+      navigator.clipboard.writeText('https://store.openkaios.top/#' + appDetails.slug).then(function () {
         console.log(`[Index Controller] Copied app '${appDetails.slug}' to clipboard successfully.`)
       }).catch(function (err) {
         console.error(`[Index Controller] Could not copy app '${appDetails.slug}' to clipboard: ` + err)
