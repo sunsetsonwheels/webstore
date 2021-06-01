@@ -23,12 +23,12 @@ jobs:
         with:
           node-version: 12.x
 
-      - name: install dependencies
+      - name: Install dependencies
         run: |
          npm install
          npm install -g gulp-cli
          
-      - name: generate hexo
+      - name: Generate webstore data
         run: 
          gulp
       
