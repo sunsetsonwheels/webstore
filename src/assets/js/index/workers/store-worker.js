@@ -5,7 +5,7 @@ const WORKER_NAME = "Store"
 importScripts('common.js')
 
 const stores = [
-  "https://openkaios.top/openkaios-store-db/data.json"
+  "https://storedb.openkaios.top/data.json"
 ]
 
 const downloadCounters = [
