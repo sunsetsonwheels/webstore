@@ -75,11 +75,11 @@
             </a>
     
             <div class="navbar-dropdown">
-              <a class="navbar-item is-unselectable" href="#" onclick="window.lang.change('zh-CN'); return false;">
+              <a class="navbar-item is-unselectable switch-locale" href="#" onclick="window.lang.change('zh-CN'); window.reloadData(); return false;">
                 简体中文
               </a>
               <hr class="navbar-divider">
-              <a class="navbar-item is-unselectable" href="#" onclick="window.lang.change('en'); return false;">
+              <a class="navbar-item is-unselectable switch-locale" href="#" onclick="window.lang.change('en'); window.reloadData(); return false;">
                 English
               </a>
             </div>
@@ -439,6 +439,7 @@
 
     <script>
       var lang = new Lang();
+      lang.dynamic("en", "assets/locales/en.json");
       lang.dynamic("zh-CN", "assets/locales/zh-CN.json");
       lang.init({
         defaultLang: "en",

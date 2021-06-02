@@ -469,12 +469,14 @@ function addAppCard (appDetails) {
   cardFooter_ViewAppDetails.setAttribute('data-app-categories', appDetails.meta.categories.toString())
   cardFooter_ViewAppDetails.setAttribute('data-app-name', appDetails.name)
   cardFooter_ViewAppDetails.setAttribute('data-app-slug', appDetails.slug)
+  cardFooter_ViewAppDetails.setAttribute('lang', 'en')
   cardFooter_ViewAppDetails.innerText = window.lang.translate("app-details")
   cardFooter.appendChild(cardFooter_ViewAppDetails)
 
   if (navigator.share) {
     var cardFooter_ShareApp = document.createElement('a')
     cardFooter_ShareApp.classList.add('card-footer-item', 'is-unselectable')
+    cardFooter_ShareApp.setAttribute('lang', 'en')
     cardFooter_ShareApp.innerText = window.lang.translate("share-app")
     cardFooter_ShareApp.onclick = function () {
       navigator.share({
