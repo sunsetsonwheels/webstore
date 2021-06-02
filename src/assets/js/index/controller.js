@@ -109,7 +109,7 @@ function reloadAppRatings (appID) {
     appDetailsModal.content.ratings.loggedIn.submitButton.classList.remove('is-loading')
   }).catch(function (err) {
     bulmaToast.toast({
-      message: 'Ratings could not be loaded! Check the console for more info.',
+      message: window.lang.translate("rating-load-error"),
       type: "is-danger"
     })
     console.error(err)
@@ -138,7 +138,7 @@ appDownloadsModal.buttons.download.onclick = function (e) {
     e.target.disabled = false
     e.target.classList.remove('is-loading')
     bulmaToast.toast({
-      message: 'Failed to record download count! Check the console for more info.',
+      message: window.lang.translate("download-record-error"),
       type: 'is-danger'
     })
   })
@@ -329,15 +329,15 @@ appCardsContainerElement.onclick = function (e) {
         }
 
         if (typeof(appDetails.has_ads) !== 'undefined') {
-          appDetailsModal.content.has_ads.innerText = `Ads: ${appDetails.has_ads}`
+          appDetailsModal.content.has_ads.innerText = window.lang.translate("ads") + `: ${appDetails.has_ads}`
         } else {
-          appDetailsModal.content.has_ads.innerText = 'Ads: Unknown'
+          appDetailsModal.content.has_ads.innerText = window.lang.translate("ads") + ': Unknown'
         }
 
         if (typeof(appDetails.has_tracking) !== 'undefined') {
-          appDetailsModal.content.has_tracking.innerText = `Tracking: ${appDetails.has_tracking}`
+          appDetailsModal.content.has_tracking.innerText = window.lang.translate("tracking") + `: ${appDetails.has_tracking}`
         } else {
-          appDetailsModal.content.has_tracking.innerText = 'Tracking: Unknown'
+          appDetailsModal.content.has_tracking.innerText = window.lang.translate("tracking") + ': Unknown'
         }
 
         if (appDetails.license) {
@@ -398,13 +398,13 @@ appCardsContainerElement.onclick = function (e) {
         appDetailsModal.controller.show()
       } else {
         bulmaToast.toast({
-          message: 'App does not exist in category "' + appMainCategory + '"!',
+          message: window.lang.translate("app-exist-error") + ' "' + appMainCategory + '"!',
           type: 'is-danger'
         })
       }
     } else {
       bulmaToast.toast({
-        message: 'Given category "' + appMainCategory + '" does not exist!',
+        message: window.lang.translate("category-exist-error-1") + ' "' + appMainCategory + '" ' + window.lang.translate("category-exist-error-2"),
         type: 'is-danger'
       })
     }
@@ -469,13 +469,13 @@ function addAppCard (appDetails) {
   cardFooter_ViewAppDetails.setAttribute('data-app-categories', appDetails.meta.categories.toString())
   cardFooter_ViewAppDetails.setAttribute('data-app-name', appDetails.name)
   cardFooter_ViewAppDetails.setAttribute('data-app-slug', appDetails.slug)
-  cardFooter_ViewAppDetails.innerText = 'View app details'
+  cardFooter_ViewAppDetails.innerText = window.lang.translate("app-details")
   cardFooter.appendChild(cardFooter_ViewAppDetails)
 
   if (navigator.share) {
     var cardFooter_ShareApp = document.createElement('a')
     cardFooter_ShareApp.classList.add('card-footer-item', 'is-unselectable')
-    cardFooter_ShareApp.innerText = 'Share link to app'
+    cardFooter_ShareApp.innerText = window.lang.translate("share-app")
     cardFooter_ShareApp.onclick = function () {
       navigator.share({
         title: appDetails.name,
@@ -573,7 +573,7 @@ sortSelect.onchange = function (e) {
     }
 
     bulmaToast.toast({
-      message: 'Apps sorted successfully!',
+      message: window.lang.translate("app-sort-success"),
       type: "is-success"
     })
   }).catch(function (err) {
@@ -582,7 +582,7 @@ sortSelect.onchange = function (e) {
     reloadButton.disabled = false
 
     bulmaToast.toast({
-      message: 'Apps could not be sorted! Check the console for more info.',
+      message: window.lang.translate("app-sort-success"),
       type: "is-danger"
     })
 
@@ -807,7 +807,7 @@ function reloadData () {
       githubCommitWorker.terminate()
       if (e.data !== null) {
         githubCommitLabel.innerText = e.data.substring(0, 7)
-        githubCommitLabel.setAttribute('href', 'https://github.com/jkelol111/webstore/blob/' + e.data + '/src/')
+        githubCommitLabel.setAttribute('href', 'https://github.com/openkaios/openkaios-store-web/blob/' + e.data + '/src/')
         githubCommitLabel.classList.remove('is-danger')
         githubCommitLabel.classList.add('is-success')
 
@@ -824,12 +824,12 @@ function reloadData () {
     githubCommitWorker.postMessage(null)
 
     bulmaToast.toast({
-      message: 'Data loaded successfully!',
+      message: window.lang.translate("data-load-success"),
       type: "is-success"
     })
   }).catch(function (err) {
     bulmaToast.toast({
-      message: 'Data could not be loaded! Check the console for more info.',
+      message: window.lang.translate("data-load-error"),
       type: "is-danger"
     })
     console.error(err)

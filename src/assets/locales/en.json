@@ -1,0 +1,13 @@
+{
+    "token": {
+        "rating-load-error": "Ratings could not be loaded! Check the console for more info.",
+        "download-record-error": "Failed to record download count! Check the console for more info.",
+        "app-exist-error": "App does not exist in category",
+        "category-exist-error-1": "Given category",
+        "category-exist-error-2": "does not exist!",
+        "data-load-success": "数据加载成功！",
+        "data-load-error": "数据加载失败！请检查控制台输出以获取更多信息。",
+        "app-sort-success": "应用排序成功!",
+        "app-sort-error": "应用排序失败！请检查控制台输出以获取更多信息。"
+    }
+}

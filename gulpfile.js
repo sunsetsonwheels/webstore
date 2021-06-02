@@ -39,6 +39,10 @@ const FPATHS = {
     src: SOURCE_FOLDER + 'assets/logos/**/*.png',
     dest: BUILD_FOLDER + 'assets/logos/'
   },
+  locales: {
+    src: SOURCE_FOLDER + 'assets/locales/*.json',
+    dest: BUILD_FOLDER + 'assets/locales/'
+  },
   manifest: {
     src: SOURCE_FOLDER + 'openkaios.json',
     dest: BUILD_FOLDER
@@ -104,6 +108,13 @@ function logosTask () {
     .pipe(dest(FPATHS.logos.dest))
 }
 
+function localesTask () {
+  return src(FPATHS.locales.src)
+    .pipe(plumber( {errorHandler: onErr }))
+    .pipe(plumber.stop())
+    .pipe(dest(FPATHS.locales.dest))
+}
+
 function manifestTask () {
   return src(FPATHS.manifest.src)
     .pipe(plumber({ errorHandler: onErr }))
@@ -117,7 +128,7 @@ function cleanBuildAll () {
   return rm([BUILD_FOLDER + '*', '!' + BUILD_FOLDER + "CNAME"])
 }
 
-const DEFAULT_BUILD_TASKS = parallel(jsTask, jsMinTask, cssTask, cssMinTask, htmlTask, iconsTask, logosTask, manifestTask)
+const DEFAULT_BUILD_TASKS = parallel(jsTask, jsMinTask, cssTask, cssMinTask, htmlTask, iconsTask, logosTask, localesTask, manifestTask)
 
 exports.clean = cleanBuildAll
 

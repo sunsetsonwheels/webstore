@@ -31,10 +31,10 @@
     
       <div id="webstore-navbar" class="navbar-menu">
         <div class="navbar-start">
-          <a class="navbar-item is-unselectable" href="#" target="_blank">
+          <a class="navbar-item is-unselectable" href="#" target="_blank" lang="en" data-lang-token="Forums">
             Forums
           </a>
-          <a class="navbar-item is-unselectable" href="#" target="_blank">
+          <a class="navbar-item is-unselectable" href="#" target="_blank" lang="en" data-lang-token="Chat">
             Chat
           </a>
           <div class="navbar-item has-dropdown is-hoverable">
@@ -43,16 +43,16 @@
             </a>
     
             <div class="navbar-dropdown">
-              <a class="navbar-item is-unselectable" href="https://openkaios.top/" target="_blank">
+              <a class="navbar-item is-unselectable" href="https://openkaios.top/" target="_blank" lang="en" data-lang-token="Home">
                 Home
               </a>
-              <a class="navbar-item is-unselectable" href="https://docs.openkaios.top/" target="_blank">
+              <a class="navbar-item is-unselectable" href="https://docs.openkaios.top/" target="_blank" lang="en" data-lang-token="Documentation">
                 Documentation
               </a>
             </div>
           </div>
           <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link is-unselectable">
+            <a class="navbar-link is-unselectable" lang="en" data-lang-token="App Databases">
               App Databases
             </a>
     
@@ -61,14 +61,29 @@
                 GitHub
               </a>
               <hr class="navbar-divider">
-              <a class="navbar-item is-unselectable" href="#" target="_blank">
-                Request apps(Not available)
+              <a class="navbar-item is-unselectable" href="#" target="_blank" lang="en" data-lang-token="Request apps">
+                Request apps
               </a>
             </div>
           </div>
           <a class="navbar-item is-unselectable" href="https://github.com/openkaios/openkaios-store-web" target="_blank">
             WebStore on GitHub
           </a>
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link is-unselectable">
+              Translations
+            </a>
+    
+            <div class="navbar-dropdown">
+              <a class="navbar-item is-unselectable" href="#" onclick="window.lang.change('zh-CN'); return false;">
+                简体中文
+              </a>
+              <hr class="navbar-divider">
+              <a class="navbar-item is-unselectable" href="#" onclick="window.lang.change('en'); return false;">
+                English
+              </a>
+            </div>
+          </div>
         </div>
 
         <div class="navbar-end">
@@ -80,9 +95,9 @@
                 </span>
                 <div class="select is-fullwidth">
                   <select id="sort-select" disabled>
-                    <option value="alphabetical">Alphabetical</option>
-                    <option value="popularity">Popularity</option>
-                    <option value="categorical">Categorical</option>
+                    <option value="alphabetical" lang="en" data-lang-token="Alphabetical">Alphabetical</option>
+                    <option value="popularity" lang="en" data-lang-token="Popularity">Popularity</option>
+                    <option value="categorical" lang="en" data-lang-token="Categorical">Categorical</option>
                   </select>
                 </div>
               </div>
@@ -125,20 +140,20 @@
         <nav class="level">
           <div class="level-item has-text-centered">
             <div>
-              <p class="heading is-unselectable">date generated</p>
+              <p class="heading is-unselectable" lang="en">date generated</p>
               <p id="data-generated-time-label" class="title">unknown</p>
             </div>
           </div>
           <div class="level-item has-text-centered">
             <div>
-              <p class="heading is-unselectable">total apps</p>
+              <p class="heading is-unselectable" lang="en">total apps</p>
               <p id="data-total-apps-label" class="title">unknown</p>
             </div>
           </div>
         </nav>
-        <div class="content has-text-centered">
+        <div class="content has-text-centered" >
           <p class="is-unselectable">
-            By using the service, you agree to our <a href="https://docs.openkaios.top/#/store/terms" target="_blank">Privacy Policy</a>. WebStore commit <a id="webstore-github-commit-label" target="_blank">unknown</a>.
+            <span lang="en" data-lang-token="terms1">By using the service, you agree to our</span> <a href="https://docs.openkaios.top/#/store/terms" target="_blank" lang="en" data-lang-token="terms2">Privacy Policy</a>. <span lang="en" data-lang-token="terms3">WebStore commit</span> <a id="webstore-github-commit-label" target="_blank" lang="en" data-lang-token="unknown">unknown</a>.
           </p>
         </div>
       </div>
@@ -226,40 +241,40 @@
             <table class="table is-striped is-narrow is-fullwidth">
               <tbody>
                 <tr>
-                  <th>Categories</th>
+                  <th lang="en" data-lang-token="Categories">Categories</th>
                   <td id="app-details-modal-app-categories">Unknown</td>
                 </tr>
                 <tr>
-                  <th>Author(s)</th>
+                  <th lang="en" data-lang-token="authors">Author(s)</th>
                   <td id="app-details-modal-app-authors">Unknown</td>
                 </tr>
                 <tr>
-                  <th>Maintainer(s)</th>
+                  <th lang="en" data-lang-token="maintainers">Maintainer(s)</th>
                   <td id="app-details-modal-app-maintainers">Unknown</td>
                 </tr>
                 <tr>
-                  <th>Version</th>
+                  <th lang="en" data-lang-token="version">Version</th>
                   <td id="app-details-modal-app-version">Unknown</td>
                 </tr>
                 <tr>
-                  <th>Type</th>
+                  <th lang="en" data-lang-token="type">Type</th>
                   <td id="app-details-modal-app-type">Unknown</td>
                 </tr>
                 <tr>
-                  <th>Anti-features</th>
+                  <th lang="en" data-lang-token="Anti-features">Anti-features</th>
                   <td>
                     <ul>
-                      <li id="app-details-modal-app-has_ads">Ads: Unknown</li>
-                      <li id="app-details-modal-app-has_tracking">Tracking: Unknown</li>
+                      <li id="app-details-modal-app-has_ads"><span lang="en" data-lang-token="ads">Ads</span>: Unknown</li>
+                      <li id="app-details-modal-app-has_tracking"><span lang="en" data-lang-token="tracking">Tracking</span>: Unknown</li>
                     </ul>
                   </td>
                 </tr>
                 <tr>
-                  <th>License</th>
+                  <th lang="en" data-lang-token="license">License</th>
                   <td id="app-details-modal-app-license">Unknown</td>
                 </tr>
                 <tr>
-                  <th>Downloads</th>
+                  <th lang="en" data-lang-token="downloadCount">Downloads</th>
                   <td id="app-details-modal-app-downloadCount">Unknown</td>
                 </tr>
               </tbody>
@@ -271,7 +286,7 @@
               <nav class="level is-mobile">
                 <div class="level-left">
                   <div class="level-item">
-                    <h2 class="title is-4 is-unselectable">Ratings</h2>
+                    <h2 class="title is-4 is-unselectable" lang="en" data-lang-token="rating">Ratings</h2>
                   </div>
                 </div>
                 <div class="level-left">
@@ -286,9 +301,9 @@
                   <div class="media-content">
                     <div class="content">
                       <p class="is-unselectable">
-                        <strong>Your rating</strong>
+                        <strong lang="en" data-lang-token="rating1">Your rating</strong>
                       </p>
-                      <p class="is-unselectable">
+                      <p class="is-unselectable" lang="en" data-lang-token="rating2">
                         To rate, log in using the button.
                       </p>
                     </div>
@@ -319,11 +334,11 @@
                         </div>
                         <div class="select is-fullwidth">
                           <select id="app-details-modal-app-ratings-logged-in-points" disabled>
-                            <option value="1">One point</option>
-                            <option value="2">Two points</option>
-                            <option value="3">Three points</option>
-                            <option value="4">Four points</option>
-                            <option value="5">Five points</option>
+                            <option value="1" lang="en" data-lang-token="point-1">One point</option>
+                            <option value="2" lang="en" data-lang-token="point-2">Two points</option>
+                            <option value="3" lang="en" data-lang-token="point-3">Three points</option>
+                            <option value="4" lang="en" data-lang-token="point-4">Four points</option>
+                            <option value="5" lang="en" data-lang-token="point-5">Five points</option>
                           </select>
                         </div>
                       </div>
@@ -338,7 +353,7 @@
                   </div>
                 </article>
               </div>
-              <div id="app-details-modal-app-ratings-all-ratings">
+              <div id="app-details-modal-app-ratings-all-ratings" lang="en" data-lang-token="rating-load">
                 Loading ratings...
               </div>
               <br>
@@ -346,10 +361,10 @@
           </div>
         </section>
         <footer class="modal-card-foot">
-          <button id="app-details-modal-download-button" class="button is-primary">Download</button>
-          <button id="app-details-modal-website-button" class="button is-info">Website</button>
-          <button id="app-details-modal-repo-button" class="button is-info">Repository</button>
-          <button id="app-details-modal-donation-button" class="button is-warning">Donate</button>
+          <button id="app-details-modal-download-button" class="button is-primary" lang="en" data-lang-token="download">Download</button>
+          <button id="app-details-modal-website-button" class="button is-info" lang="en" data-lang-token="website">Website</button>
+          <button id="app-details-modal-repo-button" class="button is-info" lang="en" data-lang-token="repo">Repository</button>
+          <button id="app-details-modal-donation-button" class="button is-warning" lang="en" data-lang-token="donation">Donate</button>
         </footer>
       </div>
     </div>
@@ -368,22 +383,22 @@
           <div class="container">
             <div class="content">
               <p>
-                Scan the QR code below with
+                <span lang="en" data-lang-token="qr1">Scan the QR code below with</span>
                 <a href="https://github.com/openkaios/openkaios-store-client" target="_blank">openKaiOS Store client</a>
-                to install.
+                <span lang="en" data-lang-token="qr2">to install.</span>
               </p>
               <hr>
               <div class="columns is-centered">
                 <div id="app-download-modal-app-download-qrcode" class="column is-half"></div>
               </div>
               <hr>
-              <p>Or attempt to install directly/download manually below.</p>
+              <p lang="en" data-lang-token="manually">Or attempt to install directly/download manually below.</p>
             </div>
           </div>
         </section>
         <footer class="modal-card-foot">
-          <button id="app-download-modal-install-button" class="button is-primary" disabled>Install directly</button>
-          <button id="app-download-modal-download-button" class="button">Download manually</button>
+          <button id="app-download-modal-install-button" class="button is-primary" disabled lang="en" data-lang-token="inst-directly">Install directly</button>
+          <button id="app-download-modal-download-button" class="button" lang="en" data-lang-token="down-manually">Download manually</button>
         </footer>
       </div>
     </div>
@@ -392,24 +407,27 @@
       <div class="modal-background"></div>
       <div class="modal-card">
         <header class="modal-card-head">
-          <p class="modal-card-title">WebStore update available</p>
+          <p class="modal-card-title" lang="en" data-lang-token="webstore-update">WebStore update available</p>
         </header>
         <section class="modal-card-body">
           <div class="container">
             <div class="content">
-              <p>
+              <p lang="en" data-lang-token="webstore-update-info">
                 There is an update for WebStore available. Click the update button to reload the new version.
               </p>
             </div>
           </div>
         </section>
         <footer class="modal-card-foot">
-          <button id="webstore-update-modal-update-button" class="button is-success">Update</button>
-          <button class="button is-danger" data-bulma-modal="close">Ignore</button>
+          <button id="webstore-update-modal-update-button" class="button is-success" lang="en" data-lang-token="update-button">Update</button>
+          <button class="button is-danger" data-bulma-modal="close" lang="en" data-lang-token="ignore-button">Ignore</button>
         </footer>
       </div>
     </div>
 
+    <script src="assets/js/lib/jquery/jquery.min.js"></script>
+    <script src="assets/js/lib/js.cookie.min.js"></script>
+    <script src="assets/js/lib/jquery/jquery-lang.min.js"></script>
     <script src="assets/js/lib/bulma/bulma-toast.min.js" defer></script>
     <script src="assets/js/lib/bulma/bulma-modal.js" defer></script>
     <script src="assets/js/lib/qrcode.js" defer></script>
@@ -418,5 +436,20 @@
     <script src="assets/js/lib/dayjs/plugins/relativeTime.min.js" defer></script>
     <script src="assets/js/init.js" defer></script>
     <script src="assets/js/index/controller.js" defer></script>
+
+    <script>
+      var lang = new Lang();
+      lang.dynamic("zh-CN", "assets/locales/zh-CN.json");
+      lang.init({
+        defaultLang: "en",
+        currentLang: 'zh-CN',
+        cookie: {
+          name: 'langCookie',
+          expiry: 365,
+          path: '/'
+        },
+        allowCookieOverride: true
+      });
+    </script>
   </body>
 </html>
