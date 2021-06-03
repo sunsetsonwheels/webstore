@@ -493,7 +493,8 @@ function addAppCard (appDetails) {
   } else if (navigator.clipboard) {
     var cardFooter_ShareApp = document.createElement('a')
     cardFooter_ShareApp.classList.add('card-footer-item', 'is-unselectable')
-    cardFooter_ShareApp.innerText = 'Copy link to app'
+    cardFooter_ShareApp.setAttribute('lang', 'en')
+    cardFooter_ShareApp.innerText = window.lang.translate("copy-app")
     cardFooter_ShareApp.onclick = function () {
       navigator.clipboard.writeText('https://store.openkaios.top/#' + appDetails.slug).then(function () {
         console.log(`[Index Controller] Copied app '${appDetails.slug}' to clipboard successfully.`)

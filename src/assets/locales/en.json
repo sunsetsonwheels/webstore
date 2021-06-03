@@ -20,6 +20,7 @@
         "unknown": "unknown",
         "app-details": "View app details",
         "share-app": "Share link to app",
+        "copy-app": "Copy link to app",
         "Categories": "Categories",
         "authors": "Author(s)",
         "maintainers": "Maintainer(s)",
