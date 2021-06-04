@@ -172,7 +172,7 @@ const appDetailsModal = {
         container: document.getElementById('app-details-modal-app-ratings-logged-in'),
         details: document.getElementById('app-details-modal-app-ratings-logged-in-details'),
         points: document.getElementById('app-details-modal-app-ratings-logged-in-points'),
-        description: document.getElementById('app-details-modal-app-ratings-logged-in-description'),
+        // description: document.getElementById('app-details-modal-app-ratings-logged-in-description'),
         ratingIncompleteBlurb: document.getElementById('app-details-modal-rating-incomplete-blurb'),
         submitButton: document.getElementById('app-details-modal-app-ratings-logged-in-submit-button')
       },
@@ -224,7 +224,7 @@ appDetailsModal.content.ratings.loggedIn.submitButton.onclick = function () {
       userDetails.logintoken,
       appDetailsModal.content.ratings.loggedIn.submitButton.getAttribute('data-app-appid'),
       appDetailsModal.content.ratings.loggedIn.points.value,
-      appDetailsModal.content.ratings.loggedIn.description.value
+      // appDetailsModal.content.ratings.loggedIn.description.value
     ).then(function () {
       setTimeout(function () {
         reloadAppRatings(appDetailsModal.content.ratings.loggedIn.submitButton.getAttribute('data-app-appid'))
