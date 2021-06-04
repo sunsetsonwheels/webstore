@@ -646,8 +646,8 @@ userModal.controller.addEventListener('modal:show', function () {
 
   const username = localStorage.getItem('webstore-ratings-username')
   if (username !== null) {
-    userModal.content.usernameInput.value = username
-    isLoginDetailsSaved = true
+      userModal.content.usernameInput.value = username
+      isLoginDetailsSaved = true
   } else {
     userModal.content.usernameInput.value = ''
   }
