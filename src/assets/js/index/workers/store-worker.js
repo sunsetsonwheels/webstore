@@ -9,7 +9,7 @@ const stores = [
 ]
 
 const downloadCounters = [
-  'https://bhackers.uber.space/srs/v1/download_counter/'
+  'https://liaronce.top/download_counter/'
 ]
 
 onmessage = function () {
