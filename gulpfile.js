@@ -44,7 +44,7 @@ const FPATHS = {
     dest: BUILD_FOLDER + 'assets/locales/'
   },
   manifest: {
-    src: SOURCE_FOLDER + 'openkaios.json',
+    src: SOURCE_FOLDER + 'openkaios.webmanifest',
     dest: BUILD_FOLDER
   }
 }

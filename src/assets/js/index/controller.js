@@ -214,11 +214,12 @@ appDetailsModal.buttons.donation.onclick = function (e) {
 
 appDetailsModal.content.ratings.loggedIn.submitButton.onclick = function () {
   appDetailsModal.content.ratings.loggedIn.ratingIncompleteBlurb.classList.add('is-hidden')
-  if (appDetailsModal.content.ratings.loggedIn.description.value.length > 2 && isUserLoggedIn) {
+  // if (appDetailsModal.content.ratings.loggedIn.description.value.length > 2 && isUserLoggedIn) {
+  if (appDetailsModal.content.ratings.loggedIn.points.value.length > 0 && isUserLoggedIn) {
     appDetailsModal.content.ratings.loggedIn.submitButton.classList.add('is-loading')
     appDetailsModal.content.ratings.loggedIn.submitButton.disabled = true
     appDetailsModal.content.ratings.loggedIn.points.disabled = true
-    appDetailsModal.content.ratings.loggedIn.description.disabled = true
+    // appDetailsModal.content.ratings.loggedIn.description.disabled = true
     StoreDbAPI.addNewRating(
       userDetails.username,
       userDetails.logintoken,

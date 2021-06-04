@@ -92,7 +92,8 @@ onmessage = (e) => {
       break
     case 'add':
       wLog('log', 'Selected command "add".')
-      if (e.data.args.username && e.data.args.logintoken && e.data.args.appid && e.data.args.points && e.data.args.description) {
+      // if (e.data.args.username && e.data.args.logintoken && e.data.args.appid && e.data.args.points && e.data.args.description) {
+      if (e.data.args.username && e.data.args.logintoken && e.data.args.appid && e.data.args.points) {
         wLog('log', 'Making request to ratings server.')
         const request = syncJSONRequest({
           type: 'POST',
@@ -101,8 +102,8 @@ onmessage = (e) => {
           body: JSON.stringify({
             username: e.data.args.username,
             logintoken: e.data.args.logintoken,
-            points: e.data.args.points,
-            description: e.data.args.description
+            points: e.data.args.points
+            // description: e.data.args.description
           })
         })
         if (request.success) {
