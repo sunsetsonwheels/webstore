@@ -1,4 +1,4 @@
-const WORKER_NAME = "Ratings"
+const WORKER_NAME = 'Ratings'
 
 importScripts('common.js')
 
@@ -9,7 +9,7 @@ const jsonHeader = {
 onmessage = (e) => {
   wLog('log', 'Ratings worker started.')
 
-  var returnMessage = {
+  const returnMessage = {
     success: false,
     response: {}
   }

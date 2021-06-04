@@ -20,8 +20,8 @@ function wLog (type, message) {
   }
 }
 
-function syncRequest(requestDetails) {
-  var xhr = new XMLHttpRequest()
+function syncRequest (requestDetails) {
+  const xhr = new XMLHttpRequest()
   xhr.open(requestDetails.type, requestDetails.url, false)
   if (requestDetails.headers) {
     for (const header in requestDetails.headers) {
@@ -31,7 +31,7 @@ function syncRequest(requestDetails) {
   xhr.timeout = requestDetails.timeout
   xhr.send(requestDetails.body)
 
-  var returnObject = {
+  const returnObject = {
     success: false,
     data: null,
     error: null

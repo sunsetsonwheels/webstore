@@ -4,9 +4,9 @@ class StoreDatabaseAPI {
   }
 
   loadData () {
-    var that = this
-    return new Promise(function (resolve, reject) {   
-      var worker = new Worker('assets/js/index/workers/store-worker.js')
+    const that = this
+    return new Promise(function (resolve, reject) {
+      const worker = new Worker('assets/js/index/workers/store-worker.js')
       worker.onmessage = function (e) {
         worker.terminate()
         that.db = e.data
@@ -20,7 +20,7 @@ class StoreDatabaseAPI {
     })
   }
 
-  getAppsByCategory(category) {
+  getAppsByCategory (category) {
     if (category in this.db.categories) {
       return this.db.apps.categorical[category]
     } else {
@@ -28,10 +28,10 @@ class StoreDatabaseAPI {
     }
   }
 
-  sortApps(apps, sort) {
-    var that = this
+  sortApps (apps, sort) {
+    const that = this
     return new Promise(function (resolve, reject) {
-      var worker = new Worker('assets/js/index/workers/sort-worker.js')
+      const worker = new Worker('assets/js/index/workers/sort-worker.js')
       worker.onmessage = function (e) {
         worker.terminate()
         resolve(e.data.apps)
@@ -56,16 +56,16 @@ class StoreDatabaseAPI {
           })
           break
         default:
-          console.warn("[StoreDb] Unable to sort, returning unsorted apps.")
+          console.warn('[StoreDb] Unable to sort, returning unsorted apps.')
           resolve(apps)
           break
       }
     })
   }
 
-  dlCountApp(appSlug) {
+  dlCountApp (appSlug) {
     return new Promise(function (resolve, reject) {
-      var worker = new Worker('assets/js/index/workers/ratings-worker.js')
+      const worker = new Worker('assets/js/index/workers/ratings-worker.js')
       worker.onmessage = function (e) {
         worker.terminate()
         if (e.data.success) {
@@ -94,7 +94,7 @@ class StoreDatabaseAPI {
 
   getAppRatings (appID) {
     return new Promise(function (resolve, reject) {
-      var worker = new Worker('assets/js/index/workers/ratings-worker.js')
+      const worker = new Worker('assets/js/index/workers/ratings-worker.js')
       worker.onmessage = function (e) {
         worker.terminate()
         if (e.data.success) {
@@ -123,7 +123,7 @@ class StoreDatabaseAPI {
 
   loginToRatingsAccount (ausername, alogintoken) {
     return new Promise(function (resolve, reject) {
-      var worker = new Worker('assets/js/index/workers/ratings-worker.js')
+      const worker = new Worker('assets/js/index/workers/ratings-worker.js')
       worker.onmessage = function (e) {
         worker.terminate()
         if (e.data.success) {
@@ -153,7 +153,7 @@ class StoreDatabaseAPI {
 
   createRatingsAccount (ausername, alogintoken) {
     return new Promise(function (resolve, reject) {
-      var worker = new Worker('assets/js/index/workers/ratings-worker.js')
+      const worker = new Worker('assets/js/index/workers/ratings-worker.js')
       worker.onmessage = function (e) {
         worker.terminate()
         if (e.data.success) {
@@ -178,12 +178,12 @@ class StoreDatabaseAPI {
           logintoken: alogintoken
         }
       })
-    }) 
+    })
   }
 
   addNewRating (ausername, alogintoken, rappid, rpoints, rdescription) {
     return new Promise(function (resolve, reject) {
-      var worker = new Worker('assets/js/index/workers/ratings-worker.js')
+      const worker = new Worker('assets/js/index/workers/ratings-worker.js')
       worker.onmessage = function (e) {
         worker.terminate()
         if (e.data.success) {

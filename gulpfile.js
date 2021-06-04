@@ -19,12 +19,12 @@ const FPATHS = {
   },
   css: {
     src: SOURCE_FOLDER + 'assets/css/**/*.css',
-    src_min: [SOURCE_FOLDER + 'assets/css/**/*.min.css', 
-              SOURCE_FOLDER + 'assets/css/**/*.eot',
-              SOURCE_FOLDER + 'assets/css/**/*.svg',
-              SOURCE_FOLDER + 'assets/css/**/*.ttf',
-              SOURCE_FOLDER + 'assets/css/**/*.woff',
-              SOURCE_FOLDER + 'assets/css/**/*.woff2'],
+    src_min: [SOURCE_FOLDER + 'assets/css/**/*.min.css',
+      SOURCE_FOLDER + 'assets/css/**/*.eot',
+      SOURCE_FOLDER + 'assets/css/**/*.svg',
+      SOURCE_FOLDER + 'assets/css/**/*.ttf',
+      SOURCE_FOLDER + 'assets/css/**/*.woff',
+      SOURCE_FOLDER + 'assets/css/**/*.woff2'],
     dest: BUILD_FOLDER + 'assets/css/'
   },
   html: {
@@ -78,7 +78,6 @@ function cssTask () {
     .pipe(dest(FPATHS.css.dest))
 }
 
-
 function cssMinTask () {
   return src(FPATHS.css.src_min)
     .pipe(plumber({ errorHandler: onErr }))
@@ -103,14 +102,14 @@ function iconsTask () {
 
 function logosTask () {
   return src(FPATHS.logos.src)
-    .pipe(plumber( {errorHandler: onErr }))
+    .pipe(plumber({ errorHandler: onErr }))
     .pipe(plumber.stop())
     .pipe(dest(FPATHS.logos.dest))
 }
 
 function localesTask () {
   return src(FPATHS.locales.src)
-    .pipe(plumber( {errorHandler: onErr }))
+    .pipe(plumber({ errorHandler: onErr }))
     .pipe(plumber.stop())
     .pipe(dest(FPATHS.locales.dest))
 }
@@ -125,7 +124,7 @@ function manifestTask () {
 }
 
 function cleanBuildAll () {
-  return rm([BUILD_FOLDER + '*', '!' + BUILD_FOLDER + "CNAME"])
+  return rm([BUILD_FOLDER + '*', '!' + BUILD_FOLDER + 'CNAME'])
 }
 
 const DEFAULT_BUILD_TASKS = parallel(jsTask, jsMinTask, cssTask, cssMinTask, htmlTask, iconsTask, logosTask, localesTask, manifestTask)

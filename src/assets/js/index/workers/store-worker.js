@@ -1,20 +1,20 @@
 'use strict'
 
-const WORKER_NAME = "Store"
+const WORKER_NAME = 'Store'
 
 importScripts('common.js')
 
 const stores = [
-  "https://storedb.openkaios.top/data.json"
+  'https://storedb.openkaios.top/data.json'
 ]
 
 const downloadCounters = [
-  "https://bhackers.uber.space/srs/v1/download_counter/"
+  'https://bhackers.uber.space/srs/v1/download_counter/'
 ]
 
 onmessage = function () {
   wLog('log', 'Store worker started.')
-  var storeData = {
+  const storeData = {
     categories: {
       all: {
         name: 'All apps',
@@ -42,12 +42,12 @@ onmessage = function () {
       type: 'GET',
       url: store,
       timeout: 10000,
-      headers: fixedHeaders,
+      headers: fixedHeaders
     })
     if (request.success) {
       wLog('log', 'Received successful response from "' + store + '".')
       try {
-        var rawStoreData = request.data
+        const rawStoreData = request.data
         if (rawStoreData.generated_at) {
           wLog('log', 'Found data "generated_at".')
           storeData.generatedAt = rawStoreData.generated_at
@@ -71,13 +71,13 @@ onmessage = function () {
               }
             }
           }
-          if (!storeData.apps.categorical['all']) {
-            storeData.apps.categorical['all'] = {}
+          if (!storeData.apps.categorical.all) {
+            storeData.apps.categorical.all = {}
           }
           for (const category in storeData.categories) {
             for (const app in storeData.apps.categorical[category]) {
-              if (!storeData.apps.categorical['all'][app]) {
-                storeData.apps.categorical['all'][app] = storeData.apps.categorical[category][app]
+              if (!storeData.apps.categorical.all[app]) {
+                storeData.apps.categorical.all[app] = storeData.apps.categorical[category][app]
               }
             }
           }
@@ -112,7 +112,7 @@ onmessage = function () {
       } else {
         wLog('error', 'Error making request to download counter: ' + request.error)
       }
-    } 
+    }
   }
 
   wLog('log', 'Store worker completed!')

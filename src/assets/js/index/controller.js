@@ -1,14 +1,14 @@
 'use strict'
 
-var currentSelectedCategory = "all"
+let currentSelectedCategory = 'all'
 
-var StoreDbAPI = new StoreDatabaseAPI()
+const StoreDbAPI = new StoreDatabaseAPI()
 
-var isFirstInitCompleted = false
-var currentWebStoreVersion = ''
+let isFirstInitCompleted = false
+let currentWebStoreVersion = ''
 
 function separateArrayCommas (array) {
-  var separated = ''
+  let separated = ''
   const arrayLength = array.length
   for (const index in array) {
     if (index + 1 < arrayLength) {
@@ -21,7 +21,7 @@ function separateArrayCommas (array) {
 }
 
 function generateReadableCategories (categories) {
-  var rawCategories = []
+  const rawCategories = []
   for (const index in categories) {
     const categoryRawName = categories[index]
     const categoryFriendlyName = StoreDbAPI.db.categories[categoryRawName].name
@@ -49,17 +49,17 @@ function reloadAppRatings (appID) {
   appDetailsModal.content.ratings.loggedIn.submitButton.disabled = true
   appDetailsModal.content.ratings.averageRating.innerText = 'Unknown ★'
   appDetailsModal.content.ratings.allRatings.innerHTML = 'Loading ratings...'
-  
+
   StoreDbAPI.getAppRatings(appID).then(function (returnMessage) {
     appDetailsModal.content.ratings.allRatings.innerHTML = ''
 
-    var isPersonalReviewExists = false
+    let isPersonalReviewExists = false
 
     if (returnMessage.response.data.average) {
       appDetailsModal.content.ratings.averageRating.innerText = `${returnMessage.response.data.average.toFixed(1)} ★`
     }
     for (const review of returnMessage.response.data.ratings) {
-      if (review.username == userDetails.username) {
+      if (review.username === userDetails.username) {
         appDetailsModal.content.ratings.loggedIn.details.innerHTML = `<strong>@${review.username}</strong> (you) • <small>${dayjs.unix(review.creationtime).fromNow()}</small>`
         appDetailsModal.content.ratings.loggedIn.points.disabled = false
         appDetailsModal.content.ratings.loggedIn.description.disabled = false
@@ -69,27 +69,27 @@ function reloadAppRatings (appID) {
         appDetailsModal.content.ratings.loggedIn.description.disabled = true
         isPersonalReviewExists = true
       } else {
-        var ratingBoxElement = document.createElement('div')
+        const ratingBoxElement = document.createElement('div')
         ratingBoxElement.classList.add('box')
         appDetailsModal.content.ratings.allRatings.appendChild(ratingBoxElement)
 
-        var ratingMediaElement = document.createElement('article')
+        const ratingMediaElement = document.createElement('article')
         ratingMediaElement.classList.add('media')
         ratingBoxElement.appendChild(ratingMediaElement)
 
-        var ratingMediaContentElement = document.createElement('div')
+        const ratingMediaContentElement = document.createElement('div')
         ratingMediaContentElement.classList.add('media-content')
         ratingMediaElement.appendChild(ratingMediaContentElement)
 
-        var ratingMediaActualContentElement = document.createElement('div')
+        const ratingMediaActualContentElement = document.createElement('div')
         ratingMediaActualContentElement.classList.add('content')
         ratingMediaContentElement.appendChild(ratingMediaActualContentElement)
 
-        var ratingInfoElement = document.createElement('p')
+        const ratingInfoElement = document.createElement('p')
         ratingInfoElement.innerHTML = `<strong>@${review.username}</strong> • <small>${review.points} ★</small> • <small>${dayjs.unix(review.creationtime).fromNow()}</small>`
         ratingMediaActualContentElement.appendChild(ratingInfoElement)
 
-        var ratingDescriptionElement = document.createElement('p')
+        const ratingDescriptionElement = document.createElement('p')
         ratingDescriptionElement.innerText = review.description
         ratingMediaActualContentElement.appendChild(ratingDescriptionElement)
       }
@@ -109,14 +109,14 @@ function reloadAppRatings (appID) {
     appDetailsModal.content.ratings.loggedIn.submitButton.classList.remove('is-loading')
   }).catch(function (err) {
     bulmaToast.toast({
-      message: window.lang.translate("rating-load-error"),
-      type: "is-danger"
+      message: window.lang.translate('rating-load-error'),
+      type: 'is-danger'
     })
     console.error(err)
   })
 }
 
-var appDownloadsModal = {
+const appDownloadsModal = {
   controller: new BulmaModal('#app-download-modal'),
   content: {
     name: document.getElementById('app-download-modal-app-name'),
@@ -138,14 +138,14 @@ appDownloadsModal.buttons.download.onclick = function (e) {
     e.target.disabled = false
     e.target.classList.remove('is-loading')
     bulmaToast.toast({
-      message: window.lang.translate("download-record-error"),
+      message: window.lang.translate('download-record-error'),
       type: 'is-danger'
     })
   })
   window.open(e.target.getAttribute('data-app-download'), '_blank')
 }
 
-var appDetailsModal = {
+const appDetailsModal = {
   controller: new BulmaModal('#app-details-modal'),
   content: {
     name: document.getElementById('app-details-modal-app-name'),
@@ -176,7 +176,7 @@ var appDetailsModal = {
         submitButton: document.getElementById('app-details-modal-app-ratings-logged-in-submit-button')
       },
       averageRating: document.getElementById('app-details-modal-app-ratings-average-rating'),
-      allRatings: document.getElementById("app-details-modal-app-ratings-all-ratings")
+      allRatings: document.getElementById('app-details-modal-app-ratings-all-ratings')
     }
   },
   buttons: {
@@ -219,9 +219,9 @@ appDetailsModal.content.ratings.loggedIn.submitButton.onclick = function () {
     appDetailsModal.content.ratings.loggedIn.points.disabled = true
     appDetailsModal.content.ratings.loggedIn.description.disabled = true
     StoreDbAPI.addNewRating(
-      userDetails.username, 
-      userDetails.logintoken, 
-      appDetailsModal.content.ratings.loggedIn.submitButton.getAttribute('data-app-appid'), 
+      userDetails.username,
+      userDetails.logintoken,
+      appDetailsModal.content.ratings.loggedIn.submitButton.getAttribute('data-app-appid'),
       appDetailsModal.content.ratings.loggedIn.points.value,
       appDetailsModal.content.ratings.loggedIn.description.value
     ).then(function () {
@@ -238,16 +238,16 @@ appDetailsModal.content.ratings.loggedIn.submitButton.onclick = function () {
   }
 }
 
-var appCardColumn = 0
-var appCardsColumnElements = [
+let appCardColumn = 0
+const appCardsColumnElements = [
   document.getElementById('app-cards-column-0'),
   document.getElementById('app-cards-column-1'),
   document.getElementById('app-cards-column-2')
 ]
 
-var appCardsContainerElement = document.getElementById('app-cards-container')
+const appCardsContainerElement = document.getElementById('app-cards-container')
 appCardsContainerElement.onclick = function (e) {
-  var targetElementClasses = e.target.classList
+  const targetElementClasses = e.target.classList
   if (targetElementClasses.contains('app')) {
     const appMainCategory = e.target.getAttribute('data-app-categories').split(',')[0]
     if (appMainCategory in StoreDbAPI.db.apps.categorical) {
@@ -260,7 +260,7 @@ appCardsContainerElement.onclick = function (e) {
           appDetailsModal.content.name.innerText = 'Unknown app name'
           appDownloadsModal.content.name.innerText = 'Unknown app name'
         }
-        
+
         if (appDetails.icon) {
           appDetailsModal.content.icon.src = appDetails.icon
           appDownloadsModal.content.icon.src = appDetails.icon
@@ -268,14 +268,14 @@ appCardsContainerElement.onclick = function (e) {
           appDetailsModal.content.icon.src = 'icons/default-icon.png'
           appDownloadsModal.content.icon.src = 'icons/default-icon.png'
         }
-        
+
         if (appDetails.screenshots.length > 0) {
           appDetailsModal.content.screenshots.container.style.display = 'initial'
           appDetailsModal.content.screenshots.scroller.innerHTML = ''
           appDetailsModal.content.descriptionSeparator.classList.remove('is-hidden')
-          for (var screenshot of appDetails.screenshots) {
-            var screenshotImage = document.createElement('img')
-            screenshotImage.style.padding = "4px"
+          for (const screenshot of appDetails.screenshots) {
+            const screenshotImage = document.createElement('img')
+            screenshotImage.style.padding = '4px'
             screenshotImage.src = screenshot
             appDetailsModal.content.screenshots.scroller.appendChild(screenshotImage)
           }
@@ -297,7 +297,7 @@ appCardsContainerElement.onclick = function (e) {
         }
 
         if (appDetails.author) {
-          if (typeof appDetails.author == "string") {
+          if (typeof appDetails.author === 'string') {
             appDetailsModal.content.authors.innerText = appDetails.author
           } else if (Array.isArray(appDetails.author)) {
             appDetailsModal.content.authors.innerText = separateArrayCommas(appDetails.author)
@@ -307,7 +307,7 @@ appCardsContainerElement.onclick = function (e) {
         }
 
         if (appDetails.maintainer) {
-          if (typeof appDetails.maintainer == "string") {
+          if (typeof appDetails.maintainer === 'string') {
             appDetailsModal.content.maintainers.innerText = appDetails.maintainer
           } else if (Array.isArray(appDetails.maintainer)) {
             appDetailsModal.content.maintainers.innerText = separateArrayCommas(appDetails.maintainer)
@@ -328,16 +328,16 @@ appCardsContainerElement.onclick = function (e) {
           appDetailsModal.content.type.innerText = 'Unknown'
         }
 
-        if (typeof(appDetails.has_ads) !== 'undefined') {
-          appDetailsModal.content.has_ads.innerText = window.lang.translate("ads") + `: ${appDetails.has_ads}`
+        if (typeof (appDetails.has_ads) !== 'undefined') {
+          appDetailsModal.content.has_ads.innerText = window.lang.translate('ads') + `: ${appDetails.has_ads}`
         } else {
-          appDetailsModal.content.has_ads.innerText = window.lang.translate("ads") + ': Unknown'
+          appDetailsModal.content.has_ads.innerText = window.lang.translate('ads') + ': Unknown'
         }
 
-        if (typeof(appDetails.has_tracking) !== 'undefined') {
-          appDetailsModal.content.has_tracking.innerText = window.lang.translate("tracking") + `: ${appDetails.has_tracking}`
+        if (typeof (appDetails.has_tracking) !== 'undefined') {
+          appDetailsModal.content.has_tracking.innerText = window.lang.translate('tracking') + `: ${appDetails.has_tracking}`
         } else {
-          appDetailsModal.content.has_tracking.innerText = window.lang.translate("tracking") + ': Unknown'
+          appDetailsModal.content.has_tracking.innerText = window.lang.translate('tracking') + ': Unknown'
         }
 
         if (appDetails.license) {
@@ -360,7 +360,7 @@ appCardsContainerElement.onclick = function (e) {
           appDownloadsModal.buttons.download.setAttribute('data-app-download', appDetails.download.url)
           appDownloadsModal.buttons.download.setAttribute('data-app-appid', appDetails.slug)
           appDownloadsModal.content.qrcode.innerHTML = ''
-          new QRCode(appDownloadsModal.content.qrcode, "openkaios:" + appDetails.slug)
+          new QRCode(appDownloadsModal.content.qrcode, 'openkaios:' + appDetails.slug)
         } else {
           appDetailsModal.buttons.download.classList.add('is-hidden')
           appDownloadsModal.buttons.download.classList.add('is-hidden')
@@ -394,17 +394,17 @@ appCardsContainerElement.onclick = function (e) {
           appDetailsModal.content.ratings.loggedIn.container.classList.add('is-hidden')
           appDetailsModal.content.ratings.notLoggedIn.classList.remove('is-hidden')
         }
-        
+
         appDetailsModal.controller.show()
       } else {
         bulmaToast.toast({
-          message: window.lang.translate("app-exist-error") + ' "' + appMainCategory + '"!',
+          message: window.lang.translate('app-exist-error') + ' "' + appMainCategory + '"!',
           type: 'is-danger'
         })
       }
     } else {
       bulmaToast.toast({
-        message: window.lang.translate("category-exist-error-1") + ' "' + appMainCategory + '" ' + window.lang.translate("category-exist-error-2"),
+        message: window.lang.translate('category-exist-error-1') + ' "' + appMainCategory + '" ' + window.lang.translate('category-exist-error-2'),
         type: 'is-danger'
       })
     }
@@ -414,70 +414,70 @@ appCardsContainerElement.onclick = function (e) {
 function addAppCard (appDetails) {
   appCardsColumnElements[appCardColumn].appendChild(document.createElement('br'))
 
-  var card = document.createElement('div')
+  const card = document.createElement('div')
   card.id = appDetails.slug
   card.classList.add('card')
   appCardsColumnElements[appCardColumn].appendChild(card)
 
-  var cardContent = document.createElement('div')
+  const cardContent = document.createElement('div')
   cardContent.classList.add('card-content')
   card.appendChild(cardContent)
 
-  var media = document.createElement('div')
+  const media = document.createElement('div')
   media.classList.add('media')
   cardContent.appendChild(media)
 
-  var mediaLeft = document.createElement('div')
+  const mediaLeft = document.createElement('div')
   mediaLeft.classList.add('media-left')
   media.appendChild(mediaLeft)
 
-  var figure = document.createElement('figure')
+  const figure = document.createElement('figure')
   figure.classList.add('image', 'is-48x48', 'is-unselectable')
 
-  var img = document.createElement('img')
+  const img = document.createElement('img')
   img.src = appDetails.icon
 
   figure.appendChild(img)
 
   mediaLeft.appendChild(figure)
 
-  var mediaContent = document.createElement('div')
+  const mediaContent = document.createElement('div')
   mediaContent.classList.add('media-content')
   media.appendChild(mediaContent)
-  
-  var mediaContentTitle = document.createElement('p')
+
+  const mediaContentTitle = document.createElement('p')
   mediaContentTitle.classList.add('title', 'is-4')
   mediaContentTitle.innerText = appDetails.name
   mediaContent.appendChild(mediaContentTitle)
 
-  var mediaContentSubtitle = document.createElement('p')
+  const mediaContentSubtitle = document.createElement('p')
   mediaContentSubtitle.classList.add('subtitle', 'is-6')
   mediaContentSubtitle.innerText = generateReadableCategories(appDetails.meta.categories)
   mediaContent.appendChild(mediaContentSubtitle)
 
-  var content = document.createElement('div')
+  const content = document.createElement('div')
   content.classList.add('content')
   content.innerText = appDetails.description
   cardContent.appendChild(content)
 
-  var cardFooter = document.createElement('footer')
+  const cardFooter = document.createElement('footer')
   cardFooter.classList.add('card-footer')
   card.appendChild(cardFooter)
 
-  var cardFooter_ViewAppDetails = document.createElement('a')
+  const cardFooter_ViewAppDetails = document.createElement('a')
   cardFooter_ViewAppDetails.classList.add('card-footer-item', 'is-unselectable', 'app')
   cardFooter_ViewAppDetails.setAttribute('data-app-categories', appDetails.meta.categories.toString())
   cardFooter_ViewAppDetails.setAttribute('data-app-name', appDetails.name)
   cardFooter_ViewAppDetails.setAttribute('data-app-slug', appDetails.slug)
   cardFooter_ViewAppDetails.setAttribute('lang', 'en')
-  cardFooter_ViewAppDetails.innerText = window.lang.translate("app-details")
+  cardFooter_ViewAppDetails.innerText = window.lang.translate('app-details')
   cardFooter.appendChild(cardFooter_ViewAppDetails)
 
   if (navigator.share) {
-    var cardFooter_ShareApp = document.createElement('a')
+    const cardFooter_ShareApp = document.createElement('a')
     cardFooter_ShareApp.classList.add('card-footer-item', 'is-unselectable')
     cardFooter_ShareApp.setAttribute('lang', 'en')
-    cardFooter_ShareApp.innerText = window.lang.translate("share-app")
+    cardFooter_ShareApp.innerText = window.lang.translate('share-app')
     cardFooter_ShareApp.onclick = function () {
       navigator.share({
         title: appDetails.name,
@@ -491,10 +491,10 @@ function addAppCard (appDetails) {
     }
     cardFooter.appendChild(cardFooter_ShareApp)
   } else if (navigator.clipboard) {
-    var cardFooter_ShareApp = document.createElement('a')
+    const cardFooter_ShareApp = document.createElement('a')
     cardFooter_ShareApp.classList.add('card-footer-item', 'is-unselectable')
     cardFooter_ShareApp.setAttribute('lang', 'en')
-    cardFooter_ShareApp.innerText = window.lang.translate("copy-app")
+    cardFooter_ShareApp.innerText = window.lang.translate('copy-app')
     cardFooter_ShareApp.onclick = function () {
       navigator.clipboard.writeText('https://store.openkaios.top/#' + appDetails.slug).then(function () {
         console.log(`[Index Controller] Copied app '${appDetails.slug}' to clipboard successfully.`)
@@ -525,13 +525,13 @@ document.getElementById('scrolltop-fab').onclick = function () {
   })
 }
 
-var reloadButton = document.getElementById('reload-button')
+const reloadButton = document.getElementById('reload-button')
 
-var sortSelect = document.getElementById('sort-select')
+const sortSelect = document.getElementById('sort-select')
 sortSelect.onchange = function (e) {
   reloadButton.classList.add('is-loading')
 
-  var sortIcon = document.getElementById('sort-icon')
+  const sortIcon = document.getElementById('sort-icon')
   sortIcon.classList.remove('fa-sort-alpha-down', 'fa-fire-alt', 'fa-tags')
   switch (e.target.value) {
     case 'alphabetical':
@@ -548,7 +548,7 @@ sortSelect.onchange = function (e) {
   sortSelect.disabled = true
   reloadButton.disabled = true
 
-  for (var appCardColumnElement of appCardsColumnElements) {
+  for (const appCardColumnElement of appCardsColumnElements) {
     appCardColumnElement.innerHTML = ''
   }
 
@@ -563,7 +563,7 @@ sortSelect.onchange = function (e) {
     reloadButton.disabled = false
 
     try {
-      const appSlug = window.location.hash.split("#")[1]
+      const appSlug = window.location.hash.split('#')[1]
       if (typeof appSlug !== 'undefined') {
         document.querySelector(`[data-app-slug="${appSlug}"]`).click()
         window.location.hash = appSlug
@@ -576,8 +576,8 @@ sortSelect.onchange = function (e) {
     }
 
     bulmaToast.toast({
-      message: window.lang.translate("app-sort-success"),
-      type: "is-success"
+      message: window.lang.translate('app-sort-success'),
+      type: 'is-success'
     })
   }).catch(function (err) {
     reloadButton.classList.remove('is-loading')
@@ -585,18 +585,18 @@ sortSelect.onchange = function (e) {
     reloadButton.disabled = false
 
     bulmaToast.toast({
-      message: window.lang.translate("app-sort-success"),
-      type: "is-danger"
+      message: window.lang.translate('app-sort-success'),
+      type: 'is-danger'
     })
 
     console.log(err)
   })
 }
 
-var categoriesTabsElement = document.getElementById('categories-tabs')
+const categoriesTabsElement = document.getElementById('categories-tabs')
 categoriesTabsElement.onclick = function (e) {
   const targetElementClasses = e.target.classList
-  if (targetElementClasses.contains('category-link') || targetElementClasses.contains('category-tab'))  {
+  if (targetElementClasses.contains('category-link') || targetElementClasses.contains('category-tab')) {
     currentSelectedCategory = e.target.getAttribute('data-category-id')
     if (currentSelectedCategory in StoreDbAPI.db.categories) {
       for (const categoryTabElement of document.querySelectorAll('.category-tab')) {
@@ -611,12 +611,12 @@ categoriesTabsElement.onclick = function (e) {
   }
 }
 
-var userDetails = {
+const userDetails = {
   username: null,
   logintoken: null
 }
 
-var userModal = {
+const userModal = {
   controller: new BulmaModal('#user-modal'),
   content: {
     usernameInput: document.getElementById('user-modal-username-input'),
@@ -630,7 +630,7 @@ var userModal = {
 }
 
 userModal.controller.addEventListener('modal:show', function () {
-  var isLoginDetailsSaved = false
+  let isLoginDetailsSaved = false
 
   const username = localStorage.getItem('webstore-ratings-username')
   if (username !== null) {
@@ -657,16 +657,16 @@ userModal.controller.addEventListener('modal:close', function () {
   userModal.content.loginFailedBlurb.classList.add('is-hidden')
 })
 
-var isUserLoggedIn = false
+let isUserLoggedIn = false
 
-var userButton = {
+const userButton = {
   button: document.getElementById('user-button'),
   icon: document.getElementById('user-icon')
 }
 
 userButton.button.onclick = function () {
   if (isUserLoggedIn) {
-    userDetails.username = null,
+    userDetails.username = null
     userDetails.logintoken = null
     userButton.button.classList.remove('is-danger')
     userButton.button.classList.add('is-link')
@@ -725,10 +725,10 @@ userModal.content.saveLoginCheckbox.onchange = function (e) {
   }
 }
 
-var updateModal = {
+const updateModal = {
   controller: new BulmaModal('#webstore-update-modal'),
   buttons: {
-    update: document.getElementById('webstore-update-modal-update-button'),
+    update: document.getElementById('webstore-update-modal-update-button')
   }
 }
 
@@ -741,18 +741,18 @@ function reloadData () {
   reloadButton.classList.add('is-loading')
   reloadButton.disabled = true
 
-  var githubCommitLabel = document.getElementById('webstore-github-commit-label')
+  const githubCommitLabel = document.getElementById('webstore-github-commit-label')
   githubCommitLabel.classList.remove('is-danger')
 
   categoriesTabsElement.innerHTML = ''
 
-  for (var appCardColumnElement of appCardsColumnElements) {
+  for (const appCardColumnElement of appCardsColumnElements) {
     appCardColumnElement.innerHTML = ''
   }
 
   StoreDbAPI.loadData().then(function (data) {
     for (const category in data.categories) {
-      var newCategoryTab = {
+      const newCategoryTab = {
         tab: document.createElement('li'),
         link: {
           container: document.createElement('a'),
@@ -763,28 +763,28 @@ function reloadData () {
             },
             text: document.createElement('span')
           }
-        },
+        }
       }
-  
+
       newCategoryTab.tab.setAttribute('data-category-id', category)
       newCategoryTab.tab.classList.add('category-tab')
       categoriesTabsElement.appendChild(newCategoryTab.tab)
-  
+
       newCategoryTab.link.container.setAttribute('data-category-id', category)
       newCategoryTab.link.container.classList.add('category-link')
       newCategoryTab.tab.appendChild(newCategoryTab.link.container)
-  
+
       newCategoryTab.link.content.icon.container.setAttribute('data-category-id', category)
       newCategoryTab.link.content.icon.container.classList.add('icon', 'is-small', 'category-link')
       newCategoryTab.link.container.appendChild(newCategoryTab.link.content.icon.container)
-  
-      for (var faIconClass of data.categories[category].icon.split(' ')) {
+
+      for (const faIconClass of data.categories[category].icon.split(' ')) {
         newCategoryTab.link.content.icon.icon.classList.add(faIconClass)
       }
       newCategoryTab.link.content.icon.icon.classList.add('category-link')
       newCategoryTab.link.content.icon.icon.setAttribute('data-category-id', category)
       newCategoryTab.link.content.icon.container.appendChild(newCategoryTab.link.content.icon.icon)
-  
+
       newCategoryTab.link.content.text.innerText = data.categories[category].name
       newCategoryTab.link.content.text.setAttribute('data-category-id', category)
       newCategoryTab.link.content.text.classList.add('category-link')
@@ -793,19 +793,19 @@ function reloadData () {
     document.querySelector(`.category-tab[data-category-id*="${currentSelectedCategory}"]`).classList.add('is-active')
     sortSelect.dispatchEvent(new Event('change'))
 
-    var dataGeneratedLabel = document.getElementById('data-generated-time-label')
+    const dataGeneratedLabel = document.getElementById('data-generated-time-label')
     if (data.generatedAt) {
       dataGeneratedLabel.innerText = dayjs(data.generatedAt).fromNow()
       dataGeneratedLabel.classList.remove('is-danger')
       dataGeneratedLabel.classList.add('is-success')
     }
 
-    var totalAppsLabel = document.getElementById('data-total-apps-label')
+    const totalAppsLabel = document.getElementById('data-total-apps-label')
     totalAppsLabel.innerText = data.apps.raw.length
     totalAppsLabel.classList.remove('is-danger')
     totalAppsLabel.classList.add('is-success')
 
-    var githubCommitWorker = new Worker('assets/js/index/workers/githubcommit-worker.js')
+    const githubCommitWorker = new Worker('assets/js/index/workers/githubcommit-worker.js')
     githubCommitWorker.onmessage = function (e) {
       githubCommitWorker.terminate()
       if (e.data !== null) {
@@ -827,13 +827,13 @@ function reloadData () {
     githubCommitWorker.postMessage(null)
 
     bulmaToast.toast({
-      message: window.lang.translate("data-load-success"),
-      type: "is-success"
+      message: window.lang.translate('data-load-success'),
+      type: 'is-success'
     })
   }).catch(function (err) {
     bulmaToast.toast({
-      message: window.lang.translate("data-load-error"),
-      type: "is-danger"
+      message: window.lang.translate('data-load-error'),
+      type: 'is-danger'
     })
     console.error(err)
   })
