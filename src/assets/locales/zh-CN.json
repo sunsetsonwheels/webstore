@@ -26,6 +26,7 @@
         "maintainers": "维护者",
         "version": "版本",
         "type": "类型",
+        "locales": "语言",
         "Anti-features": "敏感特征",
         "ads": "广告",
         "tracking": "跟踪",

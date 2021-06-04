@@ -26,6 +26,7 @@
         "maintainers": "Maintainer(s)",
         "version": "Version",
         "type": "Type",
+        "locales": "Languages",
         "Anti-features": "Anti-features",
         "ads": "Ads",
         "tracking": "Tracking",

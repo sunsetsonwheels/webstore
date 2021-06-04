@@ -3,20 +3,6 @@ Web client for openKaiOS Store
 
 ![shields.io Last Commit badge](https://img.shields.io/github/last-commit/jkelol111/webstore)
 
-## Features
-
-!(https://github.com/jkelol111/webstore/raw/master/screenshots/apps.png)
-
-List apps from [BananaHackers' main GitLab store-db](https://gitlab.com/banana-hackers/store-db) instance, or the [community mirror on GitHub](https://github.com/bananahackers/bananahackers.github.io) & filter apps by categories.
-
-!(https://github.com/jkelol111/webstore/raw/master/screenshots/info.png)
-
-View apps information.
-
-!(https://github.com/jkelol111/webstore/raw/master/screenshots/download.png)
-
-Download apps manually, or by using perry's KaiOS Alt App Store client + download QR code.
-
 ## Building
 
 The WebStore can be run directly from `src/index.html` in this Git repository. For GitHub pages hosting, you will need to build it (run these commands relative to the project directory):
@@ -57,5 +43,7 @@ This project wouldn't have been possible without the following resources and pro
 - Bulma Toast by [@rfoel](https://github.com/rfoel): https://github.com/rfoel/bulma-toast
 - Font Awesome 5: https://fontawesome.com/
 - Animate.CSS: https://github.com/animate-css/animate.css
+- jQuery: https://jquery.com
+- jquery-lang-js[@Irrelon](https://github.com/Irrelon): https://github.com/Irrelon/jquery-lang-js
 
 and all the people at BananaHackers, 4Omin, perry and Farooq Karimi Zadeh for maintaining the BananaHackers Store on GitLab and GitHub, and of course, all the Mozilla Developer Network documentation ;)
