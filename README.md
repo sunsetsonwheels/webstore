@@ -1,7 +1,7 @@
 # webstore
 Web client for openKaiOS Store
 
-![shields.io Last Commit badge](https://img.shields.io/github/last-commit/jkelol111/webstore)
+![shields.io Last Commit badge](https://img.shields.io/github/last-commit/openkaios/openkaios-store-web)
 
 ## Building
 
