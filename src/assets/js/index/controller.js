@@ -322,11 +322,13 @@ appCardsContainerElement.onclick = function (e) {
         if (appDetails.dependencies) {
           if (typeof appDetails.dependencies === 'string') {
             appDetailsModal.content.dependencies.innerText = appDetails.dependencies
+          } else if (appDetails.dependencies.length === 0){
+            appDetailsModal.content.dependencies.innerText = '(None)'
           } else if (Array.isArray(appDetails.dependencies)) {
             appDetailsModal.content.dependencies.innerText = separateArrayCommas(appDetails.dependencies)
           }
         } else {
-          appDetailsModal.content.dependencies.innerText = 'None'
+          appDetailsModal.content.dependencies.innerText = '(None)'
         }
 
         if (appDetails.download.version) {
