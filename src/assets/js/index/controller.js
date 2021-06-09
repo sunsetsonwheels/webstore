@@ -319,13 +319,36 @@ appCardsContainerElement.onclick = function (e) {
           appDetailsModal.content.maintainers.innerText = 'Unknown'
         }
 
+        function separateArrayDependencies (depend) {
+          let separated = ''
+          const arrayLength = depend.length
+          for (const index in array) {
+            if (index + 1 < arrayLength) {
+              separated += array[index] + ' '
+            }
+          }
+          return separated
+        }
         if (appDetails.dependencies) {
-          if (typeof appDetails.dependencies === 'string') {
-            appDetailsModal.content.dependencies.innerText = appDetails.dependencies
+          appDetailsModal.content.dependencies.innerHTML = ""
+          if (typeof appDetails.dependencies.length > 0) {
+            for (let i = 0; i < appDetails.dependencies.length; i++) {
+              if (appDetails.dependencies[i].hasOwnProperty("url")) {
+                appDetailsModal.content.dependencies.innerHTML = '<a href="' + appDetails.dependencies[i].url + '" target="_blank">' + appDetails.dependencies[i].name + '</a>'
+              } else {
+                appDetailsModal.content.dependencies.innerHTML = appDetails.dependencies[i].name
+              }
+            }
           } else if (appDetails.dependencies.length === 0){
             appDetailsModal.content.dependencies.innerText = '(None)'
           } else if (Array.isArray(appDetails.dependencies)) {
-            appDetailsModal.content.dependencies.innerText = separateArrayCommas(appDetails.dependencies)
+            appDetails.dependencies.forEach((depend) => {
+              if (depend.url === "") {
+                appDetailsModal.content.dependencies.innerHTML += depend.name + '&nbsp;'
+              } else {
+                appDetailsModal.content.dependencies.innerHTML += '<a href="' + depend.url + '" target="_blank">' + depend.name + '</a>&nbsp;'
+              }
+            });
           }
         } else {
           appDetailsModal.content.dependencies.innerText = '(None)'
