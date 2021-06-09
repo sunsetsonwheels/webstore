@@ -24,6 +24,7 @@
         "Categories": "Categories",
         "authors": "Author(s)",
         "maintainers": "Maintainer(s)",
+        "dependencies": "Dependencies",
         "version": "Version",
         "type": "Type",
         "locales": "Languages",

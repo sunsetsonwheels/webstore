@@ -159,6 +159,7 @@ const appDetailsModal = {
     categories: document.getElementById('app-details-modal-app-categories'),
     authors: document.getElementById('app-details-modal-app-authors'),
     maintainers: document.getElementById('app-details-modal-app-maintainers'),
+    dependencies: document.getElementById('app-details-modal-app-dependencies'),
     version: document.getElementById('app-details-modal-app-version'),
     type: document.getElementById('app-details-modal-app-type'),
     locales: document.getElementById('app-details-modal-app-locales'),
@@ -316,6 +317,16 @@ appCardsContainerElement.onclick = function (e) {
           }
         } else {
           appDetailsModal.content.maintainers.innerText = 'Unknown'
+        }
+
+        if (appDetails.dependencies) {
+          if (typeof appDetails.dependencies === 'string') {
+            appDetailsModal.content.dependencies.innerText = appDetails.dependencies
+          } else if (Array.isArray(appDetails.dependencies)) {
+            appDetailsModal.content.dependencies.innerText = separateArrayCommas(appDetails.dependencies)
+          }
+        } else {
+          appDetailsModal.content.dependencies.innerText = 'None'
         }
 
         if (appDetails.download.version) {

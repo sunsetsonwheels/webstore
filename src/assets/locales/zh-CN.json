@@ -24,6 +24,7 @@
         "Categories": "分类",
         "authors": "作者",
         "maintainers": "维护者",
+        "dependencies": "依赖项",
         "version": "版本",
         "type": "类型",
         "locales": "语言",
