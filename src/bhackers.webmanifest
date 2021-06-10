@@ -1,6 +1,6 @@
 {
   "name": "BananaHackers WebStore",
-  "short_name": "BananaHackers Store",
+  "short_name": "B-Hackers Store",
   "description": "Web client for BananaHackers store-db.",
   "display": "standalone",
   "icons": [
