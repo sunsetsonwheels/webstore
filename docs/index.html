@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>BananaHackers WebStore</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicons/favicon-16x16.png">
+    <link rel="manifest" href="bhackers.webmanifest">
+    <meta name="description" content="A web client for BananaHackers' store-db">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="assets/css/lib/bulma/bulma.min.css">
+    <link rel="stylesheet" href="assets/css/lib/bulma/bulma-floating-button.css">
+    <link rel="stylesheet" href="assets/css/lib/animate.css">
+    <link rel="stylesheet" href="assets/css/lib/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/index.css">
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="https://store.bananahackers.net">
+          <img src="assets/logos/bhackers-store.png" width="28" height="28">
+        </a>
+    
+        <a role="button" class="navbar-burger" data-target="webstore-navbar">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+    
+      <div id="webstore-navbar" class="navbar-menu">
+        <div class="navbar-start">
+          <a class="navbar-item is-unselectable" href="https://groups.google.com/g/bananahackers" target="_blank" lang="en" data-lang-token="Forums">
+            Forums
+          </a>
+          <a class="navbar-item is-unselectable" href="https://discord.gg/rQ93zEu" target="_blank" lang="en" data-lang-token="Chat">
+            Chat
+          </a>
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link is-unselectable">
+              BananaHackers
+            </a>
+    
+            <div class="navbar-dropdown">
+              <a class="navbar-item is-unselectable" href="http://bananahackers.net/" target="_blank" lang="en" data-lang-token="Home">
+                Home
+              </a>
+              <a class="navbar-item is-unselectable" href="https://wiki.bananahackers.net/" target="_blank" lang="en" data-lang-token="Documentation">
+                Documentation
+              </a>
+            </div>
+          </div>
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link is-unselectable" lang="en" data-lang-token="App Databases">
+              App Databases
+            </a>
+    
+            <div class="navbar-dropdown">
+              <a class="navbar-item is-unselectable" href="https://gitlab.com/banana-hackers/store-db" target="_blank">
+                GitLab
+              </a>
+              <a class="navbar-item is-unselectable" href="https://github.com/bananahackers/store-db" target="_blank">
+                GitHub (mirror)
+              </a>
+              <hr class="navbar-divider">
+              <a class="navbar-item is-unselectable" href="https://bhackers.fider.io/" target="_blank" lang="en" data-lang-token="Request apps">
+                Request apps
+              </a>
+            </div>
+          </div>
+          <a class="navbar-item is-unselectable" href="https://github.com/jkelol111/webstore" target="_blank">
+            WebStore on GitHub
+          </a>
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link is-unselectable">
+              Translations
+            </a>
+    
+            <div class="navbar-dropdown">
+              <a class="navbar-item is-unselectable switch-locale" href="#" onclick="window.lang.change('zh-CN'); window.reloadData(); return false;">
+                简体中文
+              </a>
+              <hr class="navbar-divider">
+              <a class="navbar-item is-unselectable switch-locale" href="#" onclick="window.lang.change('en'); window.reloadData(); return false;">
+                English
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="navbar-end">
+          <div class="navbar-item">
+            <div class="field has-addons">
+              <div class="control is-expanded has-icons-left">    
+                <span class="icon is-left is-small">
+                  <i id="sort-icon" class="fas fa-sort-alpha-down"></i>
+                </span>
+                <div class="select is-fullwidth">
+                  <select id="sort-select" disabled="disabled">
+                    <option value="alphabetical" lang="en" data-lang-token="Alphabetical">Alphabetical</option>
+                    <option value="popularity" lang="en" data-lang-token="Popularity">Popularity</option>
+                    <option value="categorical" lang="en" data-lang-token="Categorical">Categorical</option>
+                  </select>
+                </div>
+              </div>
+              <div class="control">
+                <button id="reload-button" class="button is-primary is-loading" disabled="disabled">
+                  <span class="icon is-small">
+                    <i class="fas fa-sync-alt"></i>
+                  </span>
+                </button>
+              </div>
+              <div class="control">
+                <button id="user-button" class="button is-link">
+                  <span class="icon is-small">
+                    <i id="user-icon" class="fas fa-user"></i>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <section class="section">
+      <div class="tabs is-centered is-boxed">
+        <ul id="categories-tabs"></ul>
+      </div>
+      <div id="app-cards-container">
+        <div class="columns">
+          <div id="app-cards-column-0" class="column"></div>
+          <div id="app-cards-column-1" class="column"></div>
+          <div id="app-cards-column-2" class="column"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="hero is-small">
+      <hr>
+      <div class="hero-body">
+        <nav class="level">
+          <div class="level-item has-text-centered">
+            <div>
+              <p class="heading is-unselectable" lang="en">date generated</p>
+              <p id="data-generated-time-label" class="title">unknown</p>
+            </div>
+          </div>
+          <div class="level-item has-text-centered">
+            <div>
+              <p class="heading is-unselectable" lang="en">total apps</p>
+              <p id="data-total-apps-label" class="title">unknown</p>
+            </div>
+          </div>
+        </nav>
+        <div class="content has-text-centered">
+          <p class="is-unselectable">
+            <span lang="en" data-lang-token="terms1">By using the service, you agree to our</span> <a href="https://gitlab.com/banana-hackers/store-db/-/blob/master/TERMS.md" target="_blank" lang="en" data-lang-token="terms2">Privacy Policy</a>. <span lang="en" data-lang-token="terms3">WebStore commit</span> <a id="webstore-github-commit-label" target="_blank" lang="en" data-lang-token="unknown">unknown</a>.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <button id="scrolltop-fab" class="button is-floating is-small is-link is-unselectable">
+      <i class="fas fa-chevron-up is-unselectable"></i>
+    </button>
+
+    <div id="user-modal" class="modal">
+      <div class="modal-background animate__animated" data-bulma-modal="close"></div>
+      <div class="modal-card animate__animated">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Login to BananaHackers Ratings</p>
+          <button class="delete" data-bulma-modal="close"></button>
+        </header>
+        <section class="modal-card-body">
+          <div class="container">
+            <div class="field">
+              <label class="label">Username</label>
+              <div class="control has-icons-left">
+                <input id="user-modal-username-input" class="input" type="text" placeholder="username">
+                <span class="icon is-small is-left">
+                  <i class="fas fa-user"></i>
+                </span>
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">Login token</label>
+              <div class="control has-icons-left">
+                <input id="user-modal-logintoken-input" class="input" type="password" placeholder="login token">
+                <span class="icon is-small is-left">
+                  <i class="fas fa-key"></i>
+                </span>
+              </div>
+              <p id="user-modal-login-failed-blurb" class="help is-danger is-hidden">
+                The login/sign up attempt was not successful. Please try again using different credentials or try again later.
+              </p>
+            </div> 
+            <div class="field">
+              <div class="control">
+                <label class="checkbox is-unselectable">
+                  <input id="user-modal-save-login-checkbox" type="checkbox">
+                  Save my login details.
+                </label>
+              </div>
+            </div>
+            <hr>
+            <div class="content">
+              <p>
+                By using the service, you agree to our 
+                <a href="https://gitlab.com/banana-hackers/store-db/-/blob/master/TERMS.md" target="_blank">Privacy Policy</a>.
+              </p>
+            </div>     
+          </div>
+        </section>
+        <footer class="modal-card-foot">
+          <button id="user-modal-login-button" class="button is-primary">Login/Sign up</button>
+        </footer>
+      </div>
+    </div>
+
+    <div id="app-details-modal" class="modal">
+      <div class="modal-background animate__animated" data-bulma-modal="close"></div>
+      <div class="modal-card animate__animated">
+        <header class="modal-card-head">
+          <figure class="image is-48x48 app-modal-icon-left">
+            <img id="app-details-modal-app-icon">
+          </figure>
+          <p id="app-details-modal-app-name" class="modal-card-title">Unknown app name</p>
+          <button class="delete" data-bulma-modal="close"></button>
+        </header>
+        <section class="modal-card-body">
+          <div id="app-details-modal-app-screenshots-container" class="container">
+            <div class="content">
+              <div id="app-details-modal-app-screenshots" class="app-modal-screenshots"></div>
+              <hr id="app-details-modal-description-separator">
+            </div>
+          </div>
+          <div class="container">
+            <div class="content">
+              <p id="app-details-modal-app-description">No description.</p>
+            </div>
+            <hr>
+            <table class="table is-striped is-narrow is-fullwidth">
+              <tbody>
+                <tr>
+                  <th lang="en" data-lang-token="Categories">Categories</th>
+                  <td id="app-details-modal-app-categories">Unknown</td>
+                </tr>
+                <tr>
+                  <th lang="en" data-lang-token="authors">Author(s)</th>
+                  <td id="app-details-modal-app-authors">Unknown</td>
+                </tr>
+                <tr>
+                  <th lang="en" data-lang-token="maintainers">Maintainer(s)</th>
+                  <td id="app-details-modal-app-maintainers">Unknown</td>
+                </tr>
+                <tr>
+                  <th lang="en" data-lang-token="dependencies">Dependencies</th>
+                  <td id="app-details-modal-app-dependencies"></td>
+                </tr>
+                <tr>
+                  <th lang="en" data-lang-token="version">Version</th>
+                  <td id="app-details-modal-app-version">Unknown</td>
+                </tr>
+                <tr>
+                  <th lang="en" data-lang-token="type">Type</th>
+                  <td id="app-details-modal-app-type">Unknown</td>
+                </tr>
+                <tr>
+                  <th lang="en" data-lang-token="locales">Languages</th>
+                  <td id="app-details-modal-app-locales">Unknown</td>
+                </tr>
+                <tr>
+                  <th lang="en" data-lang-token="Anti-features">Anti-features</th>
+                  <td>
+                    <ul>
+                      <li id="app-details-modal-app-has_ads"><span lang="en" data-lang-token="ads">Ads</span>: Unknown</li>
+                      <li id="app-details-modal-app-has_tracking"><span lang="en" data-lang-token="tracking">Tracking</span>: Unknown</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <th lang="en" data-lang-token="license">License</th>
+                  <td id="app-details-modal-app-license">Unknown</td>
+                </tr>
+                <tr>
+                  <th lang="en" data-lang-token="downloadCount">Downloads</th>
+                  <td id="app-details-modal-app-downloadCount">Unknown</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="container">
+            <hr>
+            <div>
+              <nav class="level is-mobile">
+                <div class="level-left">
+                  <div class="level-item">
+                    <h2 class="title is-4 is-unselectable" lang="en" data-lang-token="rating">Ratings</h2>
+                  </div>
+                </div>
+                <div class="level-left">
+                  <div class="level-item">
+                    <h2 id="app-details-modal-app-ratings-average-rating" class="title is-5 is-unselectable">Unknown ★</h2>
+                  </div>
+                </div>
+              </nav>
+
+              <div id="app-details-modal-app-ratings-not-logged-in" class="box is-hidden">
+                <article class="media">
+                  <div class="media-content">
+                    <div class="content">
+                      <p class="is-unselectable">
+                        <strong lang="en" data-lang-token="rating1">Your rating</strong>
+                      </p>
+                      <p class="is-unselectable" lang="en" data-lang-token="rating2">
+                        To rate, log in using the button.
+                      </p>
+                    </div>
+                  </div>
+                </article>
+              </div>
+
+              <div id="app-details-modal-app-ratings-logged-in" class="box is-hidden">
+                <article class="media">
+                  <div class="media-content">
+                    <div class="content">
+                      <p id="app-details-modal-app-ratings-logged-in-details">
+                        <strong>@Unknown</strong>
+                      </p>
+                    </div>
+                    <div class="field">
+                      <p class="control">
+                        <textarea id="app-details-modal-app-ratings-logged-in-description" class="textarea" placeholder="More than 2 characters." disabled="disabled"></textarea>
+                      </p>
+                      <p id="app-details-modal-rating-incomplete-blurb" class="help is-danger is-hidden">
+                        2 or more characters required for rating!
+                      </p>
+                    </div>
+                    <div class="field has-addons">
+                      <div class="control is-expanded has-icons-left">
+                        <div class="icon is-small is-left">
+                          <i class="fas fa-star"></i>
+                        </div>
+                        <div class="select is-fullwidth">
+                          <select id="app-details-modal-app-ratings-logged-in-points" disabled="disabled">
+                            <option value="1" lang="en" data-lang-token="point-1">One point</option>
+                            <option value="2" lang="en" data-lang-token="point-2">Two points</option>
+                            <option value="3" lang="en" data-lang-token="point-3">Three points</option>
+                            <option value="4" lang="en" data-lang-token="point-4">Four points</option>
+                            <option value="5" lang="en" data-lang-token="point-5">Five points</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="control">
+                        <button id="app-details-modal-app-ratings-logged-in-submit-button" class="button is-link" disabled="disabled">
+                          <span class="icon is-small">
+                            <i class="fas fa-paper-plane"></i>
+                          </span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              </div>
+              <div id="app-details-modal-app-ratings-all-ratings" lang="en" data-lang-token="rating-load">
+                Loading ratings...
+              </div>
+              <br>
+            </div>
+          </div>
+        </section>
+        <footer class="modal-card-foot">
+          <button id="app-details-modal-download-button" class="button is-primary" lang="en" data-lang-token="download">Download</button>
+          <button id="app-details-modal-website-button" class="button is-info" lang="en" data-lang-token="website">Website</button>
+          <button id="app-details-modal-repo-button" class="button is-info" lang="en" data-lang-token="repo">Repository</button>
+          <button id="app-details-modal-donation-button" class="button is-warning" lang="en" data-lang-token="donation">Donate</button>
+        </footer>
+      </div>
+    </div>
+
+    <div id="app-download-modal" class="modal">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <figure class="image is-48x48 app-modal-icon-left">
+            <img id="app-download-modal-app-icon">
+          </figure>
+          <p id="app-download-modal-app-name" class="modal-card-title">Unknown app name</p>
+          <button class="delete" data-bulma-modal="close"></button>
+        </header>
+        <section class="modal-card-body">
+          <div class="container">
+            <div class="content">
+              <p>
+                <span lang="en" data-lang-token="qr1">Scan the QR code below with</span>
+                <a href="https://github.com/strukturart/bHacker-store-client" target="_blank">perry's bHacker-store client</a>
+                <span lang="en" data-lang-token="qr2">to install.</span>
+              </p>
+              <hr>
+              <div class="columns is-centered">
+                <div id="app-download-modal-app-download-qrcode" class="column is-half"></div>
+              </div>
+              <hr>
+              <p lang="en" data-lang-token="manually">Or attempt to install directly/download manually below.</p>
+            </div>
+          </div>
+        </section>
+        <footer class="modal-card-foot">
+          <button id="app-download-modal-install-button" class="button is-primary" disabled="disabled" lang="en" data-lang-token="inst-directly">Install directly</button>
+          <button id="app-download-modal-download-button" class="button" lang="en" data-lang-token="down-manually">Download manually</button>
+        </footer>
+      </div>
+    </div>
+
+    <div id="webstore-update-modal" class="modal">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title" lang="en" data-lang-token="webstore-update">WebStore update available</p>
+        </header>
+        <section class="modal-card-body">
+          <div class="container">
+            <div class="content">
+              <p lang="en" data-lang-token="webstore-update-info">
+                There is an update for WebStore available. Click the update button to reload the new version.
+              </p>
+            </div>
+          </div>
+        </section>
+        <footer class="modal-card-foot">
+          <button id="webstore-update-modal-update-button" class="button is-success" lang="en" data-lang-token="update-button">Update</button>
+          <button class="button is-danger" data-bulma-modal="close" lang="en" data-lang-token="ignore-button">Ignore</button>
+        </footer>
+      </div>
+    </div>
+
+    <script src="assets/js/lib/jquery/jquery.min.js"></script>
+    <script src="assets/js/lib/js.cookie.min.js"></script>
+    <script src="assets/js/lib/jquery/jquery-lang.min.js"></script>
+    <script src="assets/js/lib/bulma/bulma-toast.min.js" defer="defer"></script>
+    <script src="assets/js/lib/bulma/bulma-modal.js" defer="defer"></script>
+    <script src="assets/js/lib/qrcode.min.js" defer="defer"></script>
+    <script src="assets/js/index/storedb.js" defer="defer"></script>
+    <script src="assets/js/lib/dayjs/dayjs.min.js" defer="defer"></script>
+    <script src="assets/js/lib/dayjs/plugins/relativeTime.min.js" defer="defer"></script>
+    <script src="assets/js/init.js" defer="defer"></script>
+    <script src="assets/js/index/controller.js" defer="defer"></script>
+
+    <script>
+      var lang = new Lang();
+      lang.dynamic("en", "assets/locales/en.json");
+      lang.dynamic("zh-CN", "assets/locales/zh-CN.json");
+      lang.init({
+        defaultLang: "en",
+        currentLang: 'en',
+        cookie: {
+          name: 'langCookie',
+          expiry: 365,
+          path: '/'
+        },
+        allowCookieOverride: true
+      });
+    </script>
+  </body>
+</html>
