@@ -1,7 +1,22 @@
 # webstore
-Web client for openKaiOS Store
+Web client for BananaHackers Store
 
-![shields.io Last Commit badge](https://img.shields.io/github/last-commit/openkaios/openkaios-store-web)
+![shields.io Last Commit badge](https://img.shields.io/github/last-commit/jkelol111/webstore)
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+
+## Features
+
+![Apps list screenshot](https://github.com/jkelol111/webstore/raw/master/screenshots/apps.png)
+
+List apps from [BananaHackers' main GitLab store-db](https://gitlab.com/banana-hackers/store-db) instance, or the [community mirror on GitHub](https://github.com/bananahackers/bananahackers.github.io) & filter apps by categories.
+
+![App info screenshot](https://github.com/jkelol111/webstore/raw/master/screenshots/info.png)
+
+View apps information.
+
+![App download screenshot](https://github.com/jkelol111/webstore/raw/master/screenshots/download.png)
+
+Download apps manually, or by using perry's KaiOS Alt App Store client + download QR code.
 
 ## Building
 
@@ -23,7 +38,9 @@ and of course enable GitHub Pages and set it to host from `docs/`. You will need
 
 Please refer to `CONTRIBUTING.md` in this Git repository, but tldr here for anyone too lazy to read:
 
-- We use Standard JS code style. Please make use of it in your contributions (You can try to comply with Standard JS).
+[![JavaScript Style Guide](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard)
+
+- We use Standard JS code style. Please make use of it in your contributions.
 - Respect others and maintain the code of conduct. Please read `CODE_OF_CONDUCT.md` in this Git repository.
 
 ## License

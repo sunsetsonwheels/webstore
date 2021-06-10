@@ -1,7 +1,7 @@
 {
-  "name": "openKaiOS WebStore",
-  "short_name": "openKaiOS Store",
-  "description": "Web client for openKaiOS store-db.",
+  "name": "BananaHackers WebStore",
+  "short_name": "BananaHackers Store",
+  "description": "Web client for BananaHackers store-db.",
   "display": "standalone",
   "icons": [
     {

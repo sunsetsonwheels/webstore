@@ -407,7 +407,7 @@ appCardsContainerElement.onclick = function (e) {
           appDownloadsModal.buttons.download.setAttribute('data-app-download', appDetails.download.url)
           appDownloadsModal.buttons.download.setAttribute('data-app-appid', appDetails.slug)
           appDownloadsModal.content.qrcode.innerHTML = ''
-          new QRCode(appDownloadsModal.content.qrcode, 'openkaios:' + appDetails.slug)
+          new QRCode(appDownloadsModal.content.qrcode, 'bhackers:' + appDetails.slug)
         } else {
           appDetailsModal.buttons.download.classList.add('is-hidden')
           appDownloadsModal.buttons.download.classList.add('is-hidden')
