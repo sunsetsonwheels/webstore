@@ -21,7 +21,7 @@ onmessage = (e) => {
         wLog('log', 'Making request to download counts tracker.')
         const request = syncRequest({
           type: 'GET',
-          url: 'https://liaronce.top/download_counter/count/' + e.data.args.slug,
+          url: 'https://bhackers.uber.space/srs/v1/download_counter/count/' + e.data.args.slug,
           timeout: 2000
         })
         if (request.success) {
@@ -49,7 +49,7 @@ onmessage = (e) => {
         wLog('log', 'Making request to ratings server.')
         const request = syncJSONRequest({
           type: 'POST',
-          url: 'https://liaronce.top/createuser',
+          url: 'https://bhackers.uber.space/srs/v1/createuser',
           headers: jsonHeader,
           body: JSON.stringify({
             username: e.data.args.username,
@@ -73,7 +73,7 @@ onmessage = (e) => {
         wLog('log', 'Making request to ratings server.')
         const request = syncJSONRequest({
           type: 'POST',
-          url: 'https://liaronce.top/checkuser',
+          url: 'https://bhackers.uber.space/srs/v1/checkuser',
           headers: jsonHeader,
           body: JSON.stringify({
             username: e.data.args.username,
@@ -106,7 +106,7 @@ onmessage = (e) => {
         wLog('log', 'Making request to ratings server.')
         const request = syncJSONRequest({
           type: 'POST',
-          url: 'https://liaronce.top/ratings/' + e.data.args.appid + '/add',
+          url: 'https://bhackers.uber.space/srs/v1/ratings/' + e.data.args.appid + '/add',
           headers: jsonHeader,
           body: JSON.stringify({
             username: e.data.args.username,
@@ -134,7 +134,7 @@ onmessage = (e) => {
         wLog('log', 'Making request to ratings server.')
         const request = syncJSONRequest({
           type: 'GET',
-          url: 'https://liaronce.top/ratings/' + e.data.args.appid,
+          url: 'https://bhackers.uber.space/srs/v1/ratings/' + e.data.args.appid,
           headers: fixedHeaders
         })
         if (request.success) {

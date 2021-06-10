@@ -7,7 +7,7 @@ onmessage = function () {
   wLog('log', 'Making request to GitHub.')
   const request = syncJSONRequest({
     type: 'GET',
-    url: 'https://api.github.com/repos/openkaios/openkaios-store-web/git/refs/heads/master',
+    url: 'https://api.github.com/repos/jkelol111/webstore/git/refs/heads/master',
     headers: {
       'Content-Type': 'application/json'
     }

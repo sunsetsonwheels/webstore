@@ -5,11 +5,12 @@ const WORKER_NAME = 'Store'
 importScripts('common.js')
 
 const stores = [
-  'https://storedb.openkaios.top/data.json'
+  "https://banana-hackers.gitlab.io/store-db/data.json",
+  "https://bananahackers.github.io/store-db/data.json"
 ]
 
 const downloadCounters = [
-  'https://liaronce.top/download_counter/'
+  "https://bhackers.uber.space/srs/v1/download_counter/"
 ]
 
 onmessage = function () {

@@ -530,7 +530,7 @@ function addAppCard (appDetails) {
       navigator.share({
         title: appDetails.name,
         text: appDetails.description,
-        url: 'https://store.openkaios.top/#' + appDetails.slug
+        url: 'https://store.bananahackers.net/#' + appDetails.slug
       }).then(function () {
         console.log(`[Index Controller] Shared app '${appDetails.slug}' successfully.`)
       }).catch(function (err) {
@@ -544,7 +544,7 @@ function addAppCard (appDetails) {
     cardFooter_ShareApp.setAttribute('lang', 'en')
     cardFooter_ShareApp.innerText = window.lang.translate('copy-app')
     cardFooter_ShareApp.onclick = function () {
-      navigator.clipboard.writeText('https://store.openkaios.top/#' + appDetails.slug).then(function () {
+      navigator.clipboard.writeText('https://store.bananahackers.net/#' + appDetails.slug).then(function () {
         console.log(`[Index Controller] Copied app '${appDetails.slug}' to clipboard successfully.`)
       }).catch(function (err) {
         console.error(`[Index Controller] Could not copy app '${appDetails.slug}' to clipboard: ` + err)
@@ -858,7 +858,7 @@ function reloadData () {
       githubCommitWorker.terminate()
       if (e.data !== null) {
         githubCommitLabel.innerText = e.data.substring(0, 7)
-        githubCommitLabel.setAttribute('href', 'https://github.com/openkaios/openkaios-store-web/blob/' + e.data + '/src/')
+        githubCommitLabel.setAttribute('href', 'https://github.com/jkelol111/webstore/blob/' + e.data + '/src/')
         githubCommitLabel.classList.remove('is-danger')
         githubCommitLabel.classList.add('is-success')
 
