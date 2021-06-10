@@ -1,4 +1,4 @@
-const WORKER_NAME = "Github Commit"
+const WORKER_NAME = 'Github Commit'
 
 importScripts('common.js')
 
@@ -12,7 +12,7 @@ onmessage = function () {
       'Content-Type': 'application/json'
     }
   })
-  var ghDataCommitSha = null
+  let ghDataCommitSha = null
   if (request.success) {
     try {
       ghDataCommitSha = request.data.object.sha

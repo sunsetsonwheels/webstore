@@ -1,10 +1,10 @@
-const WORKER_NAME = "Sort"
+const WORKER_NAME = 'Sort'
 
 importScripts('common.js')
 
 onmessage = function (e) {
   wLog('log', 'Sort worker started.')
-  var sortData = {
+  const sortData = {
     apps: [],
     sort: null
   }
@@ -13,7 +13,7 @@ onmessage = function (e) {
     postMessage(sortData)
   }
   wLog('log', 'Sorting using "' + e.data.sort + '" sort.')
-  var copyApps = Object.entries(e.data.apps)
+  const copyApps = Object.entries(e.data.apps)
   switch (e.data.sort) {
     case 'alphabetical':
       copyApps.sort(function (a, b) {
@@ -34,7 +34,7 @@ onmessage = function (e) {
           const A = e.data.downloadCounts[a[1].slug]
           const B = e.data.downloadCounts[b[1].slug]
           if (A > B) {
-            return -1 
+            return -1
           } else if (A < B) {
             return 1
           } else {
@@ -63,7 +63,7 @@ onmessage = function (e) {
     default:
       break
   }
-  var finalSorted = {}
+  const finalSorted = {}
   for (const app of copyApps) {
     finalSorted[app[0]] = app[1]
   }

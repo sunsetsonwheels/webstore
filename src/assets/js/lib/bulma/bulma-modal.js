@@ -1,5 +1,5 @@
 class BulmaModal {
-  constructor(selector) {
+  constructor (selector) {
     this.elem = document.querySelector(selector)
     this.elem.children[0].style.animationDuration = '200ms'
     this.elem.children[1].style.animationDuration = '200ms'
@@ -7,8 +7,8 @@ class BulmaModal {
   }
 
   animateCSS (animationNameBackground, animationNameCard, callback) {
-    var modalBackground = this.elem.children[0]
-    var modalCard = this.elem.children[1]
+    const modalBackground = this.elem.children[0]
+    const modalCard = this.elem.children[1]
 
     modalBackground.classList.add('animate__' + animationNameBackground)
     modalCard.classList.add('animate__' + animationNameCard)
@@ -28,46 +28,46 @@ class BulmaModal {
     modalBackground.addEventListener('animationend', handleAnimationEndBackground)
     modalCard.addEventListener('animationend', handleAnimationEndCard)
   }
-  
+
   show () {
     this.elem.children[1].scrollTop = 0
     this.animateCSS('fadeIn', 'zoomIn')
     this.elem.classList.add('is-active')
     this.on_show()
   }
-  
+
   close () {
-    var that = this
+    const that = this
     this.animateCSS('fadeOut', 'zoomOut', () => {
       that.elem.classList.remove('is-active')
       that.on_close()
     })
   }
-  
+
   close_data () {
-    var modalClose = this.elem.querySelectorAll("[data-bulma-modal='close'], .modal-background")
-    var that = this
-    modalClose.forEach(function(e) {
-      e.addEventListener('click', function() {
+    const modalClose = this.elem.querySelectorAll("[data-bulma-modal='close'], .modal-background")
+    const that = this
+    modalClose.forEach(function (e) {
+      e.addEventListener('click', function () {
         that.animateCSS('fadeOut', 'zoomOut', function () {
           that.elem.classList.remove('is-active')
         })
-        that.on_close();
+        that.on_close()
       })
     })
   }
-  
+
   on_show () {
-    var event = new Event('modal:show')
-    this.elem.dispatchEvent(event);
+    const event = new Event('modal:show')
+    this.elem.dispatchEvent(event)
   }
-  
+
   on_close () {
-    var event = new Event('modal:close')
-    this.elem.dispatchEvent(event);
+    const event = new Event('modal:close')
+    this.elem.dispatchEvent(event)
   }
-  
-  addEventListener(event, callback) {
+
+  addEventListener (event, callback) {
     this.elem.addEventListener(event, callback)
   }
 }

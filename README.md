@@ -60,5 +60,7 @@ This project wouldn't have been possible without the following resources and pro
 - Bulma Toast by [@rfoel](https://github.com/rfoel): https://github.com/rfoel/bulma-toast
 - Font Awesome 5: https://fontawesome.com/
 - Animate.CSS: https://github.com/animate-css/animate.css
+- jQuery: https://jquery.com
+- jquery-lang-js[@Irrelon](https://github.com/Irrelon): https://github.com/Irrelon/jquery-lang-js
 
 and all the people at BananaHackers, 4Omin, perry and Farooq Karimi Zadeh for maintaining the BananaHackers Store on GitLab and GitHub, and of course, all the Mozilla Developer Network documentation ;)
