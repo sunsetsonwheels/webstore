@@ -41,9 +41,9 @@ function listAppsByCategory (category, sort) {
 function reloadAppRatings (appID) {
   appDetailsModal.content.ratings.loggedIn.details.innerHTML = '<strong>@Unknown</strong>'
   appDetailsModal.content.ratings.loggedIn.points.value = 1
-  // appDetailsModal.content.ratings.loggedIn.description.value = ''
+  appDetailsModal.content.ratings.loggedIn.description.value = ''
   appDetailsModal.content.ratings.loggedIn.points.disabled = true
-  // appDetailsModal.content.ratings.loggedIn.description.disabled = true
+  appDetailsModal.content.ratings.loggedIn.description.disabled = true
   appDetailsModal.content.ratings.loggedIn.ratingIncompleteBlurb.classList.add('is-hidden')
   appDetailsModal.content.ratings.loggedIn.submitButton.classList.add('is-loading')
   appDetailsModal.content.ratings.loggedIn.submitButton.disabled = true
@@ -62,11 +62,11 @@ function reloadAppRatings (appID) {
       if (review.username === userDetails.username) {
         appDetailsModal.content.ratings.loggedIn.details.innerHTML = `<strong>@${review.username}</strong> (you) • <small>${dayjs.unix(review.creationtime).fromNow()}</small>`
         appDetailsModal.content.ratings.loggedIn.points.disabled = false
-        // appDetailsModal.content.ratings.loggedIn.description.disabled = false
+        appDetailsModal.content.ratings.loggedIn.description.disabled = false
         appDetailsModal.content.ratings.loggedIn.points.value = review.points
-        // appDetailsModal.content.ratings.loggedIn.description.value = review.description
+        appDetailsModal.content.ratings.loggedIn.description.value = review.description
         appDetailsModal.content.ratings.loggedIn.points.disabled = true
-        // appDetailsModal.content.ratings.loggedIn.description.disabled = true
+        appDetailsModal.content.ratings.loggedIn.description.disabled = true
         isPersonalReviewExists = true
       } else {
         const ratingBoxElement = document.createElement('div')
@@ -89,21 +89,21 @@ function reloadAppRatings (appID) {
         ratingInfoElement.innerHTML = `<strong>@${review.username}</strong> • <small>${review.points} ★</small> • <small>${dayjs.unix(review.creationtime).fromNow()}</small>`
         ratingMediaActualContentElement.appendChild(ratingInfoElement)
 
-        // const ratingDescriptionElement = document.createElement('p')
-        // ratingDescriptionElement.innerText = review.description
-        // ratingMediaActualContentElement.appendChild(ratingDescriptionElement)
+        const ratingDescriptionElement = document.createElement('p')
+        ratingDescriptionElement.innerText = review.description
+        ratingMediaActualContentElement.appendChild(ratingDescriptionElement)
       }
     }
 
     appDetailsModal.content.ratings.loggedIn.submitButton.setAttribute('data-app-appid', appID)
     if (isPersonalReviewExists) {
       appDetailsModal.content.ratings.loggedIn.points.disabled = true
-      // appDetailsModal.content.ratings.loggedIn.description.disabled = true
+      appDetailsModal.content.ratings.loggedIn.description.disabled = true
       appDetailsModal.content.ratings.loggedIn.submitButton.disabled = true
     } else {
       appDetailsModal.content.ratings.loggedIn.details.innerHTML = `<strong>@${userDetails.username}</strong> (you)`
       appDetailsModal.content.ratings.loggedIn.points.disabled = false
-      // appDetailsModal.content.ratings.loggedIn.description.disabled = false
+      appDetailsModal.content.ratings.loggedIn.description.disabled = false
       appDetailsModal.content.ratings.loggedIn.submitButton.disabled = false
     }
     appDetailsModal.content.ratings.loggedIn.submitButton.classList.remove('is-loading')
@@ -173,7 +173,7 @@ const appDetailsModal = {
         container: document.getElementById('app-details-modal-app-ratings-logged-in'),
         details: document.getElementById('app-details-modal-app-ratings-logged-in-details'),
         points: document.getElementById('app-details-modal-app-ratings-logged-in-points'),
-        // description: document.getElementById('app-details-modal-app-ratings-logged-in-description'),
+        description: document.getElementById('app-details-modal-app-ratings-logged-in-description'),
         ratingIncompleteBlurb: document.getElementById('app-details-modal-rating-incomplete-blurb'),
         submitButton: document.getElementById('app-details-modal-app-ratings-logged-in-submit-button')
       },
@@ -215,18 +215,17 @@ appDetailsModal.buttons.donation.onclick = function (e) {
 
 appDetailsModal.content.ratings.loggedIn.submitButton.onclick = function () {
   appDetailsModal.content.ratings.loggedIn.ratingIncompleteBlurb.classList.add('is-hidden')
-  // if (appDetailsModal.content.ratings.loggedIn.description.value.length > 2 && isUserLoggedIn) {
-  if (appDetailsModal.content.ratings.loggedIn.points.value.length > 0 && isUserLoggedIn) {
+  if (appDetailsModal.content.ratings.loggedIn.description.value.length > 2 && isUserLoggedIn) {
     appDetailsModal.content.ratings.loggedIn.submitButton.classList.add('is-loading')
     appDetailsModal.content.ratings.loggedIn.submitButton.disabled = true
     appDetailsModal.content.ratings.loggedIn.points.disabled = true
-    // appDetailsModal.content.ratings.loggedIn.description.disabled = true
+    appDetailsModal.content.ratings.loggedIn.description.disabled = true
     StoreDbAPI.addNewRating(
       userDetails.username,
       userDetails.logintoken,
       appDetailsModal.content.ratings.loggedIn.submitButton.getAttribute('data-app-appid'),
       appDetailsModal.content.ratings.loggedIn.points.value,
-      // appDetailsModal.content.ratings.loggedIn.description.value
+      appDetailsModal.content.ratings.loggedIn.description.value
     ).then(function () {
       setTimeout(function () {
         reloadAppRatings(appDetailsModal.content.ratings.loggedIn.submitButton.getAttribute('data-app-appid'))
