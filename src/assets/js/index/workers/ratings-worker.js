@@ -37,15 +37,6 @@ onmessage = (e) => {
     case 'create':
       wLog('log', 'Selected command "create".')
       if (e.data.args.username && e.data.args.logintoken) {
-        let reg1 = /^[\u4e00-\u9fa5]{0,}$/;
-        let reg2 = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,}$/;
-        if(reg1.test(e.data.args.username)){
-          e.data.args.username = 'Unknown'
-        } else if(!reg2.test(userDetails.username)){
-          e.data.args.username = 'Unknown'
-        } else {
-          e.data.args.username = e.data.args.username
-        }
         wLog('log', 'Making request to ratings server.')
         const request = syncJSONRequest({
           type: 'POST',

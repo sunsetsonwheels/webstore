@@ -46,6 +46,10 @@ const FPATHS = {
   manifest: {
     src: SOURCE_FOLDER + 'bhackers.webmanifest',
     dest: BUILD_FOLDER
+  },
+  cname: {
+    src: SOURCE_FOLDER + 'CNAME.txt',
+    dest: BUILD_FOLDER
   }
 }
 
@@ -123,11 +127,19 @@ function manifestTask () {
     .pipe(dest(FPATHS.manifest.dest))
 }
 
+function cnameTask () {
+  return src(FPATHS.cname.src)
+    .pipe(plumber({ errorHandler: onErr }))
+    .pipe(rename('CNAME'))
+    .pipe(plumber.stop())
+    .pipe(dest(FPATHS.cname.dest))
+}
+
 function cleanBuildAll () {
   return rm([BUILD_FOLDER + '*', '!' + BUILD_FOLDER + 'CNAME'])
 }
 
-const DEFAULT_BUILD_TASKS = parallel(jsTask, jsMinTask, cssTask, cssMinTask, htmlTask, iconsTask, logosTask, localesTask, manifestTask)
+const DEFAULT_BUILD_TASKS = parallel(jsTask, jsMinTask, cssTask, cssMinTask, htmlTask, iconsTask, logosTask, localesTask, manifestTask, cnameTask)
 
 exports.clean = cleanBuildAll
 
