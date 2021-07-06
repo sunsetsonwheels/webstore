@@ -447,21 +447,5 @@
     <script src="assets/js/lib/dayjs/plugins/relativeTime.min.js" defer="defer"></script>
     <script src="assets/js/init.js" defer="defer"></script>
     <script src="assets/js/index/controller.js" defer="defer"></script>
-
-    <script>
-      var lang = new Lang();
-      lang.dynamic("en", "assets/locales/en.json");
-      lang.dynamic("zh-CN", "assets/locales/zh-CN.json");
-      lang.init({
-        defaultLang: "en",
-        currentLang: 'en',
-        cookie: {
-          name: 'langCookie',
-          expiry: 365,
-          path: '/'
-        },
-        allowCookieOverride: true
-      });
-    </script>
   </body>
 </html>

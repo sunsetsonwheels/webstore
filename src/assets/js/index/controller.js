@@ -10,13 +10,13 @@ let currentWebStoreVersion = ''
 function separateArrayCommas (array) {
   let separated = ''
   const arrayLength = array.length
-  for (const index in array) {
-    if (index + 1 < arrayLength) {
-      separated += array[index] + ', '
+  array.forEach((value, i) => {
+    if (i + 1 < arrayLength) {
+      separated += value + ', '
     } else {
-      separated += array[index] + ' '
+      separated += value
     }
-  }
+  })
   return separated
 }
 
