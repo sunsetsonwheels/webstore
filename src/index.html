@@ -1,22 +1,30 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <!-- Site information -->
+    <meta charset="UTF-8">
     <title>BananaHackers WebStore</title>
+    <meta name="description" content="A web client for BananaHackers' store-db.">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="BananaHackers WebStore">
+    <meta property="og:description" content="A web client for BananaHackers' store-db.">
+    <meta property="og:url" content="https://store.bananahackers.net">
+    <meta property="og:image" content="assets/logos/bhackers-store.png">
+    <!-- PWA -->
     <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/favicons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicons/favicon-16x16.png">
     <link rel="manifest" href="bhackers.webmanifest">
-    <meta name="description" content="A web client for BananaHackers' store-db">
+    <!-- Stylesheets -->
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <meta charset="UTF-8">
     <link rel="stylesheet" href="assets/css/lib/bulma/bulma.min.css">
     <link rel="stylesheet" href="assets/css/lib/bulma/bulma-floating-button.css">
     <link rel="stylesheet" href="assets/css/lib/animate.css">
     <link rel="stylesheet" href="assets/css/lib/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="assets/css/index.css">
   </head>
-  <body>
-    <nav class="navbar">
+  <body class="has-navbar-fixed-top">
+    <nav class="navbar is-fixed-top">
       <div class="navbar-brand">
         <a class="navbar-item" href="https://store.bananahackers.net">
           <img src="assets/logos/bhackers-store.png" width="28" height="28">
@@ -31,23 +39,34 @@
     
       <div id="webstore-navbar" class="navbar-menu">
         <div class="navbar-start">
-          <a class="navbar-item is-unselectable" href="https://groups.google.com/g/bananahackers" target="_blank" lang="en" data-lang-token="Forums">
+          <a class="navbar-item is-unselectable" href="https://groups.google.com/g/bananahackers" target="_blank">
             Forums
-          </a>
-          <a class="navbar-item is-unselectable" href="https://discord.gg/rQ93zEu" target="_blank" lang="en" data-lang-token="Chat">
-            Chat
           </a>
           <div class="navbar-item has-dropdown is-hoverable">
             <a class="navbar-link is-unselectable">
-              BananaHackers
+              Wikis
             </a>
-    
+
             <div class="navbar-dropdown">
-              <a class="navbar-item is-unselectable" href="http://bananahackers.net/" target="_blank" lang="en" data-lang-token="Home">
-                Home
+              <a class="navbar-item is-unselectable" href="https://bananahackers.net" target="_blank">
+                Wiki (legacy)
               </a>
-              <a class="navbar-item is-unselectable" href="https://wiki.bananahackers.net/" target="_blank" lang="en" data-lang-token="Documentation">
-                Documentation
+              <a class="navbar-item is-unselectable" href="https://wiki.bananahackers.net" target="_blank">
+                Wiki (current)
+              </a>
+            </div>
+          </div>
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link is-unselectable">
+              Chat
+            </a>
+
+            <div class="navbar-dropdown">
+              <a class="navbar-item is-unselectable" href="https://discord.gg/rQ93zEu" target="_blank">
+                Discord
+              </a>
+              <a class="navbar-item is-unselectable" href="https://discord.gg/rQ93zEu" target="_blank">
+                Matrix
               </a>
             </div>
           </div>
@@ -436,9 +455,6 @@
       </div>
     </div>
 
-    <script src="assets/js/lib/jquery/jquery.min.js"></script>
-    <script src="assets/js/lib/js.cookie.min.js"></script>
-    <script src="assets/js/lib/jquery/jquery-lang.min.js"></script>
     <script src="assets/js/lib/bulma/bulma-toast.min.js" defer></script>
     <script src="assets/js/lib/bulma/bulma-modal.js" defer></script>
     <script src="assets/js/lib/qrcode.min.js" defer></script>
