@@ -91,49 +91,33 @@
           <a class="navbar-item is-unselectable" href="https://github.com/jkelol111/webstore" target="_blank">
             WebStore on GitHub
           </a>
-          <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link is-unselectable">
-              Translations
-            </a>
-    
-            <div class="navbar-dropdown">
-              <a class="navbar-item is-unselectable switch-locale" href="#" onclick="window.lang.change('zh-CN'); window.reloadData(); return false;">
-                简体中文
-              </a>
-              <hr class="navbar-divider">
-              <a class="navbar-item is-unselectable switch-locale" href="#" onclick="window.lang.change('en'); window.reloadData(); return false;">
-                English
-              </a>
-            </div>
-          </div>
         </div>
 
         <div class="navbar-end">
           <div class="navbar-item">
-            <div class="field has-addons">
-              <div class="control is-expanded has-icons-left">    
-                <span class="icon is-left is-small">
-                  <i id="sort-icon" class="fas fa-sort-alpha-down"></i>
+            <div class="field is-grouped">
+              <p class="control has-icons-left">
+                <span class="icon is-small is-left">
+                  <i class="fas fa-globe"></i>
                 </span>
-                <div class="select is-fullwidth">
-                  <select id="sort-select" disabled>
-                    <option value="alphabetical" lang="en" data-lang-token="Alphabetical">Alphabetical</option>
-                    <option value="popularity" lang="en" data-lang-token="Popularity">Popularity</option>
-                    <option value="categorical" lang="en" data-lang-token="Categorical">Categorical</option>
+                <span class="select">
+                  <select id="lang-select">
+                    <option value="en">English</option>
+                    <option value="zh-CN">简体中文</option>
                   </select>
-                </div>
-              </div>
+                </span>
+              </p>
               <div class="control">
-                <button id="reload-button" class="button is-primary is-loading" disabled>
-                  <span class="icon is-small">
-                    <i class="fas fa-sync-alt"></i>
+                <button id="user-button" class="button is-link">
+                  <span class="icon">
+                    <i id="user-icon" class="fas fa-user"></i>
                   </span>
                 </button>
               </div>
               <div class="control">
-                <button id="user-button" class="button is-link">
-                  <span class="icon is-small">
-                    <i id="user-icon" class="fas fa-user"></i>
+                <button id="debug-info-button" class="button is-dark">
+                  <span class="icon">
+                    <i class="fas fa-user-secret"></i>
                   </span>
                 </button>
               </div>
@@ -144,6 +128,54 @@
     </nav>
 
     <section class="section">
+      <div class="level">
+        <div class="level-left">
+          <div class="level-item">
+            <div class="field has-addons">
+              <div class="control is-expanded has-icons-left">    
+                <span class="icon is-left is-small">
+                  <i id="sort-icon" class="fas fa-sort-alpha-down"></i>
+                </span>
+                <div class="select is-fullwidth">
+                  <select id="sort-select" disabled>
+                    <option value="alphabetical">Alphabetical</option>
+                    <option value="popularity">Popularity</option>
+                    <option value="categorical">Categorical</option>
+                  </select>
+                </div>
+              </div>
+              <div class="control">
+                <button id="reload-button" class="button is-primary is-loading" disabled>
+                  <span class="icon is-small">
+                    <i class="fas fa-sync-alt"></i>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="level-right">
+          <div class="level-item">
+            <p id="data-total-apps-label" class="subtitle is-6">
+              <strong>0</strong> apps
+            </p>
+          </div>
+          <div class="level-item">
+            <div class="field has-addons">
+              <p class="control">
+                <input id="search-input" class="input" type="text" placeholder="Search..." disabled>
+              </p>
+              <p class="control">
+                <button id="clear-search-button" class="button is-danger" disabled>
+                  <span class="icon">
+                    <i class="fas fa-times"></i>
+                  </span>
+                </button>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="tabs is-centered is-boxed">
         <ul id="categories-tabs"></ul>
       </div>
@@ -159,23 +191,9 @@
     <section class="hero is-small">
       <hr>
       <div class="hero-body">
-        <nav class="level">
-          <div class="level-item has-text-centered">
-            <div>
-              <p class="heading is-unselectable" lang="en">date generated</p>
-              <p id="data-generated-time-label" class="title">unknown</p>
-            </div>
-          </div>
-          <div class="level-item has-text-centered">
-            <div>
-              <p class="heading is-unselectable" lang="en">total apps</p>
-              <p id="data-total-apps-label" class="title">unknown</p>
-            </div>
-          </div>
-        </nav>
         <div class="content has-text-centered" >
           <p class="is-unselectable">
-            <span lang="en" data-lang-token="terms1">By using the service, you agree to our</span> <a href="https://gitlab.com/banana-hackers/store-db/-/blob/master/TERMS.md" target="_blank" lang="en" data-lang-token="terms2">Privacy Policy</a> <span lang="en" data-lang-token="terms3">WebStore commit</span> <a id="webstore-github-commit-label" target="_blank" lang="en" data-lang-token="unknown">unknown</a>.
+            <span lang="en" data-lang-token="terms1">By using the service, you agree to our</span> <a href="https://gitlab.com/banana-hackers/store-db/-/blob/master/TERMS.md" target="_blank" lang="en" data-lang-token="terms2">Privacy Policy</a>.
           </p>
         </div>
       </div>
@@ -455,6 +473,7 @@
       </div>
     </div>
 
+    <script src="assets/js/lib/i18next.min.js" defer></script>
     <script src="assets/js/lib/bulma/bulma-toast.min.js" defer></script>
     <script src="assets/js/lib/bulma/bulma-modal.js" defer></script>
     <script src="assets/js/lib/qrcode.min.js" defer></script>

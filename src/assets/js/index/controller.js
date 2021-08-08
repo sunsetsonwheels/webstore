@@ -788,8 +788,8 @@ function reloadData () {
   reloadButton.classList.add('is-loading')
   reloadButton.disabled = true
 
-  const githubCommitLabel = document.getElementById('webstore-github-commit-label')
-  githubCommitLabel.classList.remove('is-danger')
+  // const githubCommitLabel = document.getElementById('webstore-github-commit-label')
+  // githubCommitLabel.classList.remove('is-danger')
 
   categoriesTabsElement.innerHTML = ''
 
@@ -852,26 +852,26 @@ function reloadData () {
     totalAppsLabel.classList.remove('is-danger')
     totalAppsLabel.classList.add('is-success')
 
-    const githubCommitWorker = new Worker('assets/js/index/workers/githubcommit-worker.js')
-    githubCommitWorker.onmessage = function (e) {
-      githubCommitWorker.terminate()
-      if (e.data !== null) {
-        githubCommitLabel.innerText = e.data.substring(0, 7)
-        githubCommitLabel.setAttribute('href', 'https://github.com/jkelol111/webstore/blob/' + e.data + '/src/')
-        githubCommitLabel.classList.remove('is-danger')
-        githubCommitLabel.classList.add('is-success')
+    // const githubCommitWorker = new Worker('assets/js/index/workers/githubcommit-worker.js')
+    // githubCommitWorker.onmessage = function (e) {
+    //   githubCommitWorker.terminate()
+    //   if (e.data !== null) {
+    //     githubCommitLabel.innerText = e.data.substring(0, 7)
+    //     githubCommitLabel.setAttribute('href', 'https://github.com/jkelol111/webstore/blob/' + e.data + '/src/')
+    //     githubCommitLabel.classList.remove('is-danger')
+    //     githubCommitLabel.classList.add('is-success')
 
-        if (!isFirstInitCompleted) {
-          currentWebStoreVersion = e.data
-          isFirstInitCompleted = true
-        }
+    //     if (!isFirstInitCompleted) {
+    //       currentWebStoreVersion = e.data
+    //       isFirstInitCompleted = true
+    //     }
 
-        if (e.data !== currentWebStoreVersion) {
-          updateModal.controller.show()
-        }
-      }
-    }
-    githubCommitWorker.postMessage(null)
+    //     if (e.data !== currentWebStoreVersion) {
+    //       updateModal.controller.show()
+    //     }
+    //   }
+    // }
+    // githubCommitWorker.postMessage(null)
 
     bulmaToast.toast({
       message: window.lang.translate('data-load-success'),
