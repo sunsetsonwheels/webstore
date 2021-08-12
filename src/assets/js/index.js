@@ -7,7 +7,23 @@ i18next.use(i18nextBrowserLanguageDetector).use(I18nextFetchBackend).init({
   backend: {
     loadPath: "assets/i18n/{{lng}}.json"
   }
-}).then((t) => {
+}).then(async (t) => {
+  // Init HTML localization.
+  const localize = locI18next.init(i18next, {
+    selectorAttr: "data-i18n"
+  })
+
+  // Localize every element marked for localization.
+  localize(".i18n")
+
+  // Handle hamburger menu button.
+  for (const navbarBurger of document.getElementsByClassName('navbar-burger')) {
+    navbarBurger.onclick = () => {
+      navbarBurger.classList.toggle('is-active');
+      document.getElementById(navbarBurger.dataset.target).classList.toggle('is-active');
+    }
+  }
+
   // Set default options for toast messages
   bulmaToast.setDefaults({
     position: 'top-center',
@@ -18,14 +34,6 @@ i18next.use(i18nextBrowserLanguageDetector).use(I18nextFetchBackend).init({
       out: 'bounceOutUp'
     }
   });
-
-  // Handle hamburger menu button.
-  for (const navbarBurger of document.getElementsByClassName('navbar-burger')) {
-    navbarBurger.onclick = () => {
-      navbarBurger.classList.toggle('is-active');
-      document.getElementById(navbarBurger.dataset.target).classList.toggle('is-active');
-    }
-  }
 
   let currentSelectedCategory = 'all'
 

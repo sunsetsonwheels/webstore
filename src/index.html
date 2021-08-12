@@ -39,26 +39,26 @@
     
       <div id="webstore-navbar" class="navbar-menu">
         <div class="navbar-start">
-          <a class="navbar-item is-unselectable" href="https://groups.google.com/g/bananahackers" target="_blank">
-            Forums
+          <a class="navbar-item is-unselectable i18n" href="https://groups.google.com/g/bananahackers" target="_blank" data-i18n="forums">
+            forums
           </a>
           <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link is-unselectable">
-              Wikis
+            <a class="navbar-link is-unselectable i18n" data-i18n="wikis">
+              wikis
             </a>
 
             <div class="navbar-dropdown">
-              <a class="navbar-item is-unselectable" href="https://bananahackers.net" target="_blank">
-                Wiki (legacy)
+              <a class="navbar-item is-unselectable i18n" href="https://wiki.bananahackers.net" target="_blank" data-i18n="wiki.current">
+                wiki.current
               </a>
-              <a class="navbar-item is-unselectable" href="https://wiki.bananahackers.net" target="_blank">
-                Wiki (current)
+              <a class="navbar-item is-unselectable i18n" href="https://bananahackers.net" target="_blank" data-i18n="wiki.legacy">
+                wiki.legacy
               </a>
             </div>
           </div>
           <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link is-unselectable">
-              Chat
+            <a class="navbar-link is-unselectable i18n" data-i18n="chat">
+              chat
             </a>
 
             <div class="navbar-dropdown">
@@ -71,8 +71,8 @@
             </div>
           </div>
           <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link is-unselectable" lang="en" data-lang-token="App Databases">
-              App Databases
+            <a class="navbar-link is-unselectable i18n" data-i18n="app-databases">
+              app-databases
             </a>
     
             <div class="navbar-dropdown">
@@ -83,8 +83,8 @@
                 GitHub (mirror)
               </a>
               <hr class="navbar-divider">
-              <a class="navbar-item is-unselectable" href="https://bhackers.fider.io/" target="_blank" lang="en" data-lang-token="Request apps">
-                Request apps
+              <a class="navbar-item is-unselectable i18n" href="https://bhackers.fider.io/" target="_blank" data-i18n="request-apps">
+                request-apps
               </a>
             </div>
           </div>
@@ -101,7 +101,7 @@
                   <i class="fas fa-globe"></i>
                 </span>
                 <span class="select">
-                  <select id="lang-select">
+                  <select id="lang-select" disabled>
                     <option value="en">English</option>
                     <option value="zh-CN">简体中文</option>
                   </select>
@@ -115,9 +115,9 @@
                 </button>
               </div>
               <div class="control">
-                <button id="debug-info-button" class="button is-dark">
+                <button id="debug-info-button" class="button is-danger">
                   <span class="icon">
-                    <i class="fas fa-user-secret"></i>
+                    <i class="fas fa-bug"></i>
                   </span>
                 </button>
               </div>
@@ -138,9 +138,9 @@
                 </span>
                 <div class="select is-fullwidth">
                   <select id="sort-select" disabled>
-                    <option value="alphabetical">Alphabetical</option>
-                    <option value="popularity">Popularity</option>
-                    <option value="categorical">Categorical</option>
+                    <option class="i18n" value="alphabetical" data-i18n="alphabetical">alphabetical</option>
+                    <option class="i18n" value="popularity" data-i18n="popularity">popularity</option>
+                    <option class="i18n" value="categorical" data-i18n="categorical">categorical</option>
                   </select>
                 </div>
               </div>
@@ -156,19 +156,19 @@
         </div>
         <div class="level-right">
           <div class="level-item">
-            <p id="data-total-apps-label" class="subtitle is-6">
-              <strong>0</strong> apps
+            <p class="subtitle is-6">
+              <strong id="data-total-apps-label">0</strong> <span class="i18n" data-i18n="apps">apps</span>
             </p>
           </div>
           <div class="level-item">
             <div class="field has-addons">
               <p class="control">
-                <input id="search-input" class="input" type="text" placeholder="Search..." disabled>
+                <input id="search-input" class="input" type="text" disabled>
               </p>
               <p class="control">
-                <button id="clear-search-button" class="button is-danger" disabled>
+                <button id="search-button" class="button is-primary" disabled>
                   <span class="icon">
-                    <i class="fas fa-times"></i>
+                    <i id="search-button-icon" class="fas fa-search"></i>
                   </span>
                 </button>
               </p>
@@ -193,7 +193,7 @@
       <div class="hero-body">
         <div class="content has-text-centered" >
           <p class="is-unselectable">
-            <span lang="en" data-lang-token="terms1">By using the service, you agree to our</span> <a href="https://gitlab.com/banana-hackers/store-db/-/blob/master/TERMS.md" target="_blank" lang="en" data-lang-token="terms2">Privacy Policy</a>.
+            <span class="i18n" data-i18n="terms-footer">terms-footer</span> <a class="i18n" href="https://gitlab.com/banana-hackers/store-db/-/blob/master/TERMS.md" target="_blank" data-i18n="privacy-policy">privacy-policy</a>.
           </p>
         </div>
       </div>
@@ -281,49 +281,49 @@
             <table class="table is-striped is-narrow is-fullwidth">
               <tbody>
                 <tr>
-                  <th lang="en" data-lang-token="Categories">Categories</th>
-                  <td id="app-details-modal-app-categories">Unknown</td>
+                  <th class="i18n" data-i18n="categories">categories</th>
+                  <td id="app-details-modal-app-categories">?</td>
                 </tr>
                 <tr>
-                  <th lang="en" data-lang-token="authors">Author(s)</th>
-                  <td id="app-details-modal-app-authors">Unknown</td>
+                  <th class="i18n" data-i18n="authors">authors</th>
+                  <td id="app-details-modal-app-authors">?</td>
                 </tr>
                 <tr>
-                  <th lang="en" data-lang-token="maintainers">Maintainer(s)</th>
-                  <td id="app-details-modal-app-maintainers">Unknown</td>
+                  <th class="i18n" data-i18n="maintainers">maintainers</th>
+                  <td id="app-details-modal-app-maintainers">?</td>
                 </tr>
                 <tr>
-                  <th lang="en" data-lang-token="dependencies">Dependencies</th>
-                  <td id="app-details-modal-app-dependencies"></td>
+                  <th class="i18n" data-i18n="dependencies">dependencies</th>
+                  <td id="app-details-modal-app-dependencies">?</td>
                 </tr>
                 <tr>
-                  <th lang="en" data-lang-token="version">Version</th>
-                  <td id="app-details-modal-app-version">Unknown</td>
+                  <th class="i18n" data-i18n="version">version</th>
+                  <td id="app-details-modal-app-version">?</td>
                 </tr>
                 <tr>
-                  <th lang="en" data-lang-token="type">Type</th>
-                  <td id="app-details-modal-app-type">Unknown</td>
+                  <th class="i18n" data-i18n="type">type</th>
+                  <td id="app-details-modal-app-type">?</td>
                 </tr>
                 <tr>
-                  <th lang="en" data-lang-token="locales">Languages</th>
-                  <td id="app-details-modal-app-locales">Unknown</td>
+                  <th class="i18n" data-i18n="locales">languages</th>
+                  <td id="app-details-modal-app-locales">?</td>
                 </tr>
                 <tr>
-                  <th lang="en" data-lang-token="Anti-features">Anti-features</th>
+                  <th class="i18n" data-i18n="anti-features">anti-features</th>
                   <td>
                     <ul>
-                      <li id="app-details-modal-app-has_ads"><span lang="en" data-lang-token="ads">Ads</span>: Unknown</li>
-                      <li id="app-details-modal-app-has_tracking"><span lang="en" data-lang-token="tracking">Tracking</span>: Unknown</li>
+                      <li id="app-details-modal-app-has_ads"><span class="i18n" data-lang-token="ads">ads</span>: ?</li>
+                      <li id="app-details-modal-app-has_tracking"><span class="i18n" data-lang-token="tracking">tracking</span>: ?</li>
                     </ul>
                   </td>
                 </tr>
                 <tr>
-                  <th lang="en" data-lang-token="license">License</th>
-                  <td id="app-details-modal-app-license">Unknown</td>
+                  <th class="i18n" data-lang-token="license">license</th>
+                  <td id="app-details-modal-app-license">?</td>
                 </tr>
                 <tr>
-                  <th lang="en" data-lang-token="downloadCount">Downloads</th>
-                  <td id="app-details-modal-app-downloadCount">Unknown</td>
+                  <th class="i18n" data-lang-token="download-count">download-count</th>
+                  <td id="app-details-modal-app-downloadCount">?</td>
                 </tr>
               </tbody>
             </table>
@@ -334,12 +334,12 @@
               <nav class="level is-mobile">
                 <div class="level-left">
                   <div class="level-item">
-                    <h2 class="title is-4 is-unselectable" lang="en" data-lang-token="rating">Ratings</h2>
+                    <h2 class="title is-4 is-unselectable i18n" data-i18n="rating">rating</h2>
                   </div>
                 </div>
                 <div class="level-left">
                   <div class="level-item">
-                    <h2 id="app-details-modal-app-ratings-average-rating" class="title is-5 is-unselectable">Unknown ★</h2>
+                    <h2 id="app-details-modal-app-ratings-average-rating" class="title is-5 is-unselectable">? ★</h2>
                   </div>
                 </div>
               </nav>
@@ -349,10 +349,10 @@
                   <div class="media-content">
                     <div class="content">
                       <p class="is-unselectable">
-                        <strong lang="en" data-lang-token="rating1">Your rating</strong>
+                        <strong class="i18n" data-lang-token="your-rating">your-rating</strong>
                       </p>
-                      <p class="is-unselectable" lang="en" data-lang-token="rating2">
-                        To rate, log in using the button.
+                      <p class="is-unselectable i18n" data-i18n="login-to-rate">
+                        login-to-rate
                       </p>
                     </div>
                   </div>
@@ -382,11 +382,11 @@
                         </div>
                         <div class="select is-fullwidth">
                           <select id="app-details-modal-app-ratings-logged-in-points" disabled>
-                            <option value="1" lang="en" data-lang-token="point-1">One point</option>
-                            <option value="2" lang="en" data-lang-token="point-2">Two points</option>
-                            <option value="3" lang="en" data-lang-token="point-3">Three points</option>
-                            <option value="4" lang="en" data-lang-token="point-4">Four points</option>
-                            <option value="5" lang="en" data-lang-token="point-5">Five points</option>
+                            <option value="1" class="i18n" data-i18n="point.1">point.1</option>
+                            <option value="2" class="i18n" data-i18n="point.2">point.2</option>
+                            <option value="3" class="i18n" data-i18n="point.3">point.3</option>
+                            <option value="4" class="i18n" data-i18n="point.4">point.4</option>
+                            <option value="5" class="i18n" data-i18n="point.5">point.5</option>
                           </select>
                         </div>
                       </div>
@@ -401,18 +401,18 @@
                   </div>
                 </article>
               </div>
-              <div id="app-details-modal-app-ratings-all-ratings" lang="en" data-lang-token="rating-load">
-                Loading ratings...
+              <div id="app-details-modal-app-ratings-all-ratings" class="i18n" data-i18n="rating-load">
+                rating-load
               </div>
               <br>
             </div>
           </div>
         </section>
         <footer class="modal-card-foot">
-          <button id="app-details-modal-download-button" class="button is-primary" lang="en" data-lang-token="download">Download</button>
-          <button id="app-details-modal-website-button" class="button is-info" lang="en" data-lang-token="website">Website</button>
-          <button id="app-details-modal-repo-button" class="button is-info" lang="en" data-lang-token="repo">Repository</button>
-          <button id="app-details-modal-donation-button" class="button is-warning" lang="en" data-lang-token="donation">Donate</button>
+          <button id="app-details-modal-download-button" class="button is-primary i18n" data-i18n="download">download</button>
+          <button id="app-details-modal-website-button" class="button is-info i18n" data-i18n="website">website</button>
+          <button id="app-details-modal-repo-button" class="button is-info i18n" data-i18n="repo">repository</button>
+          <button id="app-details-modal-donation-button" class="button is-warning i18n" data-i18n="donation">donate</button>
         </footer>
       </div>
     </div>
@@ -431,9 +431,9 @@
           <div class="container">
             <div class="content">
               <p>
-                <span lang="en" data-lang-token="qr1">Scan the QR code below with</span>
+                <span class="i18n" data-i18n="qr.1">Scan the QR code below with</span>
                 <a href="https://github.com/strukturart/bHacker-store-client" target="_blank">perry's bHacker-store client</a>
-                <span lang="en" data-lang-token="qr2">to install.</span>
+                <span class="i18n" data-i18n="qr.2">to install.</span>
               </p>
               <hr>
               <div class="columns is-centered">
@@ -455,20 +455,20 @@
       <div class="modal-background"></div>
       <div class="modal-card">
         <header class="modal-card-head">
-          <p class="modal-card-title" lang="en" data-lang-token="webstore-update">WebStore update available</p>
+          <p class="modal-card-title i18n" data-i18n="webstore-update">WebStore update available</p>
         </header>
         <section class="modal-card-body">
           <div class="container">
             <div class="content">
-              <p lang="en" data-lang-token="webstore-update-info">
+              <p class="i18n" data-i18n="webstore-update-info">
                 There is an update for WebStore available. Click the update button to reload the new version.
               </p>
             </div>
           </div>
         </section>
         <footer class="modal-card-foot">
-          <button id="webstore-update-modal-update-button" class="button is-success" lang="en" data-lang-token="update-button">Update</button>
-          <button class="button is-danger" data-bulma-modal="close" lang="en" data-lang-token="ignore-button">Ignore</button>
+          <button id="webstore-update-modal-update-button" class="button is-success i18n" data-i18n="update">update</button>
+          <button class="button is-danger i18n" data-bulma-modal="close" data-i18n="ignore">ignore</button>
         </footer>
       </div>
     </div>
@@ -477,6 +477,7 @@
     <script src="assets/js/lib/i18next/i18next.min.js" defer></script>
     <script src="assets/js/lib/i18next/plugins/i18nextBrowserLanguageDetector.min.js" defer></script>
     <script src="assets/js/lib/i18next/plugins/i18next-fetch-backend.umd.js" defer></script>
+    <script src="assets/js/lib/i18next/plugins/loc-i18next.min.js"></script>
     <!-- Bulma -->
     <script src="assets/js/lib/bulma/bulma-toast.min.js" defer></script>
     <script src="assets/js/lib/bulma/bulma-modal.js" defer></script>
