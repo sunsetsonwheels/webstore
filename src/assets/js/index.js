@@ -541,14 +541,12 @@ i18next.use(i18nextBrowserLanguageDetector).use(I18nextFetchBackend).init({
     cardFooter_ViewAppDetails.setAttribute('data-app-categories', appDetails.meta.categories.toString())
     cardFooter_ViewAppDetails.setAttribute('data-app-name', appDetails.name)
     cardFooter_ViewAppDetails.setAttribute('data-app-slug', appDetails.slug)
-    cardFooter_ViewAppDetails.setAttribute('lang', 'en')
-    cardFooter_ViewAppDetails.innerText = i18next.t('app-details')
+    cardFooter_ViewAppDetails.innerText = i18next.t('view-app-details')
     cardFooter.appendChild(cardFooter_ViewAppDetails)
   
     if (navigator.share) {
       const cardFooter_ShareApp = document.createElement('a')
       cardFooter_ShareApp.classList.add('card-footer-item', 'is-unselectable')
-      cardFooter_ShareApp.setAttribute('lang', 'en')
       cardFooter_ShareApp.innerText = i18next.t('share-app')
       cardFooter_ShareApp.onclick = function () {
         navigator.share({
@@ -565,7 +563,6 @@ i18next.use(i18nextBrowserLanguageDetector).use(I18nextFetchBackend).init({
     } else if (navigator.clipboard) {
       const cardFooter_ShareApp = document.createElement('a')
       cardFooter_ShareApp.classList.add('card-footer-item', 'is-unselectable')
-      cardFooter_ShareApp.setAttribute('lang', 'en')
       cardFooter_ShareApp.innerText = i18next.t('copy-app')
       cardFooter_ShareApp.onclick = function () {
         navigator.clipboard.writeText('https://store.bananahackers.net/#' + appDetails.slug).then(function () {
@@ -815,7 +812,7 @@ i18next.use(i18nextBrowserLanguageDetector).use(I18nextFetchBackend).init({
       appCardColumnElement.innerHTML = ''
     }
 
-    StoreDbAPI.loadData().then(function (data) {
+    StoreDbAPI.loadDb().then(function (data) {
       for (const category in data.categories) {
         const newCategoryTab = {
           tab: document.createElement('li'),
@@ -910,9 +907,9 @@ i18next.use(i18nextBrowserLanguageDetector).use(I18nextFetchBackend).init({
 
   reloadData()
 }).catch(err => {
+  console.error(err)
   bulmaToast.toast({
     message: err,
     type: "is-danger"
   })
-  console.error(err)
 });

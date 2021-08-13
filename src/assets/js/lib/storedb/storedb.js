@@ -1,23 +1,87 @@
 class StoreDatabaseAPI {
   constructor () {
-    this.db = {}
+    this.stores = [
+      "https://banana-hackers.gitlab.io/store-db/data.json",
+      "https://bananahackers.github.io/store-db/data.json",
+      "https://bananahackers.github.io/data.json"
+    ];
+    this.downloadCounters = [
+      "https://bhackers.uber.space/srs/v1/download_counter"
+    ];
+    this.currentStore = {
+      index: 0,
+      url: this.stores[0]
+    };
+    this.db = {
+      categories: {
+        all: {
+          name: 'All apps',
+          icon: 'fas fa-store'
+        }
+      },
+      apps: {
+        raw: [],
+        categorical: {},
+        downloadCounts: {}
+      },
+      generatedAt: null
+    };
   }
 
-  loadData () {
-    const that = this
-    return new Promise(function (resolve, reject) {
-      const worker = new Worker('assets/js/index/workers/store-worker.js')
-      worker.onmessage = function (e) {
-        worker.terminate()
-        that.db = e.data
-        resolve(e.data)
+  #resetDb () {
+    storeData.categories = {
+      all: {
+        name: 'All apps',
+        icon: 'fas fa-store'
       }
-      worker.onerror = function (err) {
-        worker.terminate()
-        reject(err)
+    };
+    storeData.apps.raw = [];
+    storeData.apps.categorical = {};
+    storeData.apps.downloadCounts = {};
+  }
+
+  async loadDb () {
+    for (const url of this.stores) {
+      const rawDb = await fetch(url);
+      if (!rawDb.ok) continue;
+
+      this.currentStore.index = this.stores.indexOf(url);
+      this.currentStore.url = url;
+      const parsedDb = await rawDb.json();
+
+      if (parsedDb.version !== 2) continue;
+
+      this.db.generatedAt = parsedDb.generatedAt;
+      this.db.categories.all = {
+        name: 'All apps',
+        icon: 'fas fa-store'
+      };
+      this.db.categories = Object.assign(this.db.categories, parsedDb.categories);
+
+      this.db.apps.raw = parsedDb.apps;
+      for (const app of this.db.apps.raw) {
+        for (const category of app.meta.categories) {
+          if (!this.db.apps.categorical[category]) {
+            this.db.apps.categorical[category] = {};
+          }
+          if (!this.db.apps.categorical[category][app.name]) {
+            this.db.apps.categorical[category][app.name] = app;
+          }
+        }
       }
-      worker.postMessage(null)
-    })
+      
+      this.db.apps.categorical.all = {}
+      for (const category in this.db.categories) {
+        for (const app in this.db.apps.categorical[category]) {
+          if (!this.db.apps.categorical.all[app]) {
+            this.db.apps.categorical.all[app] = this.db.apps.categorical[category][app];
+          }
+        }
+      }
+    }
+
+    console.log(this.db)
+    return this.db
   }
 
   getAppsByCategory (category) {
@@ -31,7 +95,7 @@ class StoreDatabaseAPI {
   sortApps (apps, sort) {
     const that = this
     return new Promise(function (resolve, reject) {
-      const worker = new Worker('assets/js/index/workers/sort-worker.js')
+      const worker = new Worker('assets/js/lib/storedb/workers/sort-worker.js')
       worker.onmessage = function (e) {
         worker.terminate()
         resolve(e.data.apps)
