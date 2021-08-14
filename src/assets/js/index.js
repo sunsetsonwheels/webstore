@@ -209,17 +209,17 @@ i18next.use(i18nextBrowserLanguageDetector).use(I18nextFetchBackend).init({
     appDetailsModal.content.ratings.averageRating.innerText = 'Unknown ★'
     appDetailsModal.content.ratings.allRatings.innerHTML = 'Loading ratings...'
   
-    StoreDbAPI.getAppRatings(appID).then(function (returnMessage) {
+    StoreDbAPI.getAppRatings(appID).then(function (ratings) {
       appDetailsModal.content.ratings.allRatings.innerHTML = ''
   
       let isPersonalReviewExists = false
   
-      if (returnMessage.response.data.average) {
-        appDetailsModal.content.ratings.averageRating.innerText = `${returnMessage.response.data.average.toFixed(1)} ★`
+      if (ratings.average) {
+        appDetailsModal.content.ratings.averageRating.innerText = `${ratings.average.toFixed(1)} ★`
       }
-      for (const review of returnMessage.response.data.ratings) {
+      for (const review of ratings.ratings) {
         if (review.username === userDetails.username) {
-          appDetailsModal.content.ratings.loggedIn.details.innerHTML = `<strong>@${review.username}</strong> (you) • <small>${dayjs.unix(review.creationtime).fromNow()}</small>`
+          appDetailsModal.content.ratings.loggedIn.details.innerHTML = `<strong>@${review.username}</strong> (you) • <small>${review.creationTime}</small>`
           appDetailsModal.content.ratings.loggedIn.points.disabled = false
           appDetailsModal.content.ratings.loggedIn.description.disabled = false
           appDetailsModal.content.ratings.loggedIn.points.value = review.points
@@ -245,7 +245,7 @@ i18next.use(i18nextBrowserLanguageDetector).use(I18nextFetchBackend).init({
           ratingMediaContentElement.appendChild(ratingMediaActualContentElement)
   
           const ratingInfoElement = document.createElement('p')
-          ratingInfoElement.innerHTML = `<strong>@${review.username}</strong> • <small>${review.points} ★</small> • <small>${dayjs.unix(review.creationtime).fromNow()}</small>`
+          ratingInfoElement.innerHTML = `<strong>@${review.username}</strong> • <small>${review.points} ★</small> • <small>${review.creationtime}</small>`
           ratingMediaActualContentElement.appendChild(ratingInfoElement)
   
           const ratingDescriptionElement = document.createElement('p')
@@ -854,13 +854,6 @@ i18next.use(i18nextBrowserLanguageDetector).use(I18nextFetchBackend).init({
       }
       document.querySelector(`.category-tab[data-category-id*="${currentSelectedCategory}"]`).classList.add('is-active')
       sortSelect.dispatchEvent(new Event('change'))
-
-      const dataGeneratedLabel = document.getElementById('data-generated-time-label')
-      if (data.generatedAt) {
-        dataGeneratedLabel.innerText = dayjs(data.generatedAt).fromNow()
-        dataGeneratedLabel.classList.remove('is-danger')
-        dataGeneratedLabel.classList.add('is-success')
-      }
 
       const totalAppsLabel = document.getElementById('data-total-apps-label')
       totalAppsLabel.innerText = data.apps.raw.length

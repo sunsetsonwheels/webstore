@@ -5,12 +5,16 @@ class StoreDatabaseAPI {
       "https://bananahackers.github.io/store-db/data.json",
       "https://bananahackers.github.io/data.json"
     ];
-    this.downloadCounters = [
-      "https://bhackers.uber.space/srs/v1/download_counter"
+    this.ratingServers = [
+      "https://bhackers.uber.space/srs/v1"
     ];
     this.currentStore = {
       index: 0,
       url: this.stores[0]
+    };
+    this.currentRatingServer = {
+      index: 0,
+      url: this.ratingServers[0]
     };
     this.db = {
       categories: {
@@ -41,17 +45,17 @@ class StoreDatabaseAPI {
   }
 
   async loadDb () {
-    for (const url of this.stores) {
-      const rawDb = await fetch(url);
+    for (const storeURL of this.stores) {
+      const rawDb = await fetch(storeURL);
       if (!rawDb.ok) continue;
 
-      this.currentStore.index = this.stores.indexOf(url);
-      this.currentStore.url = url;
+      this.currentStore.index = this.stores.indexOf(storeURL);
+      this.currentStore.url = storeURL;
       const parsedDb = await rawDb.json();
 
       if (parsedDb.version !== 2) continue;
 
-      this.db.generatedAt = parsedDb.generatedAt;
+      this.db.generatedAt = parsedDb.generated_at;
       this.db.categories.all = {
         name: 'All apps',
         icon: 'fas fa-store'
@@ -78,6 +82,16 @@ class StoreDatabaseAPI {
           }
         }
       }
+      break;
+    }
+
+    for (const ratingServerURL of this.ratingServers) {
+      const rawDownloadCounts = await fetch(`${ratingServerURL}/download_counter`);
+      if (!rawDownloadCounts.ok) continue;
+      this.currentRatingServer.index = this.ratingServers.indexOf(ratingServerURL);
+      this.currentRatingServer.url = ratingServerURL;
+      this.db.apps.downloadCounts = await rawDownloadCounts.json();
+      break;
     }
 
     console.log(this.db)
@@ -127,62 +141,13 @@ class StoreDatabaseAPI {
     })
   }
 
-  dlCountApp (appSlug) {
-    return new Promise(function (resolve, reject) {
-      const worker = new Worker('assets/js/index/workers/ratings-worker.js')
-      worker.onmessage = function (e) {
-        worker.terminate()
-        if (e.data.success) {
-          resolve(e.data)
-        } else {
-          reject(e.data)
-        }
-      }
-      worker.onerror = function (err) {
-        worker.terminate()
-        reject({
-          success: false,
-          response: {
-            error: err
-          }
-        })
-      }
-      worker.postMessage({
-        command: 'count',
-        args: {
-          slug: appSlug
-        }
-      })
-    })
+  async dlCountApp (appSlug) {
+    await fetch(`${this.currentStore.url}/count/${appSlug}`)
   }
 
-  getAppRatings (appID) {
-    return new Promise(function (resolve, reject) {
-      const worker = new Worker('assets/js/index/workers/ratings-worker.js')
-      worker.onmessage = function (e) {
-        worker.terminate()
-        if (e.data.success) {
-          resolve(e.data)
-        } else {
-          reject(e.data)
-        }
-      }
-      worker.onerror = function (err) {
-        worker.terminate()
-        reject({
-          success: false,
-          response: {
-            error: err
-          }
-        })
-      }
-      worker.postMessage({
-        command: 'get',
-        args: {
-          appid: appID
-        }
-      })
-    })
+  async getAppRatings (appID) {
+    const rawRatings = await fetch(`${this.currentRatingServer.url}/ratings/${appID}`)
+    return await rawRatings.json()
   }
 
   loginToRatingsAccount (ausername, alogintoken) {
