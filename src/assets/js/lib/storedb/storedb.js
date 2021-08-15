@@ -142,104 +142,56 @@ class StoreDatabaseAPI {
   }
 
   async dlCountApp (appSlug) {
-    await fetch(`${this.currentStore.url}/count/${appSlug}`)
+    await fetch(`${this.currentRatingServer.url}/download_counter/count/${appSlug}`);
   }
 
   async getAppRatings (appID) {
     const rawRatings = await fetch(`${this.currentRatingServer.url}/ratings/${appID}`)
-    return await rawRatings.json()
+    if (!rawRatings.ok) throw new Error(`Unable to fetch ratings for app ${appID}.`);
+    return await rawRatings.json();
   }
 
-  loginToRatingsAccount (ausername, alogintoken) {
-    return new Promise(function (resolve, reject) {
-      const worker = new Worker('assets/js/index/workers/ratings-worker.js')
-      worker.onmessage = function (e) {
-        worker.terminate()
-        if (e.data.success) {
-          resolve(e.data)
-        } else {
-          reject(e.data)
-        }
-      }
-      worker.onerror = function (err) {
-        worker.terminate()
-        reject({
-          success: false,
-          response: {
-            error: err
-          }
-        })
-      }
-      worker.postMessage({
-        command: 'login',
-        args: {
-          username: ausername,
-          logintoken: alogintoken
-        }
+  async loginToRatingsAccount (ausername, alogintoken) {
+    const rawLoginRequest = await fetch(`${this.currentRatingServer.url}/checkuser`, {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        username: ausername,
+        logintoken: alogintoken
       })
-    })
+    });
+    if (!rawLoginRequest.ok) throw new Error("Unable to login.");
   }
 
-  createRatingsAccount (ausername, alogintoken) {
-    return new Promise(function (resolve, reject) {
-      const worker = new Worker('assets/js/index/workers/ratings-worker.js')
-      worker.onmessage = function (e) {
-        worker.terminate()
-        if (e.data.success) {
-          resolve(e.data)
-        } else {
-          reject(e.data)
-        }
-      }
-      worker.onerror = function (err) {
-        worker.terminate()
-        reject({
-          success: false,
-          response: {
-            error: err
-          }
-        })
-      }
-      worker.postMessage({
-        command: 'create',
-        args: {
-          username: ausername,
-          logintoken: alogintoken
-        }
+  async createRatingsAccount (ausername, alogintoken) {
+    const rawCreateRequest = await fetch(`${this.currentRatingServer.url}/createuser`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        username: ausername,
+        logintoken: alogintoken
       })
-    })
+    });
+    if (!rawCreateRequest.ok) throw new Error("Unable to create account.");
   }
 
-  addNewRating (ausername, alogintoken, rappid, rpoints, rdescription) {
-    return new Promise(function (resolve, reject) {
-      const worker = new Worker('assets/js/index/workers/ratings-worker.js')
-      worker.onmessage = function (e) {
-        worker.terminate()
-        if (e.data.success) {
-          resolve(e.data)
-        } else {
-          reject(e.data)
-        }
-      }
-      worker.onerror = function (err) {
-        worker.terminate()
-        reject({
-          success: false,
-          response: {
-            error: err
-          }
-        })
-      }
-      worker.postMessage({
-        command: 'add',
-        args: {
-          username: ausername,
-          logintoken: alogintoken,
-          appid: rappid,
-          points: rpoints,
-          description: rdescription
-        }
+  async addNewRating (ausername, alogintoken, rappid, rpoints, rdescription) {
+    const rawNewRatingRequest = await fetch(`${this.currentRatingServer.url}/ratings/${rappid}/add`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        username: ausername,
+        logintoken: alogintoken,
+        points: rpoints,
+        description: rdescription
       })
-    })
+    });
+    if (!rawNewRatingRequest.ok) throw new Error(`Unable to create new rating for app ${rappid}.`)
   }
 }

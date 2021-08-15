@@ -207,7 +207,7 @@ i18next.use(i18nextBrowserLanguageDetector).use(I18nextFetchBackend).init({
     appDetailsModal.content.ratings.loggedIn.submitButton.classList.add('is-loading')
     appDetailsModal.content.ratings.loggedIn.submitButton.disabled = true
     appDetailsModal.content.ratings.averageRating.innerText = 'Unknown ★'
-    appDetailsModal.content.ratings.allRatings.innerHTML = 'Loading ratings...'
+    appDetailsModal.content.ratings.allRatings.innerHTML = i18next.t('load-ratings')
   
     StoreDbAPI.getAppRatings(appID).then(function (ratings) {
       appDetailsModal.content.ratings.allRatings.innerHTML = ''
@@ -219,7 +219,7 @@ i18next.use(i18nextBrowserLanguageDetector).use(I18nextFetchBackend).init({
       }
       for (const review of ratings.ratings) {
         if (review.username === userDetails.username) {
-          appDetailsModal.content.ratings.loggedIn.details.innerHTML = `<strong>@${review.username}</strong> (you) • <small>${review.creationTime}</small>`
+          appDetailsModal.content.ratings.loggedIn.details.innerHTML = `<strong>@${review.username}</strong> (you) • <small>${review.creationtime}</small>`
           appDetailsModal.content.ratings.loggedIn.points.disabled = false
           appDetailsModal.content.ratings.loggedIn.description.disabled = false
           appDetailsModal.content.ratings.loggedIn.points.value = review.points
