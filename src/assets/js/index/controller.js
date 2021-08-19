@@ -9,69 +9,15 @@ i18next.use(i18nextBrowserLanguageDetector).use(I18nextFetchBackend).init({
   }
 }).then(async (t) => {
   // Init HTML localization.
-  const localize = locI18next.init(i18next, {
+  const locHTML = locI18next.init(i18next, {
     selectorAttr: "data-i18n"
-  })
-
-  // Localize every element marked for localization.
-  localize(".i18n")
-
-  // Handle hamburger menu button.
-  for (const navbarBurger of document.getElementsByClassName('navbar-burger')) {
-    navbarBurger.onclick = () => {
-      navbarBurger.classList.toggle('is-active');
-      document.getElementById(navbarBurger.dataset.target).classList.toggle('is-active');
-    }
-  }
-
-  // Set default options for toast messages
-  bulmaToast.setDefaults({
-    position: 'top-center',
-    closeOnClick: true,
-    pauseOnHover: true,
-    animate: {
-      in: 'bounceInDown',
-      out: 'bounceOutUp'
-    }
   });
 
-  let currentSelectedCategory = 'all'
+  // Localize every element marked for localization.
+  locHTML(".i18n");
 
-  const StoreDbAPI = new StoreDatabaseAPI()
-
-  let isFirstInitCompleted = false
-  let currentWebStoreVersion = 'Unknown'
-
-  function separateArrayCommas (array) {
-    let separated = ''
-    const arrayLength = array.length
-    array.forEach((value, i) => {
-      if (i + 1 < arrayLength) {
-        separated += value + ', '
-      } else {
-        separated += value
-      }
-    })
-    return separated
-  }
-
-  function generateReadableCategories (categories) {
-    const rawCategories = []
-    for (const index in categories) {
-      const categoryRawName = categories[index]
-      const categoryFriendlyName = StoreDbAPI.db.categories[categoryRawName].name
-      if (categoryFriendlyName) {
-        rawCategories.push(categoryFriendlyName)
-      } else {
-        rawCategories.push(categoryRawName)
-      }
-    }
-    return separateArrayCommas(rawCategories)
-  }
-
-  function listAppsByCategory (category, sort) {
-    return StoreDbAPI.sortApps(StoreDbAPI.getAppsByCategory(category), sort)
-  }
+  // Relative time formatting class init.
+  const relTime = new RelativeTime(i18next.language);
 
   const appDownloadsModal = {
     controller: new BulmaModal('#app-download-modal'),
@@ -85,7 +31,7 @@ i18next.use(i18nextBrowserLanguageDetector).use(I18nextFetchBackend).init({
     }
   }
 
-  appDownloadsModal.buttons.download.onclick = function (e) {
+  appDownloadsModal.buttons.download.onclick = (e) => {
     e.target.classList.add('is-loading')
     e.target.disabled = true
     StoreDbAPI.dlCountApp(e.target.getAttribute('data-app-appid')).then(function () {
@@ -170,7 +116,7 @@ i18next.use(i18nextBrowserLanguageDetector).use(I18nextFetchBackend).init({
     window.open(e.target.getAttribute('data-app-donate'), '_blank')
   }
   
-  appDetailsModal.content.ratings.loggedIn.submitButton.onclick = function () {
+  appDetailsModal.content.ratings.loggedIn.submitButton.onclick = async () => {
     appDetailsModal.content.ratings.loggedIn.ratingIncompleteBlurb.classList.add('is-hidden')
     if (appDetailsModal.content.ratings.loggedIn.description.value.length > 2 && isUserLoggedIn) {
       appDetailsModal.content.ratings.loggedIn.submitButton.classList.add('is-loading')
@@ -184,12 +130,12 @@ i18next.use(i18nextBrowserLanguageDetector).use(I18nextFetchBackend).init({
         appDetailsModal.content.ratings.loggedIn.points.value,
         appDetailsModal.content.ratings.loggedIn.description.value
       ).then(function () {
-        setTimeout(function () {
-          reloadAppRatings(appDetailsModal.content.ratings.loggedIn.submitButton.getAttribute('data-app-appid'))
+        setTimeout(async () => {
+          await reloadAppRatings(appDetailsModal.content.ratings.loggedIn.submitButton.getAttribute('data-app-appid'))
         }, 2000)
       }).catch(function () {
-        setTimeout(function () {
-          reloadAppRatings(appDetailsModal.content.ratings.loggedIn.submitButton.getAttribute('data-app-appid'))
+        setTimeout(async () => {
+          await reloadAppRatings(appDetailsModal.content.ratings.loggedIn.submitButton.getAttribute('data-app-appid'))
         }, 2000)
       })
     } else {
@@ -197,19 +143,20 @@ i18next.use(i18nextBrowserLanguageDetector).use(I18nextFetchBackend).init({
     }
   }
 
-  function reloadAppRatings (appID) {
-    appDetailsModal.content.ratings.loggedIn.details.innerHTML = '<strong>@Unknown</strong>'
-    appDetailsModal.content.ratings.loggedIn.points.value = 1
-    appDetailsModal.content.ratings.loggedIn.description.value = ''
-    appDetailsModal.content.ratings.loggedIn.points.disabled = true
-    appDetailsModal.content.ratings.loggedIn.description.disabled = true
-    appDetailsModal.content.ratings.loggedIn.ratingIncompleteBlurb.classList.add('is-hidden')
-    appDetailsModal.content.ratings.loggedIn.submitButton.classList.add('is-loading')
-    appDetailsModal.content.ratings.loggedIn.submitButton.disabled = true
-    appDetailsModal.content.ratings.averageRating.innerText = 'Unknown ★'
-    appDetailsModal.content.ratings.allRatings.innerHTML = i18next.t('load-ratings')
-  
-    StoreDbAPI.getAppRatings(appID).then(function (ratings) {
+  async function reloadAppRatings (appID) {
+    appDetailsModal.content.ratings.loggedIn.details.innerHTML = '<strong>@Unknown</strong>';
+    appDetailsModal.content.ratings.loggedIn.points.value = 1;
+    appDetailsModal.content.ratings.loggedIn.description.value = '';
+    appDetailsModal.content.ratings.loggedIn.points.disabled = true;
+    appDetailsModal.content.ratings.loggedIn.description.disabled = true;
+    appDetailsModal.content.ratings.loggedIn.ratingIncompleteBlurb.classList.add('is-hidden');
+    appDetailsModal.content.ratings.loggedIn.submitButton.classList.add('is-loading');
+    appDetailsModal.content.ratings.loggedIn.submitButton.disabled = true;
+    appDetailsModal.content.ratings.averageRating.innerText = 'Unknown ★';
+    appDetailsModal.content.ratings.allRatings.innerHTML = i18next.t('load-ratings');
+
+    try {
+      const ratings = await StoreDbAPI.getAppRatings(appID);
       appDetailsModal.content.ratings.allRatings.innerHTML = ''
   
       let isPersonalReviewExists = false
@@ -217,13 +164,14 @@ i18next.use(i18nextBrowserLanguageDetector).use(I18nextFetchBackend).init({
       if (ratings.average) {
         appDetailsModal.content.ratings.averageRating.innerText = `${ratings.average.toFixed(1)} ★`
       }
-      for (const review of ratings.ratings) {
-        if (review.username === userDetails.username) {
-          appDetailsModal.content.ratings.loggedIn.details.innerHTML = `<strong>@${review.username}</strong> (you) • <small>${review.creationtime}</small>`
+      for (const rating of ratings.ratings) {
+        const ratingCreationTime = relTime.getRelativeTime(new Date(rating.creationtime * 1000))
+        if (rating.username === userDetails.username) {
+          appDetailsModal.content.ratings.loggedIn.details.innerHTML = `<strong>@${rating.username}</strong> (you) • <small>${ratingCreationTime}</small>`
           appDetailsModal.content.ratings.loggedIn.points.disabled = false
           appDetailsModal.content.ratings.loggedIn.description.disabled = false
-          appDetailsModal.content.ratings.loggedIn.points.value = review.points
-          appDetailsModal.content.ratings.loggedIn.description.value = review.description
+          appDetailsModal.content.ratings.loggedIn.points.value = rating.points
+          appDetailsModal.content.ratings.loggedIn.description.value = rating.description
           appDetailsModal.content.ratings.loggedIn.points.disabled = true
           appDetailsModal.content.ratings.loggedIn.description.disabled = true
           isPersonalReviewExists = true
@@ -245,11 +193,11 @@ i18next.use(i18nextBrowserLanguageDetector).use(I18nextFetchBackend).init({
           ratingMediaContentElement.appendChild(ratingMediaActualContentElement)
   
           const ratingInfoElement = document.createElement('p')
-          ratingInfoElement.innerHTML = `<strong>@${review.username}</strong> • <small>${review.points} ★</small> • <small>${review.creationtime}</small>`
+          ratingInfoElement.innerHTML = `<strong>@${rating.username}</strong> • <small>${rating.points} ★</small> • <small>${ratingCreationTime}</small>`
           ratingMediaActualContentElement.appendChild(ratingInfoElement)
   
           const ratingDescriptionElement = document.createElement('p')
-          ratingDescriptionElement.innerText = review.description
+          ratingDescriptionElement.innerText = rating.description
           ratingMediaActualContentElement.appendChild(ratingDescriptionElement)
         }
       }
@@ -266,13 +214,13 @@ i18next.use(i18nextBrowserLanguageDetector).use(I18nextFetchBackend).init({
         appDetailsModal.content.ratings.loggedIn.submitButton.disabled = false
       }
       appDetailsModal.content.ratings.loggedIn.submitButton.classList.remove('is-loading')
-    }).catch(function (err) {
+    } catch (err) {
       bulmaToast.toast({
-        message: i18next.t('rating-load-error'),
+        message: err,
         type: 'is-danger'
-      })
-      console.error(err)
-    })
+      });
+      console.error(err);
+    }
   }
 
   var appCardColumn = 0
@@ -283,7 +231,7 @@ i18next.use(i18nextBrowserLanguageDetector).use(I18nextFetchBackend).init({
   ]
 
   const appCardsContainerElement = document.getElementById('app-cards-container')
-  appCardsContainerElement.onclick = function (e) {
+  appCardsContainerElement.onclick = async (e) => {
     const targetElementClasses = e.target.classList
     if (targetElementClasses.contains('app')) {
       const appMainCategory = e.target.getAttribute('data-app-categories').split(',')[0]
@@ -580,17 +528,10 @@ i18next.use(i18nextBrowserLanguageDetector).use(I18nextFetchBackend).init({
     }
   }
 
-  document.getElementById('scrolltop-fab').onclick = function () {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    })
-  }
-
   const reloadButton = document.getElementById('reload-button')
 
   const sortSelect = document.getElementById('sort-select')
-  sortSelect.onchange = function (e) {
+  sortSelect.onchange = async (e) => {
     reloadButton.classList.add('is-loading')
 
     const sortIcon = document.getElementById('sort-icon')
@@ -616,7 +557,8 @@ i18next.use(i18nextBrowserLanguageDetector).use(I18nextFetchBackend).init({
 
     appCardColumn = 0
 
-    listAppsByCategory(currentSelectedCategory, e.target.value).then(function (appDetails) {
+    try {
+      const appDetails = await listAppsByCategory(currentSelectedCategory, e.target.value)
       for (const app in appDetails) {
         addAppCard(appDetails[app])
       }
@@ -641,22 +583,22 @@ i18next.use(i18nextBrowserLanguageDetector).use(I18nextFetchBackend).init({
         message: i18next.t('app-sort-success'),
         type: 'is-success'
       })
-    }).catch(function (err) {
+    } catch (err){
       reloadButton.classList.remove('is-loading')
       sortSelect.disabled = false
       reloadButton.disabled = false
 
       bulmaToast.toast({
-        message: i18next.t('app-sort-success'),
+        message: err,
         type: 'is-danger'
       })
 
       console.log(err)
-    })
+    }
   }
 
   const categoriesTabsElement = document.getElementById('categories-tabs')
-  categoriesTabsElement.onclick = function (e) {
+  categoriesTabsElement.onclick = (e) => {
     const targetElementClasses = e.target.classList
     if (targetElementClasses.contains('category-link') || targetElementClasses.contains('category-tab')) {
       currentSelectedCategory = e.target.getAttribute('data-category-id')
@@ -691,7 +633,7 @@ i18next.use(i18nextBrowserLanguageDetector).use(I18nextFetchBackend).init({
     }
   }
 
-  userModal.controller.addEventListener('modal:show', function () {
+  userModal.controller.addEventListener('modal:show', () => {
     let isLoginDetailsSaved = false
 
     const username = localStorage.getItem('webstore-ratings-username')
@@ -715,7 +657,7 @@ i18next.use(i18nextBrowserLanguageDetector).use(I18nextFetchBackend).init({
     }
   })
 
-  userModal.controller.addEventListener('modal:close', function () {
+  userModal.controller.addEventListener('modal:close', () => {
     userModal.content.loginFailedBlurb.classList.add('is-hidden')
   })
 
@@ -726,7 +668,7 @@ i18next.use(i18nextBrowserLanguageDetector).use(I18nextFetchBackend).init({
     icon: document.getElementById('user-icon')
   }
 
-  userButton.button.onclick = function () {
+  userButton.button.onclick = () => {
     if (isUserLoggedIn) {
       userDetails.username = null
       userDetails.logintoken = null
@@ -753,31 +695,33 @@ i18next.use(i18nextBrowserLanguageDetector).use(I18nextFetchBackend).init({
     isUserLoggedIn = true
   }
 
-  userModal.buttons.login.onclick = function () {
-    userModal.buttons.login.classList.add('is-loading')
-    userModal.buttons.login.disabled = true
-    userModal.content.loginFailedBlurb.classList.add('is-hidden')
-    userDetails.username = userModal.content.usernameInput.value
-    userDetails.logintoken = userModal.content.logintokenInput.value
-    userModal.content.usernameInput.disabled = true
-    userModal.content.logintokenInput.disabled = true
-    StoreDbAPI.loginToRatingsAccount(userDetails.username, userDetails.logintoken).then(function (e) {
+  userModal.buttons.login.onclick = async () => {
+    userModal.buttons.login.classList.add('is-loading');
+    userModal.buttons.login.disabled = true;
+    userModal.content.loginFailedBlurb.classList.add('is-hidden');
+    userDetails.username = userModal.content.usernameInput.value;
+    userDetails.logintoken = userModal.content.logintokenInput.value;
+    userModal.content.usernameInput.disabled = true;
+    userModal.content.logintokenInput.disabled = true;
+    try {
+      await StoreDbAPI.loginToRatingsAccount(userDetails.username, userDetails.logintoken);
       loginSuccessCb()
-    }).catch(function (err) {
-      StoreDbAPI.createRatingsAccount(userDetails.username, userDetails.logintoken).then(function (e) {
+    } catch {
+      try {
+        await StoreDbAPI.createRatingsAccount(userDetails.username, userDetails.logintoken);
         loginSuccessCb()
-      }).catch(function (err2) {
+      } catch (err) {
         userModal.content.usernameInput.disabled = false
         userModal.content.logintokenInput.disabled = false
         userModal.buttons.login.disabled = false
         userModal.buttons.login.classList.remove('is-loading')
         userModal.content.loginFailedBlurb.classList.remove('is-hidden')
         console.error(err)
-      })
-    })
+      }
+    }
   }
 
-  userModal.content.saveLoginCheckbox.onchange = function (e) {
+  userModal.content.saveLoginCheckbox.onchange = (e) => {
     if (e.target.checked) {
       localStorage.setItem('webstore-ratings-username', userModal.content.usernameInput.value)
       localStorage.setItem('webstore-ratings-logintoken', userModal.content.logintokenInput.value)
@@ -794,11 +738,11 @@ i18next.use(i18nextBrowserLanguageDetector).use(I18nextFetchBackend).init({
     }
   }
 
-  updateModal.buttons.update.onclick = function () {
+  updateModal.buttons.update.onclick = () => {
     location.reload()
   }
 
-  function reloadData () {
+  async function reloadData () {
     sortSelect.disabled = true
     reloadButton.classList.add('is-loading')
     reloadButton.disabled = true
@@ -812,7 +756,8 @@ i18next.use(i18nextBrowserLanguageDetector).use(I18nextFetchBackend).init({
       appCardColumnElement.innerHTML = ''
     }
 
-    StoreDbAPI.loadDb().then(function (data) {
+    try {
+      const data = await StoreDbAPI.loadDb()
       for (const category in data.categories) {
         const newCategoryTab = {
           tab: document.createElement('li'),
@@ -885,20 +830,20 @@ i18next.use(i18nextBrowserLanguageDetector).use(I18nextFetchBackend).init({
         message: i18next.t('data-load-success'),
         type: 'is-success'
       })
-    }).catch(function (err) {
+    } catch (err) {
       bulmaToast.toast({
         message: i18next.t('data-load-error'),
         type: 'is-danger'
       })
       console.error(err)
-    })
+    }
   }
 
-  reloadButton.onclick = function () {
-    reloadData()
+  reloadButton.onclick = async function () {
+    await reloadData()
   }
 
-  reloadData()
+  await reloadData()
 }).catch(err => {
   console.error(err)
   bulmaToast.toast({
