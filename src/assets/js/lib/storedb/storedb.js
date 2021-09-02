@@ -24,24 +24,12 @@ class StoreDatabaseAPI {
         }
       },
       apps: {
-        raw: [],
-        categorical: {},
+        len: 0,
+        objects: {},
         downloadCounts: {}
       },
       generatedAt: null
     };
-  }
-
-  #resetDb () {
-    storeData.categories = {
-      all: {
-        name: 'All apps',
-        icon: 'fas fa-store'
-      }
-    };
-    storeData.apps.raw = [];
-    storeData.apps.categorical = {};
-    storeData.apps.downloadCounts = {};
   }
 
   async loadDb () {
@@ -53,35 +41,21 @@ class StoreDatabaseAPI {
       this.currentStore.url = storeURL;
       const parsedDb = await rawDb.json();
 
-      if (parsedDb.version !== 2) continue;
+      if (![2, 3].includes(parsedDb.version)) continue;
 
       this.db.generatedAt = parsedDb.generated_at;
+
       this.db.categories.all = {
         name: 'All apps',
         icon: 'fas fa-store'
       };
-      this.db.categories = Object.assign(this.db.categories, parsedDb.categories);
+      Object.assign(this.db.categories, parsedDb.categories);
 
-      this.db.apps.raw = parsedDb.apps;
-      for (const app of this.db.apps.raw) {
-        for (const category of app.meta.categories) {
-          if (!this.db.apps.categorical[category]) {
-            this.db.apps.categorical[category] = {};
-          }
-          if (!this.db.apps.categorical[category][app.name]) {
-            this.db.apps.categorical[category][app.name] = app;
-          }
-        }
+      for (const app of parsedDb.apps) {
+        this.db.apps.objects[app.name] = app;
+        this.db.apps.len += 1;
       }
-      
-      this.db.apps.categorical.all = {}
-      for (const category in this.db.categories) {
-        for (const app in this.db.apps.categorical[category]) {
-          if (!this.db.apps.categorical.all[app]) {
-            this.db.apps.categorical.all[app] = this.db.apps.categorical[category][app];
-          }
-        }
-      }
+
       break;
     }
 
@@ -95,15 +69,31 @@ class StoreDatabaseAPI {
     }
 
     console.log(this.db)
-    return this.db
   }
 
   getAppsByCategory (category) {
-    if (category in this.db.categories) {
-      return this.db.apps.categorical[category]
-    } else {
-      throw new TypeError('Category "' + category + '" does not exist!')
-    }
+    const that = this;
+    return new Promise((resolve, reject) => {
+      if (!this.db.categories.hasOwnProperty(category)) {
+        reject(new Error('Category "' + category + '" does not exist!'));
+      }
+
+      if (category == "all") resolve(this.db.apps.objects);
+
+      const worker = new Worker("assets/js/lib/storedb/workers/category-worker.js");
+      worker.onmessage = (e) => {
+        worker.terminate();
+        resolve(e.data);
+      }
+      worker.onerror = (err) => {
+        worker.terminate();
+        reject(err);
+      }
+      worker.postMessage({
+        apps: that.db.apps.objects,
+        category: category
+      });
+    });
   }
 
   sortApps (apps, sort) {
@@ -111,12 +101,12 @@ class StoreDatabaseAPI {
     return new Promise(function (resolve, reject) {
       const worker = new Worker('assets/js/lib/storedb/workers/sort-worker.js')
       worker.onmessage = function (e) {
-        worker.terminate()
-        resolve(e.data.apps)
+        worker.terminate();
+        resolve(e.data);
       }
       worker.onerror = function (err) {
-        worker.terminate()
-        reject(err)
+        worker.terminate();
+        reject(err);
       }
       switch (sort) {
         case 'alphabetical':

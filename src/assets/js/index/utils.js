@@ -1,3 +1,5 @@
+'use strict';
+
 function separateArrayCommas (array) {
   var separated = '';
   const arrayLength = array.length;
@@ -25,6 +27,6 @@ function generateReadableCategories (categories) {
   return separateArrayCommas(rawCategories)
 }
 
-function listAppsByCategory (category, sort) {
-  return StoreDbAPI.sortApps(StoreDbAPI.getAppsByCategory(category), sort)
+async function listAppsByCategory (category, sort) {
+  return StoreDbAPI.sortApps(await StoreDbAPI.getAppsByCategory(category), sort);
 }

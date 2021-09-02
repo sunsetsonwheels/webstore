@@ -15,9 +15,13 @@
     <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicons/favicon-16x16.png">
     <link rel="manifest" href="bhackers.webmanifest">
-    <!-- Stylesheets -->
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <link rel="stylesheet" href="assets/css/lib/bulma/bulma.min.css">
+    <!-- Stylesheets -->
+    <noscript>
+      <link rel="stylesheet" href="assets/css/lib/bulma/bulmaswatch-light.min.css">
+    </noscript>
+    <script src="assets/js/lib/darkmode.min.js"></script>
+    <script src="assets/js/lib/theme-switcher.js"></script>
     <link rel="stylesheet" href="assets/css/lib/bulma/bulma-floating-button.css">
     <link rel="stylesheet" href="assets/css/lib/animate.css">
     <link rel="stylesheet" href="assets/css/lib/fontawesome/css/all.min.css">
@@ -27,7 +31,7 @@
     <nav class="navbar">
       <div class="navbar-brand">
         <a class="navbar-item" href="https://store.bananahackers.net">
-          <img src="assets/logos/bhackers-store.png" width="28" height="28">
+          <img src="assets/logos/bhackers-store.svg" width="28" height="28">
         </a>
     
         <a role="button" class="navbar-burger" data-target="webstore-navbar">
@@ -108,16 +112,16 @@
                 </span>
               </p>
               <div class="control">
-                <button id="user-button" class="button is-link">
+                <button id="theme-button" class="button is-success">
                   <span class="icon">
-                    <i id="user-icon" class="fas fa-user"></i>
+                    <i class="fas fa-paint-roller"></i>
                   </span>
                 </button>
               </div>
               <div class="control">
-                <button id="debug-info-button" class="button is-danger">
+                <button id="user-button" class="button is-link">
                   <span class="icon">
-                    <i class="fas fa-bug"></i>
+                    <i id="user-icon" class="fas fa-user"></i>
                   </span>
                 </button>
               </div>
@@ -412,7 +416,7 @@
           <button id="app-details-modal-download-button" class="button is-primary i18n" data-i18n="download">download</button>
           <button id="app-details-modal-website-button" class="button is-info i18n" data-i18n="website">website</button>
           <button id="app-details-modal-repo-button" class="button is-info i18n" data-i18n="repo">repository</button>
-          <button id="app-details-modal-donation-button" class="button is-warning i18n" data-i18n="donation">donate</button>
+          <button id="app-details-modal-donation-button" class="button is-warning i18n" data-i18n="donate">donate</button>
         </footer>
       </div>
     </div>
@@ -489,6 +493,7 @@
     <!-- Index -->
     <script src="assets/js/index/init.js" defer></script>
     <script src="assets/js/index/utils.js" defer></script>
+    <script src="assets/js/index/modals/user-modal.js" defer></script>
     <script src="assets/js/index/controller.js" defer></script>
   </body>
 </html>
