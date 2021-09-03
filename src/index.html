@@ -34,7 +34,7 @@
           <img src="assets/logos/bhackers-store.svg" width="28" height="28">
         </a>
     
-        <a role="button" class="navbar-burger" data-target="webstore-navbar">
+        <a class="navbar-burger" data-target="webstore-navbar">
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
@@ -69,7 +69,7 @@
               <a class="navbar-item is-unselectable" href="https://discord.gg/rQ93zEu" target="_blank">
                 Discord
               </a>
-              <a class="navbar-item is-unselectable" href="https://discord.gg/rQ93zEu" target="_blank">
+              <a class="navbar-item is-unselectable" href="https://matrix.to/#/!bHojAVTxOAfeEMLjkS:mozilla.org" target="_blank">
                 Matrix
               </a>
             </div>
@@ -107,7 +107,7 @@
                 <span class="select">
                   <select id="lang-select" disabled>
                     <option value="en">English</option>
-                    <option value="zh-CN">简体中文</option>
+                    <option value="vi">Tiếng Việt</option>
                   </select>
                 </span>
               </p>
@@ -219,7 +219,7 @@
             <div class="field">
               <label class="label">Username</label>
               <div class="control has-icons-left">
-                <input id="user-modal-username-input" class="input" type="text" placeholder="username">
+                <input id="user-modal-username-input" class="input" type="text">
                 <span class="icon is-small is-left">
                   <i class="fas fa-user"></i>
                 </span>
@@ -228,7 +228,7 @@
             <div class="field">
               <label class="label">Login token</label>
               <div class="control has-icons-left">
-                <input id="user-modal-logintoken-input" class="input" type="password" placeholder="login token">
+                <input id="user-modal-logintoken-input" class="input" type="password">
                 <span class="icon is-small is-left">
                   <i class="fas fa-key"></i>
                 </span>
@@ -322,11 +322,11 @@
                   </td>
                 </tr>
                 <tr>
-                  <th class="i18n" data-lang-token="license">license</th>
+                  <th class="i18n" data-i18n="license">license</th>
                   <td id="app-details-modal-app-license">?</td>
                 </tr>
                 <tr>
-                  <th class="i18n" data-lang-token="download-count">download-count</th>
+                  <th class="i18n" data-i18n="downloads">downloads</th>
                   <td id="app-details-modal-app-downloadCount">?</td>
                 </tr>
               </tbody>
@@ -353,11 +353,9 @@
                   <div class="media-content">
                     <div class="content">
                       <p class="is-unselectable">
-                        <strong class="i18n" data-lang-token="your-rating">your-rating</strong>
+                        <strong class="i18n" data-i18n="your-rating">your-rating</strong>
                       </p>
-                      <p class="is-unselectable i18n" data-i18n="login-to-rate">
-                        login-to-rate
-                      </p>
+                      <p class="is-unselectable i18n" data-i18n="login-to-rate">login-to-rate</p>
                     </div>
                   </div>
                 </article>
@@ -373,7 +371,7 @@
                     </div>
                     <div class="field">
                       <p class="control">
-                        <textarea id="app-details-modal-app-ratings-logged-in-description"  class="textarea" placeholder="More than 2 characters." disabled></textarea>
+                        <textarea id="app-details-modal-app-ratings-logged-in-description"  class="textarea" disabled></textarea>
                       </p>
                       <p id="app-details-modal-rating-incomplete-blurb" class="help is-danger is-hidden">
                         2 or more characters required for rating!
@@ -414,9 +412,9 @@
         </section>
         <footer class="modal-card-foot">
           <button id="app-details-modal-download-button" class="button is-primary i18n" data-i18n="download">download</button>
-          <button id="app-details-modal-website-button" class="button is-info i18n" data-i18n="website">website</button>
-          <button id="app-details-modal-repo-button" class="button is-info i18n" data-i18n="repo">repository</button>
-          <button id="app-details-modal-donation-button" class="button is-warning i18n" data-i18n="donate">donate</button>
+          <a id="app-details-modal-website-button" class="button is-info i18n" data-i18n="website" target="_blank">website</a>
+          <a id="app-details-modal-repo-button" class="button is-info i18n" data-i18n="repo" target="_blank">repository</a>
+          <a id="app-details-modal-donation-button" class="button is-warning i18n" data-i18n="donate" target="_blank">donate</a>
         </footer>
       </div>
     </div>
@@ -434,45 +432,19 @@
         <section class="modal-card-body">
           <div class="container">
             <div class="content">
-              <p>
-                <span class="i18n" data-i18n="qr.1">Scan the QR code below with</span>
-                <a href="https://github.com/strukturart/bHacker-store-client" target="_blank">perry's bHacker-store client</a>
-                <span class="i18n" data-i18n="qr.2">to install.</span>
-              </p>
+              <p class="i18n" data-i18n="qr-scan-help">qr-scan-help</p>
               <hr>
               <div class="columns is-centered">
                 <div id="app-download-modal-app-download-qrcode" class="column is-half"></div>
               </div>
               <hr>
-              <p lang="en" data-lang-token="manually">Or attempt to install directly/download manually below.</p>
+              <p class="i18n" data-i18n="install-alternative-help">install-alternative-help</p>
             </div>
           </div>
         </section>
         <footer class="modal-card-foot">
-          <button id="app-download-modal-install-button" class="button is-primary" disabled lang="en" data-lang-token="inst-directly">Install directly</button>
-          <button id="app-download-modal-download-button" class="button" lang="en" data-lang-token="down-manually">Download manually</button>
-        </footer>
-      </div>
-    </div>
-
-    <div id="webstore-update-modal" class="modal">
-      <div class="modal-background"></div>
-      <div class="modal-card">
-        <header class="modal-card-head">
-          <p class="modal-card-title i18n" data-i18n="webstore-update">WebStore update available</p>
-        </header>
-        <section class="modal-card-body">
-          <div class="container">
-            <div class="content">
-              <p class="i18n" data-i18n="webstore-update-info">
-                There is an update for WebStore available. Click the update button to reload the new version.
-              </p>
-            </div>
-          </div>
-        </section>
-        <footer class="modal-card-foot">
-          <button id="webstore-update-modal-update-button" class="button is-success i18n" data-i18n="update">update</button>
-          <button class="button is-danger i18n" data-bulma-modal="close" data-i18n="ignore">ignore</button>
+          <button id="app-download-modal-install-button" class="button is-primary i18n" disabled data-i18n="install-directly">install-directly</button>
+          <button id="app-download-modal-download-button" class="button i18n" data-i18n="download-manually">download-manually</button>
         </footer>
       </div>
     </div>
@@ -491,9 +463,14 @@
     <!-- Store DB -->
     <script src="assets/js/lib/storedb/storedb.js" defer></script>
     <!-- Index -->
-    <script src="assets/js/index/init.js" defer></script>
     <script src="assets/js/index/utils.js" defer></script>
     <script src="assets/js/index/modals/user-modal.js" defer></script>
-    <script src="assets/js/index/controller.js" defer></script>
+    <script src="assets/js/index/modals/app-details-modal.js" defer></script>
+    <script src="assets/js/index/modals/app-download-modal.js" defer></script>
+    <script src="assets/js/index/app-cards.js" defer></script>
+    <script src="assets/js/index/category-tabs.js" defer></script>
+    <script src="assets/js/index/sort-select.js" defer></script>
+    <script src="assets/js/index/reload.js" defer></script>
+    <script src="assets/js/index/init.js" defer></script>
   </body>
 </html>

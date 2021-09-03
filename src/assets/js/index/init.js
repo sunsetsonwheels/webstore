@@ -1,10 +1,12 @@
 'use strict';
 
 // Handle hamburger menu button.
-for (const navbarBurger of document.getElementsByClassName('navbar-burger')) {
-  navbarBurger.onclick = () => {
-    navbarBurger.classList.toggle('is-active');
-    document.getElementById(navbarBurger.dataset.target).classList.toggle('is-active');
+for (const navbarBurger of document.getElementsByClassName("navbar-burger")) {
+  console.log(navbarBurger)
+  navbarBurger.onclick = (e) => {
+    e.target.classList.toggle('is-active');
+    console.log(e.target.dataset);
+    document.getElementById(e.target.dataset.target).classList.toggle('is-active');
   }
 }
 
@@ -50,7 +52,6 @@ i18next.use(i18nextBrowserLanguageDetector).use(I18nextFetchBackend).init({
     type: "is-danger"
   });
 });
-
 
 // Handle floating scrollup FAB button.
 document.getElementById('scrolltop-fab').onclick = () => {
