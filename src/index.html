@@ -20,8 +20,6 @@
     <noscript>
       <link rel="stylesheet" href="assets/css/lib/bulma/bulmaswatch-light.min.css">
     </noscript>
-    <script src="assets/js/lib/darkmode.min.js"></script>
-    <script src="assets/js/lib/theme-switcher.js"></script>
     <link rel="stylesheet" href="assets/css/lib/bulma/bulma-floating-button.css">
     <link rel="stylesheet" href="assets/css/lib/animate.css">
     <link rel="stylesheet" href="assets/css/lib/fontawesome/css/all.min.css">
@@ -86,10 +84,6 @@
               <a class="navbar-item is-unselectable" href="https://github.com/bananahackers/store-db" target="_blank">
                 GitHub (mirror)
               </a>
-              <hr class="navbar-divider">
-              <a class="navbar-item is-unselectable i18n" href="https://bhackers.fider.io/" target="_blank" data-i18n="request-apps">
-                request-apps
-              </a>
             </div>
           </div>
           <a class="navbar-item is-unselectable" href="https://github.com/jkelol111/webstore" target="_blank">
@@ -111,13 +105,6 @@
                   </select>
                 </span>
               </p>
-              <div class="control">
-                <button id="theme-button" class="button is-success">
-                  <span class="icon">
-                    <i class="fas fa-paint-roller"></i>
-                  </span>
-                </button>
-              </div>
               <div class="control">
                 <button id="user-button" class="button is-link">
                   <span class="icon">
@@ -193,7 +180,6 @@
     </section>
 
     <section class="hero is-small">
-      <hr>
       <div class="hero-body">
         <div class="content has-text-centered" >
           <p class="is-unselectable">
@@ -435,7 +421,9 @@
               <p class="i18n" data-i18n="qr-scan-help">qr-scan-help</p>
               <hr>
               <div class="columns is-centered">
-                <div id="app-download-modal-app-download-qrcode" class="column is-half"></div>
+                <div class="column is-half">
+                  <div id="app-download-modal-app-download-qrcode"></div>
+                </div>
               </div>
               <hr>
               <p class="i18n" data-i18n="install-alternative-help">install-alternative-help</p>
@@ -449,6 +437,8 @@
       </div>
     </div>
 
+    <!-- Theming -->
+    <script src="assets/js/lib/darkmode.min.js" defer></script>
     <!-- Localization -->
     <script src="assets/js/lib/i18next/i18next.min.js" defer></script>
     <script src="assets/js/lib/i18next/plugins/i18nextBrowserLanguageDetector.min.js" defer></script>
@@ -469,8 +459,11 @@
     <script src="assets/js/index/modals/app-download-modal.js" defer></script>
     <script src="assets/js/index/app-cards.js" defer></script>
     <script src="assets/js/index/category-tabs.js" defer></script>
+    <script src="assets/js/index/search.js" defer></script>
+    <script src="assets/js/index/lang-select.js" defer></script>
     <script src="assets/js/index/sort-select.js" defer></script>
     <script src="assets/js/index/reload.js" defer></script>
     <script src="assets/js/index/init.js" defer></script>
+    <script src="assets/js/index/page-buttons.js" defer></script>
   </body>
 </html>

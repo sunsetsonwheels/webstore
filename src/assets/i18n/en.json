@@ -1,18 +1,23 @@
 {
   "forums": "Forums",
-  "chat": "Chat",
-  "home": "Home",
   "wikis": "Wikis",
   "wiki": {
     "legacy": "Wiki (legacy)",
     "current": "Wiki (current)"
   },
+  "chat": "Chat",
   "app-databases": "App Databases",
-  "request-apps": "Request apps",
+
   "alphabetical": "Alphabetical",
   "popularity": "Popularity",
   "categorical": "Categorical",
+
   "all-apps": "All apps",
+
+  "info": "Info",
+  "download": "Download",
+  "share": "Share",
+
   "terms-footer": "By using the service, you agree to our",
   "privacy-policy": "Privacy Policy",
   "unknown": "unknown",
@@ -39,7 +44,6 @@
     "5": "Five points"
   },
   "load-ratings": "Loading ratings...",
-  "download": "Download",
   "website": "Website",
   "repo": "Repository",
   "donate": "Donate",
@@ -53,7 +57,5 @@
   "data-load-error": "Data could not be loaded! Check the console for more info.",
   "app-sort-success": "Apps sorted successfully!",
   "app-sort-error": "Apps could not be sorted! Check the console for more info.",
-  "copy-to-clipboard-success": "Copied sharable link to clipboard!",
-  "info": "Info",
-  "share": "Share"
+  "copy-to-clipboard-success": "Copied sharable link to clipboard!"
 }

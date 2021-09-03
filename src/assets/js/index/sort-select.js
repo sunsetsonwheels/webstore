@@ -20,8 +20,9 @@ sortSelect.onchange = async (e) => {
       break
   }
 
-  sortSelect.disabled = true
-  reloadButton.disabled = true
+  sortSelect.disabled = true;
+  reloadButton.disabled = true;
+  langSelect.disabled = true;
 
   for (const appCardColumnElement of appCardsColumnElements) {
     appCardColumnElement.innerHTML = ''
@@ -37,6 +38,7 @@ sortSelect.onchange = async (e) => {
     reloadButton.classList.remove('is-loading')
     sortSelect.disabled = false
     reloadButton.disabled = false
+    langSelect.disabled = false;
 
     try {
       const appSlug = window.location.hash.split('#')[1]

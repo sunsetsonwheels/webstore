@@ -27,16 +27,19 @@ function addAppCard (appDetails) {
         <div class="content is-clamped">${appDetails.description}</div>
       </div>
       <footer class="card-footer">
-        <a class="card-footer-item is-unselectable app-details"
-           data-app-name="${appDetails.name}">
+        <a class="card-footer-item is-unselectable app-details i18n"
+           data-app-name="${appDetails.name}"
+           data-i18n="info">
           ${i18next.t("info")}
         </a>
-        <a class="card-footer-item is-unselectable app-download"
-           data-app-name="${appDetails.name}">
+        <a class="card-footer-item is-unselectable app-download i18n"
+           data-app-name="${appDetails.name}"
+           data-i18n="download">
            ${i18next.t("download")}
         </a>
-        <a class="card-footer-item is-unselectable app-share"
-           data-app-slug="${appDetails.slug}">
+        <a class="card-footer-item is-unselectable app-share i18n"
+           data-app-slug="${appDetails.slug}"
+           data-i18n="share">
           ${i18next.t("share")}
         </a>
       </footer>

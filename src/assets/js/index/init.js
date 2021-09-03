@@ -1,14 +1,11 @@
 'use strict';
 
-// Handle hamburger menu button.
-for (const navbarBurger of document.getElementsByClassName("navbar-burger")) {
-  console.log(navbarBurger)
-  navbarBurger.onclick = (e) => {
-    e.target.classList.toggle('is-active');
-    console.log(e.target.dataset);
-    document.getElementById(e.target.dataset.target).classList.toggle('is-active');
-  }
-}
+// Theme switcher init.
+const themeSwitcher = new DarkMode({
+  light: "assets/css/lib/bulma/bulmaswatch-light.min.css",
+  dark: "assets/css/lib/bulma/bulmaswatch-dark.min.css",
+  checkSystemScheme: true
+});
 
 // Set default options for toast messages
 bulmaToast.setDefaults({
@@ -44,6 +41,8 @@ i18next.use(i18nextBrowserLanguageDetector).use(I18nextFetchBackend).init({
   // Relative time formatting class init.
   relTime.setLanguage(i18next.language);
 
+  langSelect.value = i18next.language;
+
   await reloadData();
 }).catch(err => {
   console.error(err);
@@ -52,11 +51,3 @@ i18next.use(i18nextBrowserLanguageDetector).use(I18nextFetchBackend).init({
     type: "is-danger"
   });
 });
-
-// Handle floating scrollup FAB button.
-document.getElementById('scrolltop-fab').onclick = () => {
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
-  });
-}

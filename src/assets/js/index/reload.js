@@ -5,9 +5,10 @@ const reloadButton = document.getElementById('reload-button');
 
 // Reload data.
 async function reloadData () {
-  sortSelect.disabled = true
-  reloadButton.classList.add('is-loading')
-  reloadButton.disabled = true
+  sortSelect.disabled = true;
+  reloadButton.classList.add('is-loading');
+  reloadButton.disabled = true;
+  langSelect.disabled = true;
 
   categoriesTabsElement.innerHTML = ''
 
