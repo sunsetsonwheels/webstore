@@ -4,25 +4,30 @@ const sortSelect = document.getElementById('sort-select');
 
 // Handle sortSelect onchange.
 sortSelect.onchange = async (e) => {
-  reloadButton.classList.add('is-loading')
-
-  const sortIcon = document.getElementById('sort-icon')
-  sortIcon.classList.remove('fa-sort-alpha-down', 'fa-fire-alt', 'fa-tags')
-  switch (e.target.value) {
-    case 'alphabetical':
-      sortIcon.classList.add('fa-sort-alpha-down')
-      break
-    case 'popularity':
-      sortIcon.classList.add('fa-fire-alt')
-      break
-    case 'categorical':
-      sortIcon.classList.add('fa-tags')
-      break
-  }
-
   sortSelect.disabled = true;
   reloadButton.disabled = true;
   langSelect.disabled = true;
+  searchInput.disabled = true;
+  searchButton.button.disabled = true;
+
+  reloadButton.classList.add('is-loading');
+
+  const sortIcon = document.getElementById('sort-icon')
+  sortIcon.classList.remove('fa-sort-alpha-down', 'fa-fire-alt', 'fa-tags', "fa-sort-numeric-down-alt");
+  switch (e.target.value) {
+    case 'alphabetical':
+      sortIcon.classList.add('fa-sort-alpha-down');
+      break;
+    case 'popularity':
+      sortIcon.classList.add('fa-fire-alt');
+      break;
+    case 'categorical':
+      sortIcon.classList.add('fa-tags');
+      break;
+    case "ratings":
+      sortIcon.classList.add("fa-sort-numeric-down-alt");
+      break;
+  }
 
   for (const appCardColumnElement of appCardsColumnElements) {
     appCardColumnElement.innerHTML = ''
@@ -31,14 +36,27 @@ sortSelect.onchange = async (e) => {
   appCardColumn = 0
 
   try {
-    const appDetails = await listAppsByCategory(currentSelectedCategory, e.target.value);
-    for (const app in appDetails) {
-      addAppCard(appDetails[app])
+    let appDetails;
+    if (isSearching) {
+      appDetails = await StoreDbAPI.searchApps(searchInput.value);
+    } else {
+      appDetails = await listAppsByCategory(currentSelectedCategory, e.target.value);
     }
+
+    var len = 0;
+    for (const app in appDetails) {
+      addAppCard(appDetails[app]);
+      len++;
+    }
+
+    document.getElementById('data-total-apps-label').innerText = len;
+
     reloadButton.classList.remove('is-loading')
     sortSelect.disabled = false
     reloadButton.disabled = false
     langSelect.disabled = false;
+    searchInput.disabled = false;
+    searchButton.button.disabled = false;
 
     try {
       const appSlug = window.location.hash.split('#')[1]

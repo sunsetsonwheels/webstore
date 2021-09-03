@@ -47,6 +47,21 @@ onmessage = (e) => {
       })
       break
     case 'ratings':
+      if (e.data.ratings) {
+        copyApps.sort((a, b) => {
+          const A = e.data.ratings[a[1].slug]
+          const B = e.data.ratings[b[1].slug]
+          if (A > B) {
+            return -1
+          } else if (A < B) { 
+            return 1
+          } else {
+            return 0
+          }
+        })
+      } else {
+        console.warn("Not sorting!");
+      }
       break
     default:
       break

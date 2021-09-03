@@ -16,6 +16,7 @@ const appDetailsModal = {
     maintainers: document.getElementById('app-details-modal-app-maintainers'),
     dependencies: document.getElementById('app-details-modal-app-dependencies'),
     version: document.getElementById('app-details-modal-app-version'),
+    size: document.getElementById('app-details-modal-app-size'),
     type: document.getElementById('app-details-modal-app-type'),
     locales: document.getElementById('app-details-modal-app-locales'),
     has_ads: document.getElementById('app-details-modal-app-has_ads'),
@@ -155,11 +156,7 @@ appDetailsModal.content.ratings.loggedIn.submitButton.onclick = async () => {
 }
 
 function setAppDetailsModalDetails (appDetails) {
-  if (appDetails.name) {
-    appDetailsModal.content.name.innerText = appDetails.name;
-  } else {
-    appDetailsModal.content.name.innerText = '???';
-  }
+  appDetailsModal.content.name.innerText = appDetails.name;
 
   if (appDetails.icon) {
     appDetailsModal.content.icon.src = appDetails.icon;
@@ -167,128 +164,115 @@ function setAppDetailsModalDetails (appDetails) {
     appDetailsModal.content.icon.src = 'icons/default-icon.png';
   }
 
-  if (appDetails.screenshots.length > 0) {
-    appDetailsModal.content.screenshots.container.style.display = 'initial'
-    appDetailsModal.content.screenshots.scroller.innerHTML = ''
-    appDetailsModal.content.descriptionSeparator.classList.remove('is-hidden')
-    for (const screenshot of appDetails.screenshots) {
-      const screenshotImage = document.createElement('img')
-      screenshotImage.style.padding = '4px'
-      screenshotImage.src = screenshot
-      appDetailsModal.content.screenshots.scroller.appendChild(screenshotImage)
-    }
+  if (Array.isArray(appDetails.screenshots) && appDetails.screenshots.length > 0) {
+    appDetailsModal.content.screenshots.container.classList.remove("is-hidden");;
+    appDetailsModal.content.screenshots.scroller.innerHTML = '';
+    appDetailsModal.content.descriptionSeparator.classList.remove('is-hidden');
+    appDetails.screenshots.forEach((screenshot) => {
+      appDetailsModal.content.screenshots.scroller.innerHTML += `
+        <img src="${screenshot}" style="padding: 4px">
+      `
+    });
   } else {
-    appDetailsModal.content.screenshots.container.style.display = 'none'
-    appDetailsModal.content.descriptionSeparator.classList.add('is-hidden')
+    appDetailsModal.content.screenshots.container.classList.add("is-hidden");
+    appDetailsModal.content.descriptionSeparator.classList.add('is-hidden');
   }
 
-  if (appDetails.description) {
-    appDetailsModal.content.description.innerText = appDetails.description
+  appDetailsModal.content.description.innerText = appDetails.description;
+
+  appDetailsModal.content.categories.innerText = generateReadableCategories(appDetails.meta.categories)
+
+  if (typeof appDetails.author === 'string') {
+    appDetailsModal.content.authors.innerText = appDetails.author
+  } else if (Array.isArray(appDetails.author)) {
+    appDetailsModal.content.authors.innerText = separateArrayCommas(appDetails.author)
   } else {
-    appDetailsModal.content.description.innerText = 'No description.'
+    appDetailsModal.content.authors.innerText = "?"
   }
 
-  if (appDetails.meta.categories) {
-    appDetailsModal.content.categories.innerText = generateReadableCategories(appDetails.meta.categories)
+  if (typeof appDetails.maintainer === 'string') {
+    appDetailsModal.content.maintainers.innerText = appDetails.maintainer
+  } else if (Array.isArray(appDetails.maintainer)) {
+    appDetailsModal.content.maintainers.innerText = separateArrayCommas(appDetails.maintainer)
   } else {
-    appDetailsModal.content.categories.innerText = 'Unknown'
-  }
-
-  if (appDetails.author) {
-    if (typeof appDetails.author === 'string') {
-      appDetailsModal.content.authors.innerText = appDetails.author
-    } else if (Array.isArray(appDetails.author)) {
-      appDetailsModal.content.authors.innerText = separateArrayCommas(appDetails.author)
-    }
-  } else {
-    appDetailsModal.content.authors.innerText = 'Unknown'
-  }
-
-  if (appDetails.maintainer) {
-    if (typeof appDetails.maintainer === 'string') {
-      appDetailsModal.content.maintainers.innerText = appDetails.maintainer
-    } else if (Array.isArray(appDetails.maintainer)) {
-      appDetailsModal.content.maintainers.innerText = separateArrayCommas(appDetails.maintainer)
-    }
-  } else {
-    appDetailsModal.content.maintainers.innerText = 'Unknown'
+    appDetailsModal.content.maintainers.innerText = '?'
   }
 
   if (appDetails.dependencies) {
     appDetailsModal.content.dependencies.innerHTML = ""
-    if (typeof appDetails.dependencies.length > 0) {
-      for (let i = 0; i < appDetails.dependencies.length; i++) {
-        if (appDetails.dependencies[i].hasOwnProperty("url")) {
-          appDetailsModal.content.dependencies.innerHTML = '<a href="' + appDetails.dependencies[i].url + '" target="_blank">' + appDetails.dependencies[i].name + '</a>'
-        } else {
-          appDetailsModal.content.dependencies.innerHTML = appDetails.dependencies[i].name
-        }
+    appDetails.dependencies.forEach((dependency) => {
+      if (dependency.hasOwnProperty("url")) {
+        appDetailsModal.content.dependencies.innerHTML = `
+          <a href=${dependency.url} target="_blank">
+            ${dependency.name}
+          </a>&nbsp;
+        `
+      } else {
+        appDetailsModal.content.dependencies.innerHTML += `${dependency.name}&nbsp;`;
       }
-    } else if (appDetails.dependencies.length === 0){
-      appDetailsModal.content.dependencies.innerText = '(None)'
-    } else if (Array.isArray(appDetails.dependencies)) {
-      appDetails.dependencies.forEach((depend) => {
-        if (depend.url === "") {
-          appDetailsModal.content.dependencies.innerHTML += depend.name + '&nbsp;'
-        } else {
-          appDetailsModal.content.dependencies.innerHTML += '<a href="' + depend.url + '" target="_blank">' + depend.name + '</a>&nbsp;'
-        }
-      });
-    }
+    });
   } else {
-    appDetailsModal.content.dependencies.innerText = '(None)'
+    appDetailsModal.content.dependencies.innerText = '?'
   }
 
   if (appDetails.download.version) {
     appDetailsModal.content.version.innerText = appDetails.download.version
+  } else if (appDetails.download.manifest) {
+    appDetailsModal.content.version.innerText = "..."
+    fetch(appDetails.download.manifest).then(response => {
+      if (response.ok()) {
+        const manifest = response.json()
+        if (manifest.version) {
+          appDetailsModal.content.version.innerText = manifest.version;
+        } else {
+          appDetailsModal.content.version.innerText = "?";
+        }
+      } else {
+        appDetailsModal.content.version.innerText = "?";
+      }
+    }).catch(() => appDetailsModal.content.version.innerText = "?");
   } else {
-    appDetailsModal.content.version.innerText = 'Unknown'
+    appDetailsModal.content.version.innerText = '?'
   }
 
-  if (appDetails.type) {
-    appDetailsModal.content.type.innerText = appDetails.type
-  } else {
-    appDetailsModal.content.type.innerText = 'Unknown'
-  }
+  appDetailsModal.content.type.innerText = appDetails.type;
 
   if (appDetails.locales) {
-    if (typeof appDetails.locales === 'string') {
-      appDetailsModal.content.locales.innerText = appDetails.locales
-    } else if (Array.isArray(appDetails.locales)) {
-      appDetailsModal.content.locales.innerText = separateArrayCommas(appDetails.locales)
-    }
+    appDetailsModal.content.locales.innerText = separateArrayCommas(appDetails.locales);
   } else {
-    appDetailsModal.content.locales.innerText = 'Unknown'
+    appDetailsModal.content.locales.innerText = '?';
   }
 
-  if (typeof (appDetails.has_ads) !== 'undefined') {
-    appDetailsModal.content.has_ads.innerText = i18next.t('ads') + `: ${appDetails.has_ads}`
-  } else {
-    appDetailsModal.content.has_ads.innerText = i18next.t('ads') + ': Unknown'
-  }
+  appDetailsModal.content.has_ads.innerText = `${i18next.t('ads')}: ${appDetails.has_ads}`;
 
-  if (typeof (appDetails.has_tracking) !== 'undefined') {
-    appDetailsModal.content.has_tracking.innerText = i18next.t('tracking') + `: ${appDetails.has_tracking}`
-  } else {
-    appDetailsModal.content.has_tracking.innerText = i18next.t('tracking') + ': Unknown'
-  }
+  appDetailsModal.content.has_tracking.innerText = `${i18next.t('tracking')}: ${appDetails.has_tracking}`
 
   if (appDetails.license) {
     appDetailsModal.content.license.innerText = appDetails.license
   } else {
-    appDetailsModal.content.license.innerText = 'Unknown'
+    appDetailsModal.content.license.innerText = '?'
   }
 
   if (StoreDbAPI.db.apps.downloadCounts[appDetails.slug]) {
     appDetailsModal.content.downloadCount.innerText = StoreDbAPI.db.apps.downloadCounts[appDetails.slug]
   } else {
-    appDetailsModal.content.downloadCount.innerText = 'Unknown'
+    appDetailsModal.content.downloadCount.innerText = '?'
   }
 
   reloadAppRatings(appDetails.slug);
 
   if (appDetails.download.url) {
     appDetailsModal.buttons.download.classList.remove('is-hidden');
+    appDetailsModal.content.size.innerText = "...";
+    fetch(appDetails.download.url, {
+      method: "HEAD"
+    }).then(response => {
+      if (response.ok()) {
+        appDetailsModal.content.size.innerText = `${(response.headers.get("content-length") / 1024).toFixed(2)} KB`
+      } else {
+        appDetailsModal.content.size.innerText = "?";
+      }
+    }).catch(() => appDetailsModal.content.size.innerText = "?");
   } else {
     appDetailsModal.buttons.download.classList.add('is-hidden');
   }

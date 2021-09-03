@@ -4,10 +4,11 @@
 const langSelect = document.getElementById("lang-select");
 
 langSelect.onchange = async (e) => {
-  console.log(`Changed language to: ${e.target.value}`)
+  e.target.disabled = true;
   sortSelect.disabled = true;
   reloadButton.disabled = true;
-  e.target.disabled = true;
+  searchInput.disabled = true;
+  searchButton.button.disabled = true;
 
   try {
     await i18next.changeLanguage(e.target.value);
@@ -19,10 +20,11 @@ langSelect.onchange = async (e) => {
     });
     await i18next.changeLanguage();
   }
-  console.log(i18next.language);
   locHTML(".i18n");
 
+  e.target.disabled = false;
   sortSelect.disabled = false;
   reloadButton.disabled = false;
-  e.target.disabled = false;
+  searchInput.disabled = false;
+  searchButton.button.disabled = false;
 }

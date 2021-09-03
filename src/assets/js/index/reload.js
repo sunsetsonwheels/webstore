@@ -9,6 +9,8 @@ async function reloadData () {
   reloadButton.classList.add('is-loading');
   reloadButton.disabled = true;
   langSelect.disabled = true;
+  searchInput.disabled = true;
+  searchButton.button.disabled = true;
 
   categoriesTabsElement.innerHTML = ''
 
@@ -33,11 +35,6 @@ async function reloadData () {
     }
     document.querySelector(`.category-tab[data-category-id*="${currentSelectedCategory}"]`).classList.add('is-active');
     sortSelect.dispatchEvent(new Event('change'))
-
-    const totalAppsLabel = document.getElementById('data-total-apps-label')
-    totalAppsLabel.innerText = StoreDbAPI.db.apps.len;
-    totalAppsLabel.classList.remove('is-danger')
-    totalAppsLabel.classList.add('is-success')
 
     bulmaToast.toast({
       message: i18next.t('data-load-success'),

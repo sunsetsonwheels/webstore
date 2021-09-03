@@ -24,9 +24,9 @@ class StoreDatabaseAPI {
         }
       },
       apps: {
-        len: 0,
         objects: {},
-        downloadCounts: {}
+        downloadCounts: {},
+        ratings: {}
       },
       generatedAt: null
     };
@@ -53,7 +53,6 @@ class StoreDatabaseAPI {
 
       for (const app of parsedDb.apps) {
         this.db.apps.objects[app.name] = app;
-        this.db.apps.len += 1;
       }
 
       break;
@@ -65,6 +64,10 @@ class StoreDatabaseAPI {
       this.currentRatingServer.index = this.ratingServers.indexOf(ratingServerURL);
       this.currentRatingServer.url = ratingServerURL;
       this.db.apps.downloadCounts = await rawDownloadCounts.json();
+  
+      const rawRatings = await fetch(`${ratingServerURL}/ratings`);
+      if (!rawRatings.ok) continue;
+      this.db.apps.ratings = await rawRatings.json();
       break;
     }
 
@@ -97,8 +100,8 @@ class StoreDatabaseAPI {
   }
 
   sortApps (apps, sort) {
-    const that = this
-    return new Promise(function (resolve, reject) {
+    const that = this;
+    return new Promise((resolve, reject) => {
       const worker = new Worker('assets/js/lib/storedb/workers/sort-worker.js')
       worker.onmessage = function (e) {
         worker.terminate();
@@ -112,23 +115,49 @@ class StoreDatabaseAPI {
         case 'alphabetical':
         case 'categorical':
           worker.postMessage({
-            apps: apps,
-            sort: sort
+            sort: sort,
+            apps: apps
           })
           break
         case 'popularity':
           worker.postMessage({
-            apps: apps,
             sort: sort,
+            apps: apps,
             downloadCounts: that.db.apps.downloadCounts
-          })
-          break
+          });
+          break;
+        case 'ratings':
+          worker.postMessage({
+            sort: sort,
+            apps: apps,
+            ratings: that.db.apps.ratings
+          });
+          break;
         default:
           console.warn('[StoreDb] Unable to sort, returning unsorted apps.')
-          resolve(apps)
-          break
+          resolve(apps);
+          break;
       }
     })
+  }
+
+  searchApps (query) {
+    const that = this;
+    return new Promise((resolve, reject) => {
+      const worker = new Worker("assets/js/lib/storedb/workers/search-worker.js");
+      worker.onmessage = (e) => {
+        worker.terminate();
+        resolve(e.data);
+      }
+      worker.onerror = (err) => {
+        worker.terminate();
+        reject(err);
+      }
+      worker.postMessage({
+        query: query,
+        apps: that.db.apps.objects
+      });
+    });
   }
 
   async dlCountApp (appSlug) {

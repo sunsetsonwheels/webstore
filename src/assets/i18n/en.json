@@ -11,6 +11,7 @@
   "alphabetical": "Alphabetical",
   "popularity": "Popularity",
   "categorical": "Categorical",
+  "ratings": "Ratings",
 
   "all-apps": "All apps",
 
@@ -20,12 +21,13 @@
 
   "terms-footer": "By using the service, you agree to our",
   "privacy-policy": "Privacy Policy",
-  "unknown": "unknown",
+
   "categories": "Categories",
   "authors": "Author(s)",
   "maintainers": "Maintainer(s)",
   "dependencies": "Dependencies",
   "version": "Version",
+  "size": "Size",
   "type": "Type",
   "locales": "Languages",
   "anti-features": "Anti-features",
