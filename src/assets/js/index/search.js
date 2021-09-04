@@ -7,9 +7,11 @@ const exitSearchButton = document.getElementById("exit-search-button");
 var isSearching = false;
 
 searchButton.onclick = () => {
-  isSearching = true;
-  document.getElementById("categories-tabs-container").classList.add("is-hidden");
-  sortSelect.dispatchEvent(new Event('change'));
+  if (searchInput.value !== "") {
+    isSearching = true;
+    document.getElementById("categories-tabs-container").classList.add("is-hidden");
+    sortSelect.dispatchEvent(new Event('change'));
+  }
 }
 
 exitSearchButton.onclick = () => {
