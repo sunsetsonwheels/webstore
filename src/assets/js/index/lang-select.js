@@ -22,6 +22,7 @@ langSelect.onchange = async (e) => {
     await i18next.changeLanguage();
   }
   locHTML(".i18n");
+  relTime.setLanguage(i18next.language);
 
   e.target.disabled = false;
   sortSelect.disabled = false;

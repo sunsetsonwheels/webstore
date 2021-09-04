@@ -3,6 +3,7 @@
 const appDetailsModal = {
   controller: new BulmaModal('#app-details-modal'),
   content: {
+    container: document.getElementById("app-details-modal-details-container"),
     name: document.getElementById('app-details-modal-app-name'),
     icon: document.getElementById('app-details-modal-app-icon'),
     screenshots: {
@@ -46,7 +47,7 @@ const appDetailsModal = {
 }
 
 async function reloadAppRatings (appID) {
-  appDetailsModal.content.ratings.loggedIn.details.innerHTML = '<strong>@Unknown</strong>';
+  appDetailsModal.content.ratings.loggedIn.details.innerHTML = '<strong>@?</strong>';
   appDetailsModal.content.ratings.loggedIn.points.value = 1;
   appDetailsModal.content.ratings.loggedIn.description.value = '';
   appDetailsModal.content.ratings.loggedIn.points.disabled = true;
@@ -54,7 +55,7 @@ async function reloadAppRatings (appID) {
   appDetailsModal.content.ratings.loggedIn.ratingIncompleteBlurb.classList.add('is-hidden');
   appDetailsModal.content.ratings.loggedIn.submitButton.classList.add('is-loading');
   appDetailsModal.content.ratings.loggedIn.submitButton.disabled = true;
-  appDetailsModal.content.ratings.averageRating.innerText = 'Unknown ★';
+  appDetailsModal.content.ratings.averageRating.innerText = '? ★';
   appDetailsModal.content.ratings.allRatings.innerHTML = i18next.t('load-ratings');
 
   try {
@@ -69,7 +70,7 @@ async function reloadAppRatings (appID) {
     for (const rating of ratings.ratings) {
       const ratingCreationTime = relTime.getRelativeTime(new Date(rating.creationtime * 1000))
       if (rating.username === userCredentials.username) {
-        appDetailsModal.content.ratings.loggedIn.details.innerHTML = `<strong>@${rating.username}</strong> (you) • <small>${ratingCreationTime}</small>`
+        appDetailsModal.content.ratings.loggedIn.details.innerHTML = `<strong>@${rating.username}</strong> (${i18next.t("you")}) • <small>${ratingCreationTime}</small>`
         appDetailsModal.content.ratings.loggedIn.points.disabled = false
         appDetailsModal.content.ratings.loggedIn.description.disabled = false
         appDetailsModal.content.ratings.loggedIn.points.value = rating.points
@@ -101,7 +102,7 @@ async function reloadAppRatings (appID) {
       appDetailsModal.content.ratings.loggedIn.description.disabled = true
       appDetailsModal.content.ratings.loggedIn.submitButton.disabled = true
     } else {
-      appDetailsModal.content.ratings.loggedIn.details.innerHTML = `<strong>@${userCredentials.username}</strong> (you)`
+      appDetailsModal.content.ratings.loggedIn.details.innerHTML = `<strong>@${userCredentials.username}</strong> (${i18next.t("you")})`
       appDetailsModal.content.ratings.loggedIn.points.disabled = false
       appDetailsModal.content.ratings.loggedIn.description.disabled = false
       appDetailsModal.content.ratings.loggedIn.submitButton.disabled = false
@@ -219,9 +220,9 @@ function setAppDetailsModalDetails (appDetails) {
     appDetailsModal.content.version.innerText = appDetails.download.version
   } else if (appDetails.download.manifest) {
     appDetailsModal.content.version.innerText = "..."
-    fetch(appDetails.download.manifest).then(response => {
-      if (response.ok()) {
-        const manifest = response.json()
+    fetch(`https://cors.bridged.cc/${appDetails.download.manifest}`).then(async response => {
+      if (response.ok) {
+        const manifest = await response.json();
         if (manifest.version) {
           appDetailsModal.content.version.innerText = manifest.version;
         } else {
@@ -264,10 +265,10 @@ function setAppDetailsModalDetails (appDetails) {
   if (appDetails.download.url) {
     appDetailsModal.buttons.download.classList.remove('is-hidden');
     appDetailsModal.content.size.innerText = "...";
-    fetch(appDetails.download.url, {
+    fetch(`https://cors.bridged.cc/${appDetails.download.url}`, {
       method: "HEAD"
     }).then(response => {
-      if (response.ok()) {
+      if (response.ok) {
         appDetailsModal.content.size.innerText = `${(response.headers.get("content-length") / 1024).toFixed(2)} KB`
       } else {
         appDetailsModal.content.size.innerText = "?";
@@ -307,4 +308,8 @@ function setAppDetailsModalDetails (appDetails) {
   }
 
   setAppDownloadModalDetails(appDetails);
+
+  appDetailsModal.content.container.scrollTo({
+    top: 0
+  });
 }

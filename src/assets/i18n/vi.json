@@ -36,6 +36,7 @@
   "downloads": "Lượt tải về",
   "rating": "Đánh giá",
   "your-rating": "Đánh giá của bạn",
+  "you": "bạn",
   "login-to-rate": "Để đánh giá, đăng nhập bằng nút người dùng ở trên góc bên phải.",
   "point": {
     "1": "Một điểm",
@@ -61,7 +62,7 @@
   "login-failed-blurb": "Đăng nhập / đăng ký không thành công. Vui lòng thử lại bằng cách sử dụng thông tin đăng nhập khác nhau hoặc thử lại sau.",
   "login-signup": "Đăng nhập/Đăng ký",
 
-  "terms-alert": "Bằng cách sử dụng dịch vụ, bạn đồng ý với",
+  "terms-alert": "Bằng cách sử dụng dịch vụ, bạn đồng ý với một số yêu cầu được định tuyến lại với cors.bridged.cc và",
   "privacy-policy": "Chính sách bảo mật",
 
   "copy-to-clipboard-success": "Sao chép đường link chia sẻ vào clipboard!"

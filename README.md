@@ -54,5 +54,6 @@ This project wouldn't have been possible without the following resources and pro
 - i18next-browser-languagedetecter: https://github.com/i18next/i18next-browser-languageDetector
 - i18next-fetch-backend: https://github.com/dotcore64/i18next-fetch-backend
 - relativetime.js: adapted from https://stackoverflow.com/a/53800501/13319205
+- cors.bridged.cc: https://blog.grida.co/cors-anywhere-for-everyone-free-reliable-cors-proxy-service-73507192714e
 
 and all the people at BananaHackers, 4Omin, perry, Farooq Karimi Zadeh and LiarOnce for maintaining the BananaHackers Store on GitLab and GitHub, and of course, all the Mozilla Developer Network documentation ;)

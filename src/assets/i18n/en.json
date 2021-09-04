@@ -36,6 +36,7 @@
   "downloads": "Downloads",
   "rating": "Ratings",
   "your-rating": "Your rating",
+  "you": "you",
   "login-to-rate": "To rate, log in using the user button in the top right.",
   "point": {
     "1": "One point",
@@ -61,7 +62,7 @@
   "login-failed-blurb": "The login/sign up attempt was not successful. Please try again using different credentials or try again later.",
   "login-signup": "Login/Sign up",
 
-  "terms-alert": "By using the service, you agree to our",
+  "terms-alert": "By using the service, you agree to some requests being rerouted to cors.bridged.cc and our",
   "privacy-policy": "Privacy Policy",
 
   "copy-to-clipboard-success": "Copied sharable link to clipboard!"
