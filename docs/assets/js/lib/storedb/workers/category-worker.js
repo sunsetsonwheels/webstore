@@ -1,0 +1,1 @@
+"use strict";onmessage=e=>{const s={};for(const[t,a]of Object.entries(e.data.apps))a.meta.categories.includes(e.data.category)&&(s[t]=a);postMessage(s)};
