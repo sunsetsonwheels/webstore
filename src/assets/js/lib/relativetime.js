@@ -1,3 +1,8 @@
+'use strict';
+
+// Solution adapted from:
+// https://stackoverflow.com/a/53800501/13319205
+
 class RelativeTime {
   #relativeTimeUnits
   #relativeTimeFormatter

@@ -32,7 +32,9 @@ const FPATHS = {
     dest: BUILD_FOLDER
   },
   icons: {
-    src: SOURCE_FOLDER + 'assets/icons/**/*.png',
+    src: [SOURCE_FOLDER + 'assets/icons/**/*.png',
+    SOURCE_FOLDER + "assets/icons/**/*.svg"
+  ],
     dest: BUILD_FOLDER + 'assets/icons/'
   },
   logos: {
