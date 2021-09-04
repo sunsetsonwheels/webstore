@@ -1,6 +1,4 @@
 const { series, parallel, src, dest } = require('gulp')
-const log = require('fancy-log')
-const plumber = require('gulp-plumber')
 const rm = require('del')
 const rename = require('gulp-rename')
 const minifyJS = require('gulp-terser')
@@ -58,89 +56,63 @@ const FPATHS = {
   }
 }
 
-function onErr (err) {
-  const constructMessage = 'An error occured in gulp:\n\n' + err.toString()
-  log.error(constructMessage)
-  process.exit(-1)
-}
-
 function jsTask () {
   return src(FPATHS.js.src)
-    .pipe(plumber({ errorHandler: onErr }))
     .pipe(minifyJS())
-    .pipe(plumber.stop())
     .pipe(dest(FPATHS.js.dest))
 }
 
 function jsMinTask () {
   return src(FPATHS.js.src_min)
-    .pipe(plumber({ errorHandler: onErr }))
-    .pipe(plumber.stop())
     .pipe(dest(FPATHS.js.dest))
 }
 
 function cssTask () {
   return src(FPATHS.css.src)
-    .pipe(plumber({ errorHandler: onErr }))
     .pipe(minifyCSS())
-    .pipe(plumber.stop())
     .pipe(dest(FPATHS.css.dest))
 }
 
 function cssMinTask () {
   return src(FPATHS.css.src_min)
-    .pipe(plumber({ errorHandler: onErr }))
-    .pipe(plumber.stop())
     .pipe(dest(FPATHS.css.dest))
 }
 
 function htmlTask () {
   return src(FPATHS.html.src)
-    .pipe(plumber({ errorHandler: onErr }))
     .pipe(minifyHTML({
       removeComments: true,
       collapseWhitespace: true
     }))
-    .pipe(plumber.stop())
     .pipe(dest(FPATHS.html.dest))
 }
 
 function iconsTask () {
   return src(FPATHS.icons.src)
-    .pipe(plumber({ errorHandler: onErr }))
-    .pipe(plumber.stop())
     .pipe(dest(FPATHS.icons.dest))
 }
 
 function logosTask () {
   return src(FPATHS.logos.src)
-    .pipe(plumber({ errorHandler: onErr }))
-    .pipe(plumber.stop())
     .pipe(dest(FPATHS.logos.dest))
 }
 
 function localesTask () {
   return src(FPATHS.locales.src)
-    .pipe(plumber({ errorHandler: onErr }))
     .pipe(minifyJSON())
-    .pipe(plumber.stop())
     .pipe(dest(FPATHS.locales.dest))
 }
 
 function manifestTask () {
   return src(FPATHS.manifest.src)
-    .pipe(plumber({ errorHandler: onErr }))
     .pipe(minifyJSON())
     .pipe(rename('bhackers.webmanifest'))
-    .pipe(plumber.stop())
     .pipe(dest(FPATHS.manifest.dest))
 }
 
 function cnameTask () {
   return src(FPATHS.cname.src)
-    .pipe(plumber({ errorHandler: onErr }))
     .pipe(rename('CNAME'))
-    .pipe(plumber.stop())
     .pipe(dest(FPATHS.cname.dest))
 }
 
