@@ -19,7 +19,7 @@ class StoreDatabaseAPI {
     this.db = {
       categories: {
         all: {
-          name: 'All apps',
+          name: i18next.t("all-apps"),
           icon: 'fas fa-store'
         }
       },
@@ -46,7 +46,7 @@ class StoreDatabaseAPI {
       this.db.generatedAt = parsedDb.generated_at;
 
       this.db.categories.all = {
-        name: 'All apps',
+        name: i18next.t("all-apps"),
         icon: 'fas fa-store'
       };
       Object.assign(this.db.categories, parsedDb.categories);
@@ -70,8 +70,6 @@ class StoreDatabaseAPI {
       this.db.apps.ratings = await rawRatings.json();
       break;
     }
-
-    console.log(this.db)
   }
 
   getAppsByCategory (category) {

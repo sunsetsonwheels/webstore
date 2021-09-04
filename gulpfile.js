@@ -40,8 +40,8 @@ const FPATHS = {
     dest: BUILD_FOLDER + 'assets/logos/'
   },
   locales: {
-    src: SOURCE_FOLDER + 'assets/locales/*.json',
-    dest: BUILD_FOLDER + 'assets/locales/'
+    src: SOURCE_FOLDER + 'assets/i18n/*.json',
+    dest: BUILD_FOLDER + 'assets/i18n/'
   },
   manifest: {
     src: SOURCE_FOLDER + 'bhackers.webmanifest',
@@ -114,6 +114,7 @@ function logosTask () {
 function localesTask () {
   return src(FPATHS.locales.src)
     .pipe(plumber({ errorHandler: onErr }))
+    .pipe(minifyJSON())
     .pipe(plumber.stop())
     .pipe(dest(FPATHS.locales.dest))
 }

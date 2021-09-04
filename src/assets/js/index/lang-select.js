@@ -8,7 +8,8 @@ langSelect.onchange = async (e) => {
   sortSelect.disabled = true;
   reloadButton.disabled = true;
   searchInput.disabled = true;
-  searchButton.button.disabled = true;
+  searchButton.disabled = true;
+  exitSearchButton.disabled = true;
 
   try {
     await i18next.changeLanguage(e.target.value);
@@ -26,5 +27,6 @@ langSelect.onchange = async (e) => {
   sortSelect.disabled = false;
   reloadButton.disabled = false;
   searchInput.disabled = false;
-  searchButton.button.disabled = false;
+  searchButton.disabled = false;
+  if (isSearching) exitSearchButton.disabled = false;
 }

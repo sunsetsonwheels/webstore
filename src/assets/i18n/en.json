@@ -13,18 +13,17 @@
   "categorical": "Categorical",
   "ratings": "Ratings",
 
+  "apps": "apps",
+
   "all-apps": "All apps",
 
   "info": "Info",
   "download": "Download",
   "share": "Share",
 
-  "terms-footer": "By using the service, you agree to our",
-  "privacy-policy": "Privacy Policy",
-
   "categories": "Categories",
-  "authors": "Author(s)",
-  "maintainers": "Maintainer(s)",
+  "authors": "Authors",
+  "maintainers": "Maintainers",
   "dependencies": "Dependencies",
   "version": "Version",
   "size": "Size",
@@ -35,9 +34,9 @@
   "tracking": "Tracking",
   "license": "License",
   "downloads": "Downloads",
-  "rating": "Rating",
+  "rating": "Ratings",
   "your-rating": "Your rating",
-  "login-to-rate": "To rate, log in using the button.",
+  "login-to-rate": "To rate, log in using the user button in the top right.",
   "point": {
     "1": "One point",
     "2": "Two points",
@@ -49,15 +48,21 @@
   "website": "Website",
   "repo": "Repository",
   "donate": "Donate",
+
   "qr-scan-help": "Scan the QR code with a supported on-device client to install.",
   "install-alternative-help": "Or attempt to install directly/download manually below.",
   "install-directly": "Install directly",
   "download-manually": "Download manually",
-  "rating-load-error": "Ratings could not be loaded! Check the console for more info.",
-  "app-exist-error": "App does not exist in category",
-  "data-load-success": "Data loaded successfully!",
-  "data-load-error": "Data could not be loaded! Check the console for more info.",
-  "app-sort-success": "Apps sorted successfully!",
-  "app-sort-error": "Apps could not be sorted! Check the console for more info.",
+
+  "login-bhackers": "Login to BananaHackers",
+  "username": "Username",
+  "logintoken": "Login token",
+  "save-login-details": "Save my login details.",
+  "login-failed-blurb": "The login/sign up attempt was not successful. Please try again using different credentials or try again later.",
+  "login-signup": "Login/Sign up",
+
+  "terms-alert": "By using the service, you agree to our",
+  "privacy-policy": "Privacy Policy",
+
   "copy-to-clipboard-success": "Copied sharable link to clipboard!"
 }

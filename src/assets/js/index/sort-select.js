@@ -8,7 +8,8 @@ sortSelect.onchange = async (e) => {
   reloadButton.disabled = true;
   langSelect.disabled = true;
   searchInput.disabled = true;
-  searchButton.button.disabled = true;
+  searchButton.disabled = true;
+  exitSearchButton.disabled = true;
 
   reloadButton.classList.add('is-loading');
 
@@ -56,7 +57,8 @@ sortSelect.onchange = async (e) => {
     reloadButton.disabled = false
     langSelect.disabled = false;
     searchInput.disabled = false;
-    searchButton.button.disabled = false;
+    searchButton.disabled = false;
+    if (isSearching) exitSearchButton.disabled = false;
 
     try {
       const appSlug = window.location.hash.split('#')[1]
@@ -68,23 +70,22 @@ sortSelect.onchange = async (e) => {
       }
     } catch (err) {
       window.location.hash = ''
-      console.log(err)
+      console.error(err);
+      bulmaToast.toast({
+        message: err,
+        type: "is-danger"
+      });
     }
-
-    bulmaToast.toast({
-      message: i18next.t('app-sort-success'),
-      type: 'is-success'
-    })
   } catch (err) {
-    console.log(err)
-
-    reloadButton.classList.remove('is-loading')
-    sortSelect.disabled = false
-    reloadButton.disabled = false
-
+    console.log(err);
     bulmaToast.toast({
       message: err,
       type: 'is-danger'
-    })
+    });
+
+    sortSelect.disabled = false;
+    reloadButton.disabled = false;
+    langSelect.disabled = false;
+    reloadButton.classList.remove('is-loading');
   }
 }

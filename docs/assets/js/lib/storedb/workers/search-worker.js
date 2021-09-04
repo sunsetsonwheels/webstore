@@ -1,0 +1,1 @@
+"use strict";onmessage=e=>{var a={};for(const[s,t]of Object.entries(e.data.apps))(t.name.includes(e.data.query)||t.description.includes(e.data.query)||t.meta.tags.includes(e.data.query))&&(a[s]=t);postMessage(a)};

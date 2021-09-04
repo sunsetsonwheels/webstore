@@ -51,12 +51,17 @@ onmessage = (e) => {
         copyApps.sort((a, b) => {
           const A = e.data.ratings[a[1].slug]
           const B = e.data.ratings[b[1].slug]
-          if (A > B) {
-            return -1
-          } else if (A < B) { 
-            return 1
+
+          if (A && B) {
+            if (A.average_rating > B.average_rating) {
+              return -1
+            } else if (A.average_rating < B.average_rating) { 
+              return 1
+            } else {
+              return 0
+            }
           } else {
-            return 0
+            return 0;
           }
         })
       } else {

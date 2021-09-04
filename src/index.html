@@ -94,11 +94,11 @@
         <div class="navbar-end">
           <div class="navbar-item">
             <div class="field is-grouped">
-              <p class="control has-icons-left">
+              <p class="control has-icons-left is-expanded">
                 <span class="icon is-small is-left">
                   <i class="fas fa-globe"></i>
                 </span>
-                <span class="select">
+                <span class="select is-fullwidth">
                   <select id="lang-select" disabled>
                     <option value="en">English</option>
                     <option value="vi">Tiếng Việt</option>
@@ -160,7 +160,14 @@
               <p class="control">
                 <button id="search-button" class="button is-primary" disabled>
                   <span class="icon">
-                    <i id="search-button-icon" class="fas fa-search"></i>
+                    <i class="fas fa-search"></i>
+                  </span>
+                </button>
+              </p>
+              <p class="control">
+                <button id="exit-search-button" class="button is-danger" disabled>
+                  <span class="icon">
+                    <i class="fas fa-times"></i>
                   </span>
                 </button>
               </p>
@@ -184,7 +191,7 @@
       <div class="hero-body">
         <div class="content has-text-centered" >
           <p class="is-unselectable">
-            <span class="i18n" data-i18n="terms-footer">terms-footer</span> <a class="i18n" href="https://gitlab.com/banana-hackers/store-db/-/blob/master/TERMS.md" target="_blank" data-i18n="privacy-policy">privacy-policy</a>.
+            <span class="i18n" data-i18n="terms-alert">terms-alert</span> <a class="i18n" href="https://gitlab.com/banana-hackers/store-db/-/blob/master/TERMS.md" target="_blank" data-i18n="privacy-policy">privacy-policy</a>.
           </p>
         </div>
       </div>
@@ -198,13 +205,13 @@
       <div class="modal-background animate__animated" data-bulma-modal="close"></div>
       <div class="modal-card animate__animated">
         <header class="modal-card-head">
-          <p class="modal-card-title">Login to BananaHackers Ratings</p>
+          <p class="modal-card-title i18n" data-i18n="login-bhackers">login-bhackers</p>
           <button class="delete" data-bulma-modal="close"></button>
         </header>
         <section class="modal-card-body">
           <div class="container">
             <div class="field">
-              <label class="label">Username</label>
+              <label class="label i18n" data-i18n="username">username</label>
               <div class="control has-icons-left">
                 <input id="user-modal-username-input" class="input" type="text">
                 <span class="icon is-small is-left">
@@ -213,36 +220,35 @@
               </div>
             </div>
             <div class="field">
-              <label class="label">Login token</label>
+              <label class="label i18n" data-i18n="logintoken">logintoken</label>
               <div class="control has-icons-left">
                 <input id="user-modal-logintoken-input" class="input" type="password">
                 <span class="icon is-small is-left">
                   <i class="fas fa-key"></i>
                 </span>
               </div>
-              <p id="user-modal-login-failed-blurb" class="help is-danger is-hidden">
-                The login/sign up attempt was not successful. Please try again using different credentials or try again later.
+              <p id="user-modal-login-failed-blurb" class="help is-danger is-hidden i18n" data-i18n="login-failed-blurb">
+                login-failed-blurb
               </p>
             </div> 
             <div class="field">
               <div class="control">
-                <label class="checkbox is-unselectable">
-                  <input id="user-modal-save-login-checkbox" type="checkbox">
-                  Save my login details.
+                <input id="user-modal-save-login-checkbox" type="checkbox">
+                <label for="user-modal-save-login-checkbox" class="checkbox is-unselectable i18n" data-i18n="save-login-details">
+                  save-login-details
                 </label>
               </div>
             </div>
             <hr>
             <div class="content">
               <p>
-                By using the service, you agree to our 
-                <a href="https://gitlab.com/banana-hackers/store-db/-/blob/master/TERMS.md" target="_blank">Privacy Policy</a>.
+                <span class="i18n" data-i18n="terms-alert">terms-alert</span> <a class="i18n" href="https://gitlab.com/banana-hackers/store-db/-/blob/master/TERMS.md" target="_blank" data-i18n="privacy-policy">privacy-policy</a>.
               </p>
             </div>     
           </div>
         </section>
         <footer class="modal-card-foot">
-          <button id="user-modal-login-button" class="button is-primary">Login/Sign up</button>
+          <button id="user-modal-login-button" class="button is-primary i18n" data-i18n="login-signup">login-signup</button>
         </footer>
       </div>
     </div>

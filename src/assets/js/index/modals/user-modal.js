@@ -41,7 +41,7 @@ const userModal = {
 userModal.controller.addEventListener('modal:show', () => {
   let isLoginDetailsSaved = false
 
-  const username = localStorage.getItem('webstore-ratings-username')
+  const username = localStorage.getItem('webstore-bhackers-username');
   if (username !== null) {
       userModal.content.usernameInput.value = username
       isLoginDetailsSaved = true
@@ -49,7 +49,7 @@ userModal.controller.addEventListener('modal:show', () => {
     userModal.content.usernameInput.value = ''
   }
 
-  const logintoken = localStorage.getItem('webstore-ratings-logintoken')
+  const logintoken = localStorage.getItem('webstore-bhackers-logintoken')
   if (logintoken !== null) {
     userModal.content.logintokenInput.value = logintoken
     isLoginDetailsSaved = true
@@ -63,7 +63,7 @@ userModal.controller.addEventListener('modal:show', () => {
 })
 
 userModal.controller.addEventListener('modal:close', () => {
-  userModal.content.loginFailedBlurb.classList.add('is-hidden')
+  userModal.content.loginFailedBlurb.classList.add('is-hidden');
 })
 
 function loginSuccessCb () {
@@ -80,37 +80,45 @@ function loginSuccessCb () {
 }
 
 userModal.buttons.login.onclick = async () => {
-  userModal.buttons.login.classList.add('is-loading');
-  userModal.buttons.login.disabled = true;
-  userModal.content.loginFailedBlurb.classList.add('is-hidden');
-  userCredentials.username = userModal.content.usernameInput.value;
-  userCredentials.logintoken = userModal.content.logintokenInput.value;
-  userModal.content.usernameInput.disabled = true;
-  userModal.content.logintokenInput.disabled = true;
-  try {
-    await StoreDbAPI.loginToRatingsAccount(userCredentials.username, userCredentials.logintoken);
-    loginSuccessCb()
-  } catch {
+  if (userModal.content.usernameInput.value !== "" && userModal.content.logintokenInput.value !== "") {
+    userModal.buttons.login.classList.add('is-loading');
+    userModal.buttons.login.disabled = true;
+    userModal.content.loginFailedBlurb.classList.add('is-hidden');
+    userCredentials.username = userModal.content.usernameInput.value;
+    userCredentials.logintoken = userModal.content.logintokenInput.value;
+    userModal.content.usernameInput.disabled = true;
+    userModal.content.logintokenInput.disabled = true;
     try {
-      await StoreDbAPI.createRatingsAccount(userCredentials.username, userCredentials.logintoken);
-      loginSuccessCb()
-    } catch (err) {
-      userModal.content.usernameInput.disabled = false
-      userModal.content.logintokenInput.disabled = false
-      userModal.buttons.login.disabled = false
-      userModal.buttons.login.classList.remove('is-loading')
-      userModal.content.loginFailedBlurb.classList.remove('is-hidden')
-      console.error(err)
+      await StoreDbAPI.loginToRatingsAccount(userCredentials.username, userCredentials.logintoken);
+      loginSuccessCb();
+    } catch {
+      try {
+        await StoreDbAPI.createRatingsAccount(userCredentials.username, userCredentials.logintoken);
+        loginSuccessCb();
+      } catch (err) {
+        userModal.content.usernameInput.disabled = false
+        userModal.content.logintokenInput.disabled = false
+        userModal.buttons.login.disabled = false
+        userModal.buttons.login.classList.remove('is-loading')
+        userModal.content.loginFailedBlurb.classList.remove('is-hidden')
+        console.error(err)
+        bulmaToast.toast({
+          message: err,
+          type: "is-danger"
+        });
+      }
     }
+  } else {
+    userModal.content.loginFailedBlurb.classList.remove("is-hidden");
   }
 }
 
 userModal.content.saveLoginCheckbox.onchange = (e) => {
   if (e.target.checked) {
-    localStorage.setItem('webstore-ratings-username', userModal.content.usernameInput.value)
-    localStorage.setItem('webstore-ratings-logintoken', userModal.content.logintokenInput.value)
+    localStorage.setItem('webstore-bhackers-username', userModal.content.usernameInput.value);
+    localStorage.setItem('webstore-bhackers-logintoken', userModal.content.logintokenInput.value);
   } else {
-    localStorage.removeItem('webstore-ratings-username')
-    localStorage.removeItem('webstore-ratings-logintoken')
+    localStorage.removeItem('webstore-bhackers-username');
+    localStorage.removeItem('webstore-bhackers-logintoken');
   }
 }

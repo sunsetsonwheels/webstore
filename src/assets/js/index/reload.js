@@ -10,7 +10,8 @@ async function reloadData () {
   reloadButton.disabled = true;
   langSelect.disabled = true;
   searchInput.disabled = true;
-  searchButton.button.disabled = true;
+  searchButton.disabled = true;
+  exitSearchButton.disabled = true;
 
   categoriesTabsElement.innerHTML = ''
 
@@ -19,27 +20,24 @@ async function reloadData () {
   }
 
   try {
-    await StoreDbAPI.loadDb()
+    await StoreDbAPI.loadDb();
 
     for (const category in StoreDbAPI.db.categories) {
-      categoriesTabsElement.innerHTML += `
+      var categoryTabHTML = `
         <li class="category-tab" data-category-id="${category}">
           <a class="category-tab" data-category-id="${category}">
             <span class="icon is-small category-tab" data-category-id="${category}">
               <i class="${StoreDbAPI.db.categories[category].icon} category-tab" data-category-id="${category}"></i>
             </span>
-            <span class="category-tab" data-category-id="${category}">${StoreDbAPI.db.categories[category].name}</span>
+            <span class="category-tab i18n" data-category-id="${category}" ${(category === "all") ? "data-i18n='all-apps'" : ""}>${StoreDbAPI.db.categories[category].name}</span>
           </a>
         </li>
       `;
+
+      categoriesTabsElement.innerHTML += categoryTabHTML;
     }
     document.querySelector(`.category-tab[data-category-id*="${currentSelectedCategory}"]`).classList.add('is-active');
-    sortSelect.dispatchEvent(new Event('change'))
-
-    bulmaToast.toast({
-      message: i18next.t('data-load-success'),
-      type: 'is-success'
-    })
+    sortSelect.dispatchEvent(new Event('change'));
   } catch (err) {
     console.error(err);
     bulmaToast.toast({

@@ -29,6 +29,7 @@ function addAppCard (appDetails) {
       <footer class="card-footer">
         <a class="card-footer-item is-unselectable app-details i18n"
            data-app-name="${appDetails.name}"
+           data-app-slug="${appDetails.slug}"
            data-i18n="info">
           ${i18next.t("info")}
         </a>
@@ -60,6 +61,10 @@ async function shareApp(shareURL) {
       });
     } catch (err) {
       console.error(err);
+      bulmaToast.toast({
+        message: err,
+        type: "is-danger"
+      });
     }
   } else if (navigator.clipboard) {
     try {
@@ -69,7 +74,11 @@ async function shareApp(shareURL) {
         type: 'is-success'
       })
     } catch (err) {
-      console.err(err);
+      console.error(err);
+      bulmaToast.toast({
+        message: err,
+        type: "is-danger"
+      });
     }
   }
 }
