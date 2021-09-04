@@ -97,7 +97,10 @@ function cssMinTask () {
 function htmlTask () {
   return src(FPATHS.html.src)
     .pipe(plumber({ errorHandler: onErr }))
-    .pipe(minifyHTML())
+    .pipe(minifyHTML({
+      removeComments: true,
+      collapseWhitespace: true
+    }))
     .pipe(plumber.stop())
     .pipe(dest(FPATHS.html.dest))
 }
