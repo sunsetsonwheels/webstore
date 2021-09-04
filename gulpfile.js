@@ -19,12 +19,14 @@ const FPATHS = {
   },
   css: {
     src: SOURCE_FOLDER + 'assets/css/**/*.css',
-    src_min: [SOURCE_FOLDER + 'assets/css/**/*.min.css',
+    src_min: [
+      SOURCE_FOLDER + 'assets/css/**/*.min.css',
       SOURCE_FOLDER + 'assets/css/**/*.eot',
       SOURCE_FOLDER + 'assets/css/**/*.svg',
       SOURCE_FOLDER + 'assets/css/**/*.ttf',
       SOURCE_FOLDER + 'assets/css/**/*.woff',
-      SOURCE_FOLDER + 'assets/css/**/*.woff2'],
+      SOURCE_FOLDER + 'assets/css/**/*.woff2'
+    ],
     dest: BUILD_FOLDER + 'assets/css/'
   },
   html: {
@@ -32,13 +34,14 @@ const FPATHS = {
     dest: BUILD_FOLDER
   },
   icons: {
-    src: [SOURCE_FOLDER + 'assets/icons/**/*.png',
-    SOURCE_FOLDER + "assets/icons/**/*.svg"
-  ],
+    src: SOURCE_FOLDER + 'assets/icons/**/*.png',
     dest: BUILD_FOLDER + 'assets/icons/'
   },
   logos: {
-    src: SOURCE_FOLDER + 'assets/logos/**/*.png',
+    src: [
+      SOURCE_FOLDER + 'assets/logos/**/*.png',
+      SOURCE_FOLDER + "assets/logos/**/*.svg"
+    ],
     dest: BUILD_FOLDER + 'assets/logos/'
   },
   locales: {
