@@ -46,6 +46,7 @@
     "5": "Five points"
   },
   "load-ratings": "Loading ratings...",
+  "rating-incomplete-blurb": "2 or more characters required to rate!",
   "website": "Website",
   "repo": "Repository",
   "donate": "Donate",

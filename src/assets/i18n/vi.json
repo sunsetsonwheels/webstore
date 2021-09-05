@@ -46,6 +46,7 @@
     "5": "Năm điểm"
   },
   "load-ratings": "Đang tải đánh giá...",
+  "rating-incomplete-blurb": "2 hoặc nhiều ký tự cần thiết để đánh giá!",
   "website": "Trang mạng",
   "repo": "Repo Git",
   "donate": "Quyên tặng nhà lập trình",

@@ -5,11 +5,11 @@
     <meta charset="UTF-8">
     <title>BananaHackers WebStore</title>
     <meta name="description" content="A web client for BananaHackers' store-db.">
-    <meta property="og:type" content="website">
     <meta property="og:title" content="BananaHackers WebStore">
+    <meta property="og:type" content="website">
     <meta property="og:description" content="A web client for BananaHackers' store-db.">
     <meta property="og:url" content="https://store.bananahackers.net">
-    <meta property="og:image" content="assets/logos/bhackers-store.png">
+    <meta property="og:image" content="/assets/logos/bhackers-store.png">
     <!-- PWA -->
     <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/favicons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicons/favicon-32x32.png">
@@ -261,7 +261,7 @@
           <figure class='image is-48x48 app-modal-icon-left'>
             <img id="app-details-modal-app-icon">
           </figure>
-          <p id="app-details-modal-app-name" class="modal-card-title">Unknown app name</p>
+          <p id="app-details-modal-app-name" class="modal-card-title">?</p>
           <button class="delete" data-bulma-modal="close"></button>
         </header>
         <section id="app-details-modal-details-container" class="modal-card-body">
@@ -273,7 +273,7 @@
           </div>
           <div class="container">
             <div class="content">
-              <p id="app-details-modal-app-description">No description.</p>
+              <p id="app-details-modal-app-description">?</p>
             </div>
             <hr>
             <table class="table is-striped is-narrow is-fullwidth">
@@ -364,15 +364,15 @@
                   <div class="media-content">
                     <div class="content">
                       <p id="app-details-modal-app-ratings-logged-in-details">
-                        <strong>@Unknown</strong>
+                        <strong>@?</strong>
                       </p>
                     </div>
                     <div class="field">
                       <p class="control">
                         <textarea id="app-details-modal-app-ratings-logged-in-description"  class="textarea" disabled></textarea>
                       </p>
-                      <p id="app-details-modal-rating-incomplete-blurb" class="help is-danger is-hidden">
-                        2 or more characters required for rating!
+                      <p id="app-details-modal-rating-incomplete-blurb" class="help is-danger is-hidden i18n" data-i18n="rating-incomplete-blurb">
+                        rating-incomplete-blurb
                       </p>
                     </div>
                     <div class="field has-addons">
