@@ -61,7 +61,7 @@ This project wouldn't have been possible without the following resources and pro
 ### Translations
 
 - Tagalog: Cyan (https://github.com/cyan-2048)
-- Polskie: doru_ (https://github.com/sl4Zone)
+- Polski: doru_ (https://github.com/sl4Zone)
 - Tiếng Việt: minhduc_bui1
 
 and all the people at BananaHackers, 4Omin, perry, Farooq Karimi Zadeh and LiarOnce for maintaining the BananaHackers Store on GitLab and GitHub, and of course, all the Mozilla Developer Network documentation ;)
