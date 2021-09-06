@@ -29,7 +29,7 @@ const locHTML = locI18next.init(i18next, {
 
 // Load localization
 i18next.use(i18nextBrowserLanguageDetector).use(I18nextFetchBackend).init({
-  supportedLngs: ["en", "tl", "vi"],
+  supportedLngs: ["en", "tl", "vi", "pl"],
   fallbackLng: "en",
   backend: {
     loadPath: "assets/i18n/{{lng}}.json"
