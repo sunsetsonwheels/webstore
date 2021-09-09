@@ -7,6 +7,9 @@
   white-space: nowrap;
 }
 
-.category-name-left {
-  padding-left: 4px !important;
+.is-clamped {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
 }
