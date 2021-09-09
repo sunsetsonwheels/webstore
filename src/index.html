@@ -96,6 +96,17 @@
             <div class="field is-grouped">
               <p class="control has-icons-left is-expanded">
                 <span class="icon is-small is-left">
+                  <i class="fas fa-database"></i>
+                </span>
+                <span class="select is-fullwidth">
+                  <select id="database-select">
+                    <option value="BananaHackers">BananaHackers</option>
+                    <option value="openGiraffes-Store">openGiraffes Store</option>
+                  </select>
+                </span>
+              </p>
+              <p class="control has-icons-left is-expanded">
+                <span class="icon is-small is-left">
                   <i class="fas fa-globe"></i>
                 </span>
                 <span class="select is-fullwidth">
@@ -104,6 +115,7 @@
                     <option value="pl">Polski</option>
                     <option value="tl">Tagalog</option>
                     <option value="vi">Tiếng Việt</option>
+                    <option value="zh-CN">中文 (简体)</option>
                   </select>
                 </span>
               </p>
@@ -464,6 +476,7 @@
     <!-- QR Code -->
     <script src="assets/js/lib/qrcode.min.js" defer></script>
     <!-- Store DB -->
+    <script src="assets/js/lib/multidatabase.js" defer></script>
     <script src="assets/js/lib/storedb/storedb.js" defer></script>
     <!-- Index -->
     <script src="assets/js/index/utils.js" defer></script>
@@ -474,6 +487,7 @@
     <script src="assets/js/index/category-tabs.js" defer></script>
     <script src="assets/js/index/search.js" defer></script>
     <script src="assets/js/index/lang-select.js" defer></script>
+    <script src="assets/js/index/database-select.js" defer></script>
     <script src="assets/js/index/sort-select.js" defer></script>
     <script src="assets/js/index/reload.js" defer></script>
     <script src="assets/js/index/init.js" defer></script>

@@ -18,6 +18,8 @@ bulmaToast.setDefaults({
   }
 });
 
+// Init Multi-databases API
+const MultiDB = new MultiDatabases();
 // StoreDbAPI class init.
 const StoreDbAPI = new StoreDatabaseAPI();
 // Relative time class init.
@@ -29,7 +31,7 @@ const locHTML = locI18next.init(i18next, {
 
 // Load localization
 i18next.use(i18nextBrowserLanguageDetector).use(I18nextFetchBackend).init({
-  supportedLngs: ["en", "tl", "vi", "pl"],
+  supportedLngs: ["en", "tl", "vi", "pl", "zh-CN"],
   fallbackLng: "en",
   backend: {
     loadPath: "assets/i18n/{{lng}}.json"

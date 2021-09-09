@@ -1,13 +1,11 @@
 class StoreDatabaseAPI {
   constructor () {
-    this.stores = [
-      "https://banana-hackers.gitlab.io/store-db/data.json",
-      "https://bananahackers.github.io/store-db/data.json",
-      "https://bananahackers.github.io/data.json"
-    ];
-    this.ratingServers = [
-      "https://bhackers.uber.space/srs/v1"
-    ];
+    /** Moved to loadDB() */
+  }
+
+  async loadDb () {
+    this.stores = JSON.parse(window.localStorage.getItem("DatabaseURLs"));
+    this.ratingServers = JSON.parse(window.localStorage.getItem("RatingServers"));
     this.currentStore = {
       index: 0,
       url: this.stores[0]
@@ -30,9 +28,7 @@ class StoreDatabaseAPI {
       },
       generatedAt: null
     };
-  }
-
-  async loadDb () {
+    
     for (const storeURL of this.stores) {
       const rawDb = await fetch(storeURL);
       if (!rawDb.ok) continue;
