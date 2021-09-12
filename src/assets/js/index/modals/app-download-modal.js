@@ -43,11 +43,12 @@ function setAppDownloadModalDetails(appDetails) {
   }
 
   if (appDetails.download.url) {
+    let QRheader = window.localStorage.getItem("QRHeader");
     appDownloadsModal.buttons.download.classList.remove('is-hidden');
     appDownloadsModal.buttons.download.setAttribute('data-app-download', appDetails.download.url);
     appDownloadsModal.buttons.download.setAttribute('data-app-slug', appDetails.slug);
     appDownloadsModal.content.qrcode.innerHTML = '';
-    new QRCode(appDownloadsModal.content.qrcode, 'bhackers:' + appDetails.slug);
+    new QRCode(appDownloadsModal.content.qrcode, QRheader + appDetails.slug);
   } else {
     appDownloadsModal.buttons.download.classList.add('is-hidden');
   }

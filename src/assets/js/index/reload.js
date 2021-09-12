@@ -23,13 +23,27 @@ async function reloadData () {
     await StoreDbAPI.loadDb();
 
     for (const category in StoreDbAPI.db.categories) {
-      var categoryTabHTML = `
+      /**
+       * Initialize localized entries for categories from store-db.
+       * This can solve the problem of categories not following changes when switching localization.
+       * If there are no related fields in store-db, localization will not work at the initial time.
+       * At this time, you need to manually switch to make the localization take effect.
+       */
+      let categoryName = StoreDbAPI.db.categories[category].name;
+      // let categoryName;
+      // let currentLng = i18next.language;
+      // if (!StoreDbAPI.db.categories[category].locales) {
+      //   categoryName = StoreDbAPI.db.categories[category].name;
+      // } else {
+      //   categoryName = StoreDbAPI.db.categories[category].locales[0][currentLng];
+      // };
+      let categoryTabHTML = `
         <li class="category-tab" data-category-id="${category}">
           <a class="category-tab" data-category-id="${category}">
             <span class="icon is-small category-tab" data-category-id="${category}">
               <i class="${StoreDbAPI.db.categories[category].icon} category-tab" data-category-id="${category}"></i>
             </span>
-            <span class="category-tab i18n" data-category-id="${category}" ${(category === "all") ? "data-i18n='all-apps'" : ""}>${StoreDbAPI.db.categories[category].name}</span>
+            <span class="category-tab i18n" data-category-id="${category}" ${(category === "all") ? "data-i18n='all-apps'" : "data-i18n='" + category + "'"}>${categoryName}</span>
           </a>
         </li>
       `;

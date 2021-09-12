@@ -16,6 +16,17 @@
   "apps": "apps",
 
   "all-apps": "All apps",
+  "communication": "Communication",
+  "education": "Education",
+  "games": "Games",
+  "health": "Health",
+  "multimedia": "Multimedia",
+  "news": "News",
+  "search": "Search",
+  "social": "Social",
+  "themes": "Themes",
+  "travel": "Travel",
+  "utility": "Utility",
 
   "info": "Info",
   "download": "Download",
