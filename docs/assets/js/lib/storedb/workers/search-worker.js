@@ -1,1 +1,1 @@
-"use strict";onmessage=e=>{var a={};for(const[s,t]of Object.entries(e.data.apps))(t.name.includes(e.data.query)||t.description.includes(e.data.query)||t.meta.tags.includes(e.data.query))&&(a[s]=t);postMessage(a)};
+"use strict";onmessage=e=>{var s={};const a=e.data.query.toLowerCase();for(const[t,o]of Object.entries(e.data.apps))(o.name.toLowerCase().includes(a)||o.description.toLowerCase().includes(a)||o.meta.tags.includes(e.data.query))&&(s[t]=o);postMessage(s)};
