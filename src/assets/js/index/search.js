@@ -14,6 +14,15 @@ searchButton.onclick = () => {
   }
 }
 
+searchInput.onkeyup = (e) => {
+  switch (e.key) {
+    case "Enter":
+      e.preventDefault();
+      searchButton.click();
+      break;
+  }
+}
+
 exitSearchButton.onclick = () => {
   isSearching = false;
   document.getElementById("categories-tabs-container").classList.remove("is-hidden");
